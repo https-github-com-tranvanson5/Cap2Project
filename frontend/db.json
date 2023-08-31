@@ -1,0 +1,42 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "user": [
+    {
+        "id": "1",
+        "name": "admin",
+        "email": "admin@gmail.com",
+        "password": "123456789",
+        "ROLES":"5150"
+    },
+    {
+        "id": "2",
+        "name": "user",
+        "email": "user@gmail.com",
+        "password": "123456789",
+        "ROLES":"2001"
+    },
+    {
+        "id": "3",
+        "name": "recruiter",
+        "email": "recruiter@gmail.com",
+        "password": "123456789",
+        "ROLES":"1984"
+    }
+]
+}
