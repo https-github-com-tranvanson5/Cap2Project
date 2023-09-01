@@ -1,0 +1,127 @@
+.wrapper {
+    position: relative;
+    min-height: 260px;
+    padding: 10px;
+    margin-bottom: 14px;
+    border-radius: 24px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    overflow: hidden;
+    &:hover {
+        background-color: var(--gray-light-color-2);
+        .image-block {
+            .image {
+                transition: transform 0.7s;
+                transform: scale(1.1);
+            }
+        }
+    }
+    .link {
+        color: var(--text-color);
+        &:hover {
+            color: var(--text-color);
+        }
+    }
+    .image-block {
+        --height: 120px;
+        height: var(--height);
+        box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
+        border-radius: 18px;
+        overflow: hidden;
+        .image {
+            object-fit: cover;
+            background-repeat: no-repeat;
+            width: 100%;
+            height: var(--height);
+        }
+    }
+    .information {
+        min-height: 130px;
+        padding: 10px;
+        width: 100%;
+        .title {
+            font-size: 2rem;
+            font-weight: 600;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .description {
+            height: 25px;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .subdesc {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .subdesc-right {
+                margin-top: 50px;
+            }
+        }
+        .subdesc-text {
+            display: flex;
+            align-items: center;
+            margin: 0;
+            span {
+                display: -webkit-box;
+                padding-left: 4px;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+            .subdesc-bottom {
+                display: flex;
+            }
+        }
+    }
+    .subdesc-control {
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid #ccc;
+        margin-top: 10px;
+
+        .subdesc-text {
+            margin-top: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin: 0;
+            span {
+                padding-left: 4px;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+            &:hover {
+                color: var(--primary-color);
+            }
+        }
+        .subdesc-text-repair {
+            margin-top: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin: 0;
+            position: relative;
+            top: 10px;
+            left: 40px;
+            &:hover {
+                color: var(--primary-color);
+            }
+        }
+        .subdesc-text-save {
+            display: flex;
+            position: relative;
+            right: 0 !important;
+            cursor: pointer;
+            &:hover {
+                color: var(--primary-color);
+            }
+        }
+    }
+}

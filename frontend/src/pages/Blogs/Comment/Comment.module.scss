@@ -1,0 +1,41 @@
+.wrapper {
+    margin-left: 230px;
+    position: relative;
+    width: 80%;
+    .content {
+        .comment-amount {
+            margin-top: 30px;
+            .comment-heading {
+                font-size: 1.8rem;
+                font-weight: 600;
+                margin: 0 auto 0 0;
+            }
+            .comment-report {
+                color: #666;
+                font-size: 1.3rem;
+                font-style: italic;
+                line-height: 1.4;
+            }
+        }
+        .user-comment {
+            display: flex;
+            margin-top: 30px;
+            .avatar {
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                margin-top: 20px;
+            }
+            .comment-input {
+                margin: 16px 0 0 16px;
+                padding-bottom: 4px;
+                padding-left: 0;
+                white-space: pre-wrap;
+                width: 100%;
+            }
+        }
+        .comment-btn {
+            margin-left: 85%;
+        }
+    }
+}
