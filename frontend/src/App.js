@@ -1,113 +1,61 @@
-import { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import { Routes, Route } from 'react-router-dom';
+import Layout from './pages/layout/Layout';
+import Login from './pages/account/login/Login';
+import Register from './pages/account/register/Regsiter';
+import LinkPage from './pages/linkpage/LinkPage';
+import Unauthorized from './pages/account/unauthorized/Unauthorized';
+import Home from './pages/home/Home';
+import Recruiter from './pages/recruiter/Recruiter';
+import Admin from './pages/admin/Admin';
+import RequireAuth from './pages/account/requireauth/RequireAuth';
+import Lounge from './pages/account/lounge/Lounge';
+import Missing from './pages/missing/Missing';
 
-import config from '~/config';
-
-// --- ROUTES ---
-import {
-    adminPrivateRoutes,
-    privateRoutes,
-    publicRoutes,
-    recruiterPrivateRoutes,
-} from '~/routers';
-import ProtectedRoute from './routers/ProtectedRoute';
-import { fetchUser } from './pages/Accounts/accountsSlice';
-import { renderRoutes } from './utils/route.utils';
-import Home from './pages/Home';
-import {
-    accountsDataSelector,
-    isAuthSelector,
-} from '~/redux/Selectors/authSelector';
-import DefaultLayout from './Layouts/DefaultLayout';
-import Loading from './components/Loading/Loading';
-
-import 'react-toastify/dist/ReactToastify.css';
+const ROLES = {
+    User: 'ROLE_USER',
+    Recruiter: 'ROLE_PM',
+    Admin: 'ROLE_ADMIN',
+};
 
 function App() {
-    const dispatch = useDispatch();
-    const isAuth = useSelector(isAuthSelector);
-    const user = useSelector(accountsDataSelector);
-
-    useEffect(() => {
-        dispatch(fetchUser());
-    }, []);
-
-    if (typeof isAuth === 'undefined') {
-        return <Loading></Loading>;
-    }
-
+    console.log([ROLES.Admin])
     return (
-        <Router>
-            <div className="App">
-                <ToastContainer
-                    position="top-right"
-                    autoClose={5000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="light"
-                />
-                <Routes>
-                    {/* PUBLIC ROUTES */}
-                    {renderRoutes(publicRoutes)}
+        <Routes>
+            <Route path="/" element={<Layout />}>
+                {/* public routes */}
+                <Route path="login" element={<Login />} />
+                <Route path="register" element={<Register />} />
+                <Route path="linkpage" element={<LinkPage />} />
+                <Route path="unauthorized" element={<Unauthorized />} />
 
-                    {/* PRIVATE ROUTES */}
-                    {/* For ALL */}
-                    <Route
-                        element={
-                            <ProtectedRoute
-                                redirectPath={config.routes.accounts}
-                                isAllowed={isAuth}
-                            />
-                        }
-                    >
-                        {renderRoutes(privateRoutes)}
-                    </Route>
+                {/* we want to protect these routes */}
+                <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
+                    <Route path="/" element={<Home />} />
+                </Route>
 
-                    {/* For Recruiter */}
-                    <Route
-                        element={
-                            <ProtectedRoute
-                                redirectPath={config.routes.home}
-                                isAllowed={isAuth && user?.role === 'recruiter'}
-                            ></ProtectedRoute>
-                        }
-                    >
-                        {renderRoutes(recruiterPrivateRoutes)}
-                    </Route>
-                    {/* For Admin */}
-                    <Route
-                        element={
-                            <ProtectedRoute
-                                redirectPath={config.routes.home}
-                                isAllowed={isAuth && user?.role === 'admin'}
-                            ></ProtectedRoute>
-                        }
-                    >
-                        {renderRoutes(adminPrivateRoutes)}
-                    </Route>
+                <Route element={<RequireAuth allowedRoles={[ROLES.Recruiter]} />}>
+                    <Route path="recruiter" element={<Recruiter />} />
+                </Route>
 
-                    {/* NOTE FOUND */}
-                    <Route
-                        path="*"
-                        element={
-                            <DefaultLayout>
-                                <Home />
-                            </DefaultLayout>
-                        }
-                    />
-                </Routes>
-            </div>
-        </Router>
+                <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+                    <Route path="admin" element={<Admin />} />
+                </Route>
+
+                <Route
+                    element={
+                        <RequireAuth
+                            allowedRoles={[ROLES.Recruiter, ROLES.Admin]}
+                        />
+                    }
+                >
+                    <Route path="lounge" element={<Lounge />} />
+                </Route>
+
+                {/* catch all */}
+                <Route path="*" element={<Missing />} />
+            </Route>
+        </Routes>
     );
 }
 
