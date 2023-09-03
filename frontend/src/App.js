@@ -35,11 +35,11 @@ function App() {
                 </Route>
 
                 <Route element={<RequireAuth allowedRoles={[ROLES.Recruiter]} />}>
-                    <Route path="recruiter" element={<Recruiter />} />
+                    <Route path="/recruiter" element={<Recruiter />} />
                 </Route>
 
                 <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-                    <Route path="admin" element={<Admin />} />
+                    <Route path="/admin" element={<Admin />} />
                 </Route>
 
                 <Route
@@ -49,7 +49,7 @@ function App() {
                         />
                     }
                 >
-                    <Route path="lounge" element={<Lounge />} />
+                    <Route path="/lounge" element={<Lounge />} />
                 </Route>
 
                 {/* catch all */}
