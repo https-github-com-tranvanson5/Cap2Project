@@ -2,6 +2,7 @@ package com.example.backend.user.model;
 
 
 import com.example.backend.authen.model.Role;
+import com.example.backend.user.contains.EGender;
 import com.example.backend.user.contains.UserStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -25,6 +26,19 @@ public class User {
     })
     private String id;
     private String name;
+
+    private String dob;
+    @Enumerated(EnumType.STRING)
+    private EGender gender;
+    private String idCard;
+    private String phone;
+    @Column(columnDefinition = "longtext")
+    private String address;
+    @Column(columnDefinition = "longtext")
+    private String avatar;
+
+
+
     @Column(unique = true)
     private String email;
     @Column(unique = true)

@@ -9,6 +9,7 @@ import com.example.backend.authen.payload.response.JwtReponse;
 import com.example.backend.authen.service.Role.RoleService;
 import com.example.backend.authen.service.jwt.JwtProvider;
 import com.example.backend.authen.service.userdetail.UserPrinciple;
+import com.example.backend.messageResponse.MessageResponse;
 import com.example.backend.user.contains.UserStatus;
 import com.example.backend.user.model.User;
 import com.example.backend.user.repository.UserRepository;
@@ -40,17 +41,19 @@ public class AuthServiceImp implements AuthService{
     private UserRepository userRepository;
     @Override
     public ResponseEntity<?> SignIn(SignInForm signInForm) {
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signInForm.getUsername(),signInForm.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtProvider.generateJwtToken(authentication);
+        String jwt = jwtProvider.generateJwtToken(authentication,"LOGIN");
         UserPrinciple userDetails = (UserPrinciple) authentication.getPrincipal();
         return ResponseEntity.ok(new JwtReponse(jwt, userDetails.getId(),userDetails.getName(),userDetails.getUsername(),userDetails.getEmail(),userDetails.getAuthorities()));
     }
 
     @Override
     public ResponseEntity<?> SignUp(SignUpForm signUpForm) {
+        MessageResponse response = new MessageResponse();
 
         if(!userRepository.existsByEmail(signUpForm.getEmail())&&!userRepository.existsByUsername(signUpForm.getUsername())){
             User user= new User();
@@ -66,9 +69,15 @@ public class AuthServiceImp implements AuthService{
             user.setCreateAt(LocalDateTime.now());
             user.setStatus(UserStatus.ACTIVE);
             userRepository.save(user);
-            return new ResponseEntity<>(user,HttpStatus.OK);
-        }
-       return new ResponseEntity<>(HttpStatus.BAD_REQUEST,HttpStatus.BAD_REQUEST);
 
+            response.setCode(HttpStatus.OK.value());
+            response.setTitle(HttpStatus.OK.name());
+            response.setMessage("Đã tạo thành công");
+            return new ResponseEntity<>(response,HttpStatus.OK);
+        }
+        response.setCode(HttpStatus.BAD_REQUEST.value());
+        response.setTitle(HttpStatus.BAD_REQUEST.name());
+        response.setMessage("Lỗi email hoặc username đã tồn tại");
+        return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
 }

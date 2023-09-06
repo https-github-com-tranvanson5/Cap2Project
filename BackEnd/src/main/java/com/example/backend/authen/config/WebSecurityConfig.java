@@ -59,6 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/email/**").permitAll()
                 .antMatchers("/api/userManager/getDataListUser").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/api/userManager/createUserRolePm").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/api/userManager/getDataListUserByStatus").hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers("/api/bookManagerController/createBook").permitAll()
                 .anyRequest().authenticated()
                 .and()
