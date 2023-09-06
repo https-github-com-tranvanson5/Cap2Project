@@ -11,6 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +28,7 @@ public class User {
     private String id;
     private String name;
 
-    private String dob;
+    private LocalDate dob;
     @Enumerated(EnumType.STRING)
     private EGender gender;
     private String idCard;

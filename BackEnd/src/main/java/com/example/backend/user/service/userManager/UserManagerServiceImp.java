@@ -8,18 +8,15 @@ import com.example.backend.messageResponse.MessageResponse;
 import com.example.backend.user.contains.EGender;
 import com.example.backend.user.contains.UserStatus;
 import com.example.backend.user.model.User;
-import com.example.backend.user.payload.request.UserRolePmForm;
+import com.example.backend.user.payload.request.CreateUserForm;
 import com.example.backend.user.repository.UserRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,15 +43,15 @@ public class UserManagerServiceImp implements UserManagerService {
     }
 
     @Override
-    public ResponseEntity<?> createUserRolePm(UserRolePmForm userRolePmForm) {
-        if(userRepository.existsByEmail(userRolePmForm.getEmail())){
+    public ResponseEntity<?> createUser(CreateUserForm createUserForm) {
+        if(userRepository.existsByEmail(createUserForm.getEmail())){
             MessageResponse response = new MessageResponse();
             response.setCode(HttpStatus.BAD_REQUEST.value());
             response.setTitle(HttpStatus.BAD_REQUEST.name());
             response.setMessage("Lỗi email đã tồn tại");
             return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
         }
-        if(userRepository.existsByUsername(userRolePmForm.getUsername())){
+        if(userRepository.existsByUsername(createUserForm.getUsername())){
             MessageResponse response = new MessageResponse();
             response.setCode(HttpStatus.BAD_REQUEST.value());
             response.setTitle(HttpStatus.BAD_REQUEST.name());
@@ -62,30 +59,34 @@ public class UserManagerServiceImp implements UserManagerService {
             return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
         }
         User user= new User();
-        user.setName(userRolePmForm.getName());
-        user.setDob(userRolePmForm.getDob());
-        switch (userRolePmForm.getGender()){
+        user.setName(createUserForm.getName());
+        user.setDob(createUserForm.getDob());
+        switch (createUserForm.getGender()){
             case "MALE": user.setGender(EGender.MALE); break;
             case "FEMALE": user.setGender(EGender.FEMALE); break;
             case "OTHER": user.setGender(EGender.OTHER); break;
             default: break;
         }
-        user.setIdCard(userRolePmForm.getIdCard());
-        user.setPhone(userRolePmForm.getPhone());
-        user.setAddress(userRolePmForm.getAddress());
-        user.setAvatar(userRolePmForm.getAvatar());
-        user.setEmail(userRolePmForm.getEmail());
-        user.setUsername(userRolePmForm.getUsername());
-        user.setPassword(passwordEncoder.encode(userRolePmForm.getPassword()));
-        switch (userRolePmForm.getGender()){
+        user.setIdCard(createUserForm.getIdCard());
+        user.setPhone(createUserForm.getPhone());
+        user.setAddress(createUserForm.getAddress());
+        user.setAvatar(createUserForm.getAvatar());
+        user.setEmail(createUserForm.getEmail());
+        user.setUsername(createUserForm.getUsername());
+        user.setPassword(passwordEncoder.encode(createUserForm.getPassword()));
+        switch (createUserForm.getGender()){
             case "ACTIVE": user.setStatus(UserStatus.ACTIVE); break;
             default:  user.setStatus(UserStatus.BLOCK); break;
         }
         user.setCreateAt(LocalDateTime.now());
+
+        Set<String> stringRoles= createUserForm.getRoles();
         Set<Role> roleSet= new HashSet<>();
-        Role userRole = roleService.findByName(RoleName.ROLE_PM)
-                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: PM Role not find."));
-        roleSet.add(userRole);
+        for (String roleName : stringRoles) {
+            Role role = roleService.findByName(RoleName.valueOf(roleName))
+                    .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Role not found for " + roleName));
+            roleSet.add(role);
+        }
         user.setRoles(roleSet);
         userRepository.save(user);
 
@@ -118,5 +119,18 @@ public class UserManagerServiceImp implements UserManagerService {
             return new ResponseEntity<>(response,HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(users,HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> getDataUserById(String id) {
+        MessageResponse response = new MessageResponse();
+        if(userRepository.existsById(id)){
+            User user= userRepository.getUserById(id);
+            return new ResponseEntity<>(user,HttpStatus.OK);
+        }
+        response.setCode(HttpStatus.NO_CONTENT.value());
+        response.setTitle(HttpStatus.NO_CONTENT.name());
+        response.setMessage("Dữ liệu không tồn tại");
+        return new ResponseEntity<>(response,HttpStatus.NO_CONTENT);
     }
 }

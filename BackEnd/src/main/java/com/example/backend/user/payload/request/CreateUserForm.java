@@ -1,18 +1,13 @@
 package com.example.backend.user.payload.request;
 
-import com.example.backend.user.contains.EGender;
-import com.example.backend.user.contains.UserStatus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
-public class UserRolePmForm {
+public class CreateUserForm {
     @NotNull(message = "Name is not null")
     @NotBlank(message = "Name is required")
     @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
@@ -45,4 +40,5 @@ public class UserRolePmForm {
             message = "Password must have at least 8 characters, including at least one uppercase letter, one digit, and one special character.")
     private String password;
     private String status;
+    private Set<String> roles;
 }
