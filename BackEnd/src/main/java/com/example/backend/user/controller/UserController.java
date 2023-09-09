@@ -1,6 +1,7 @@
 package com.example.backend.user.controller;
 
 import com.example.backend.user.payload.request.ChangePasswordForm;
+import com.example.backend.user.payload.request.ProfileForm;
 import com.example.backend.user.service.user.UserService;
 import com.example.backend.user.service.user.UserServiceImp;
 import com.example.backend.user.service.userManager.UserManagerService;
@@ -23,5 +24,9 @@ public class UserController {
     @PutMapping("/changePassword")
     public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePasswordForm changePasswordForm) {
         return userService.changePassword(changePasswordForm);
+    }
+    @PutMapping("/updateProfile")
+    public ResponseEntity<?> updateProfile(@RequestBody @Valid ProfileForm profileForm) {
+        return userService.updateProfile(profileForm);
     }
 }

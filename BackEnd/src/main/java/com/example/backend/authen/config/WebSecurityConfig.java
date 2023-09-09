@@ -62,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/userManager/createUserRolePm").hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers("/api/userManager/getDataListUserByStatus").hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers("/api/user/getProfileUser").hasAnyAuthority("ROLE_ADMIN","ROLE_PM","ROLE_USER")
-                .antMatchers("/api/bookManagerController/createBook").permitAll()
+                .antMatchers("/api/admin").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
