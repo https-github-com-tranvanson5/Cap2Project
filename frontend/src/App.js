@@ -1,62 +1,24 @@
-
-import { Routes, Route } from 'react-router-dom';
-import Layout from './pages/layout/Layout';
-import Login from './pages/account/login/Login';
-import Register from './pages/account/register/Regsiter';
-import LinkPage from './pages/linkpage/LinkPage';
-import Unauthorized from './pages/account/unauthorized/Unauthorized';
-import Home from './pages/home/Home';
-import Recruiter from './pages/recruiter/Recruiter';
-import Admin from './pages/admin/Admin';
-import RequireAuth from './pages/account/requireauth/RequireAuth';
-import Lounge from './pages/account/lounge/Lounge';
-import Missing from './pages/missing/Missing';
-
-const ROLES = {
-    User: 'ROLE_USER',
-    Recruiter: 'ROLE_PM',
-    Admin: 'ROLE_ADMIN',
-};
+import "./App.css";
+import HomePage from "./Components/Home/HomePage";
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Login from "./Components/Login/Login";
+import Register from "./Components/Register/Register";
+import NavBar from "./Components/NavBar/NavBar";
+import { useState } from "react";
 
 function App() {
-    console.log([ROLES.Admin])
-    return (
+  return (
+    <Router>
+      <NavBar />
+      <div className="App"> 
         <Routes>
-            <Route path="/" element={<Layout />}>
-                {/* public routes */}
-                <Route path="login" element={<Login />} />
-                <Route path="register" element={<Register />} />
-                <Route path="linkpage" element={<LinkPage />} />
-                <Route path="unauthorized" element={<Unauthorized />} />
-
-                {/* we want to protect these routes */}
-                <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
-                    <Route path="/" element={<Home />} />
-                </Route>
-
-                <Route element={<RequireAuth allowedRoles={[ROLES.Recruiter]} />}>
-                    <Route path="/recruiter" element={<Recruiter />} />
-                </Route>
-
-                <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-                    <Route path="/admin" element={<Admin />} />
-                </Route>
-
-                <Route
-                    element={
-                        <RequireAuth
-                            allowedRoles={[ROLES.Recruiter, ROLES.Admin]}
-                        />
-                    }
-                >
-                    <Route path="/lounge" element={<Lounge />} />
-                </Route>
-
-                {/* catch all */}
-                <Route path="*" element={<Missing />} />
-            </Route>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={ <Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
-    );
+      </div>
+    </Router>
+  );
 }
 
 export default App;
