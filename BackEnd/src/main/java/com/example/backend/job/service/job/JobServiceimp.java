@@ -32,9 +32,8 @@ public class JobServiceimp implements JobService {
     @Override
     public ResponseEntity<?> getAllDataListJob() {
         List<Job> jobs= jobRepository.findAll();
-        MessageResponse response = new MessageResponse();
         if(jobs.isEmpty()){
-            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(jobs,HttpStatus.OK);
     }
@@ -55,9 +54,8 @@ public class JobServiceimp implements JobService {
             response.setMessage("Vui lòng chọn category");
             return new ResponseEntity<>(response,HttpStatus.OK);
         }
-        Optional<Category> category = categoryRepository.findById(createJobForm.getCategoryId());
-        job.setCategory(category.get());
-
+        Category category = categoryRepository.getById(createJobForm.getCategoryId());
+        job.setCategory(category);
         switch (createJobForm.getStatus()){
             case "pending": job.setStatus(JobStatus.PENDING); break;
             case "allow": job.setStatus(JobStatus.ALLOW); break;
@@ -162,6 +160,15 @@ public class JobServiceimp implements JobService {
             return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
         }
         List<Job> jobs= jobRepository.findByStatus(jobStatus);
+        return new ResponseEntity<>(jobs,HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> getAllJobUser() {
+        List<Job> jobs= jobRepository.findByStatus(JobStatus.ALLOW);
+        if(jobs.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(jobs,HttpStatus.OK);
     }
 }

@@ -15,4 +15,6 @@ public interface JobService {
     ResponseEntity<?> getDataJobById(long id);
 
     ResponseEntity<?> getDataJobByStatus(String status);
+
+    ResponseEntity<?> getAllJobUser();
 }

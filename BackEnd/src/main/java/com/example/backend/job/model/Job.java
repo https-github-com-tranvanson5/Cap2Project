@@ -15,9 +15,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

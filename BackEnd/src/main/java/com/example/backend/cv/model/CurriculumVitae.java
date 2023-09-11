@@ -1,6 +1,8 @@
 package com.example.backend.cv.model;
 
 import com.example.backend.cv.contains.CvStatus;
+import com.example.backend.user.model.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
@@ -33,7 +35,7 @@ public class CurriculumVitae {
     //vị trí ứng tuyển
     private String position;
 
-    // kĩ năng
+//     kĩ năng
     @ManyToMany
     @JsonManagedReference
     @JoinTable(
@@ -100,6 +102,12 @@ public class CurriculumVitae {
             inverseJoinColumns = @JoinColumn(name = "reference_id")
     )
     private Set<Reference> references= new HashSet<>();
+
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
+    private User user;
 
     private LocalDateTime createAt;
     @Enumerated(EnumType.STRING)

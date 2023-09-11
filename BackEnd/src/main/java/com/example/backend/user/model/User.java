@@ -2,6 +2,7 @@ package com.example.backend.user.model;
 
 
 import com.example.backend.authen.model.Role;
+import com.example.backend.cv.model.CurriculumVitae;
 import com.example.backend.job.model.Job;
 import com.example.backend.user.contains.EGender;
 import com.example.backend.user.contains.UserStatus;
@@ -60,6 +61,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     @JsonBackReference
     private Set<Job> jobs= new HashSet<>();
+
+//    @OneToMany(mappedBy = "user")
+//    @JsonBackReference
+//    private Set<CurriculumVitae> curriculumVitaes= new HashSet<>();
 
     private LocalDateTime createAt;
     @Enumerated(EnumType.STRING)

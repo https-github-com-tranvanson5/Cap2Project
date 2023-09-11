@@ -12,9 +12,6 @@ import java.util.Set;
 
 @Data
 @Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
