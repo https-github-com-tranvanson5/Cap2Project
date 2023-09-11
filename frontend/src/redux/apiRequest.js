@@ -45,7 +45,7 @@ export const registerUser = async (user, dispatch, navigate) => {
     }
 };
 
-export const getAllUsers = async ( jwt ,dispatch ) => {
+export const getAllUsers = async (jwt, dispatch) => {
     dispatch(getUsersStart());
     try {
         const res = await axios.get(
@@ -77,12 +77,10 @@ export const deleteUser = async (accessToken, dispatch, id, axiosJWT) => {
     }
 };
 
-export const logOut = async (dispatch, id, navigate, accessToken, axiosJWT) => {
+export const logOut = async (dispatch, navigate) => {
     dispatch(logOutStart());
     try {
-        await axiosJWT.post('/v1/auth/logout', id, {
-            headers: { token: `Bearer ${accessToken}` },
-        });
+        window.localStorage.clear();
         dispatch(logOutSuccess());
         navigate('/login');
     } catch (err) {
