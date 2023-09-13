@@ -1,0 +1,53 @@
+.wrapper {
+    background-color: var(--white-color);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.icon {
+    font-size: 18px;
+    display: flex;
+    margin: auto;
+}
+
+.rounded {
+    border-radius: 44px;
+}
+
+.bordered {
+    border: 1px solid var(--gray-color);
+    color: red;
+}
+
+.input {
+    height: 44px;
+    padding: 0 16px;
+    background-color: transparent;
+    width: 100%;
+}
+
+.primary {
+    width: 100%;
+    height: 41x;
+    border: 1px solid #ccc;
+    &:focus {
+        border: 1px solid #000;
+    }
+}
+.secondary {
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    ::placeholder {
+        font-size: 30px;
+        color: #808080;
+        font-weight: bold;
+    }
+}
+.checkbox {
+    height: 27px;
+    width: 70%;
+}
