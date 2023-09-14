@@ -1,11 +1,12 @@
-import SidebarLayout from "~/Layouts/SidebarLayout";
-import config from "~/config";
-import Home from "~/pages/Home";
-import Recruiter from "~/pages/Recruiter/Recruiter";
-import RecruitmentPage from "~/pages/RecruitmentPage/RecruitmentPage";
-import Accounts from "~/pages/account/Accounts";
-import Admin from "~/pages/admin/Admin";
-
+import SidebarLayout from '~/Layouts/SidebarLayout';
+import config from '~/config';
+import Home from '~/pages/Home';
+import Recruiter from '~/pages/Recruiter/Recruiter';
+import RecruitmentPage from '~/pages/RecruitmentPage/RecruitmentPage';
+import Accounts from '~/pages/account/Accounts';
+import Admin from '~/pages/admin';
+import Dashboard from '~/pages/admin/Dashboard';
+import UsersManage from '~/pages/admin/UsersManage';
 
 export const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -28,5 +29,10 @@ export const recruiterPrivateRoutes = [
 ];
 
 export const adminPrivateRoutes = [
-    { path: config.routes.admin, component: Admin},
+    { path: config.routes.admin, component: Dashboard, layout: SidebarLayout },
+    {
+        path: config.routes.usersManagement,
+        component: UsersManage,
+        layout: SidebarLayout,
+    },
 ];

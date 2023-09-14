@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route,} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
@@ -25,21 +25,21 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { renderRoutes } from './utils/route.utils';
 import Home from './pages/Home';
+import { getAllUsers } from './redux/apiRequest';
 
 function App() {
     const dispatch = useDispatch();
-    const isAuth = useSelector((state) => state.auth.login?.isFetching);
     const user = useSelector((state) => state.auth.login?.currentUser);
     // console.log(user.roles[0].authority)
 
     useEffect(() => {
-        if (user) {
-            return user
+        if (user?.jwt) {
+            getAllUsers(user?.jwt, dispatch);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    if (typeof isAuth == false) {
+    if (typeof user == false) {
         return <Loading></Loading>;
     }
 
@@ -68,7 +68,7 @@ function App() {
                         element={
                             <ProtectedRoute
                                 redirectPath={config.routes.accounts}
-                                isAllowed={isAuth}
+                                isAllowed={user}
                             />
                         }
                     >
@@ -80,7 +80,9 @@ function App() {
                         element={
                             <ProtectedRoute
                                 redirectPath={config.routes.home}
-                                isAllowed={isAuth && user?.roles[0]?.authority === 'ROLE_PM'}
+                                isAllowed={
+                                    user?.roles[0]?.authority == 'ROLE_PM'
+                                }
                             ></ProtectedRoute>
                         }
                     >
@@ -91,7 +93,9 @@ function App() {
                         element={
                             <ProtectedRoute
                                 redirectPath={config.routes.home}
-                                isAllowed={isAuth && user?.roles[0]?.authority === 'ROLE_AMIN'}
+                                isAllowed={
+                                    user?.roles[0]?.authority == 'ROLE_ADMIN'
+                                }
                             ></ProtectedRoute>
                         }
                     >

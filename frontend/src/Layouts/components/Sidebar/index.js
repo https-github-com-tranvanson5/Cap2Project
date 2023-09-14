@@ -19,24 +19,12 @@ const sidebarMenu = [
         role: ['ROLE_ADMIN'],
         icon: <ion-icon name="people-sharp"></ion-icon>,
     },
-    {
-        title: 'Blog',
-        to: '/dashboard/blog',
-        role: ['ROLE_ADMIN'],
-        icon: <ion-icon name="book-sharp"></ion-icon>,
-    },
-    {
-        title: 'Bài kiểm tra',
-        to: '/dashboard/quiz',
-        role: ['ROLE_ADMIN'],
-        icon: <ion-icon name="create-sharp"></ion-icon>,
-    },
-    {
-        title: 'Hợp tác',
-        to: '/dashboard/quiz',
-        role: ['ROLE_ADMIN'],
-        icon: <ion-icon name="add-circle"></ion-icon>,
-    },
+    // {
+    //     title: 'Hợp tác',
+    //     to: '/dashboard/quiz',
+    //     role: ['ROLE_ADMIN'],
+    //     icon: <ion-icon name="add-circle"></ion-icon>,
+    // },
     {
         title: 'Bảng tin',
         to: config.routes.recruiter,
