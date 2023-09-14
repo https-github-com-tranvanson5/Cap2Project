@@ -10,7 +10,7 @@ const routes = {
     // settings: '/settings',
     accounts: '/accounts',
     // blog: '/blog/listblog',
-    // cv: '/cv',
+    cv: '/cv',
     // recruitment: '/recruitmentpage',
     // testuser: '/testuser',
     // postquiz: '/recruiter/post/postquiz',

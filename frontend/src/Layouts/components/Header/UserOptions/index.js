@@ -13,9 +13,9 @@ function UserOptions({ user }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleLogout = () =>{
-        logOut(dispatch,navigate);
-      }
+    const handleLogout = () => {
+        logOut(dispatch, navigate);
+    };
 
     return (
         <div className={cx('wrapper')}>

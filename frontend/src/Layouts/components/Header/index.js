@@ -16,7 +16,7 @@ function Header() {
     const [isVisibleUserOptions, serIsVisibleUserOptions] = useState(false);
 
     const user = useSelector((state) => state.auth.login?.currentUser);
-    const isAuth = useSelector((state) => state.auth.login?.isFetching);
+    // const isAuth = useSelector((state) => state.auth.login?.isFetching);
     const roleUser = user?.roles[0]?.authority;
 
     const toggleUserOptions = () => {
@@ -34,7 +34,7 @@ function Header() {
                 <Navigation role={roleUser ? roleUser : 'ROLE_USER'} />
             </div>
             <div className={cx('right')}>
-                {isAuth && user ? (
+                {user ? (
                     <>
                         <div className={cx('notification')}>
                             <ion-icon name="notifications-outline"></ion-icon>

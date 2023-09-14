@@ -16,9 +16,9 @@ export default function Accounts() {
     const roleUser = user?.roles[0]?.authority;
 
     if (isAuth) {
-        if (roleUser === 'admin') {
+        if (roleUser === 'ROLE_ADMIN') {
             return <Navigate to={config.routes.admin} replace />;
-        } else if (roleUser === 'recruiter') {
+        } else if (roleUser === 'ROLE_PM') {
             return <Navigate to={config.routes.recruiter} replace />;
         }
         return <Navigate to={config.routes.home} replace />;

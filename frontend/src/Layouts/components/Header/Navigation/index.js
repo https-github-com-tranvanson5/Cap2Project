@@ -20,12 +20,6 @@ const navigationMenu = [
         role: ['ROLE_PM'],
     },
     {
-        title: 'Làm bài test',
-        to: '/testuser',
-        role: ['ROLE_USER'],
-    },
-
-    {
         title: 'Tạo CV',
         to: config.routes.cv,
         role: ['ROLE_USER'],
