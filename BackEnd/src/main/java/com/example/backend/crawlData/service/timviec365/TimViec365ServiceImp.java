@@ -49,11 +49,39 @@ public class TimViec365ServiceImp implements  TimViec365Service{
                 jobList.add(jobListing);
             }
             List<TimViec365> getTimViec365List= timViec365Repository.findAll();
-            // Return the JSON response
-            return new ResponseEntity<>(timViec365Repository.saveAll(jobList), HttpStatus.OK);
+
+            List<TimViec365> nonDuplicateJobs = new ArrayList<>(jobList);
+
+            for (TimViec365 job1 : getTimViec365List) {
+                nonDuplicateJobs.removeIf(job2 ->
+                        job1.getTitle().equals(job2.getTitle()) &&
+                                job1.getNameCom().equals(job2.getNameCom()) &&
+                                job1.getJobLocal().equals(job2.getJobLocal()) &&
+                                job1.getJobTime().equals(job2.getJobTime()) &&
+                                job1.getJobMoney().equals(job2.getJobMoney()) &&
+                                job1.getUrl().equals(job2.getUrl()) &&
+                                job1.getImage().equals(job2.getImage())
+                );
+            }
+            jobList = nonDuplicateJobs;
+            if(jobList.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            timViec365Repository.saveAll(jobList);
+            return new ResponseEntity<>(jobList, HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
             return new ResponseEntity<>("Error while fetching data.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Override
+    public ResponseEntity<?> getDataTimviec365() {
+        List<TimViec365> timViec365List = timViec365Repository.findAll();
+        if(timViec365List.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(timViec365List,HttpStatus.OK);
+    }
+
 }

@@ -2,13 +2,14 @@ package com.example.backend.cv.model;
 
 import com.example.backend.cv.contains.CvStatus;
 import com.example.backend.user.model.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -21,7 +22,9 @@ public class CurriculumVitae {
 
     //thông tin profile
     private String name;
+    private LocalDate dob;
     private String phone;
+    private String email;
     private String linkWebsite;
     @Column(columnDefinition = "longtext")
     private String address;
@@ -43,7 +46,7 @@ public class CurriculumVitae {
             joinColumns = @JoinColumn(name = "cv_id"),
             inverseJoinColumns = @JoinColumn(name = "skill_id")
     )
-    private Set<Skill> skills= new HashSet<>();
+    private List<Skill> skills;
 
     //Chứng chỉ
     @ManyToMany
@@ -53,7 +56,7 @@ public class CurriculumVitae {
             joinColumns = @JoinColumn(name = "cv_id"),
             inverseJoinColumns = @JoinColumn(name = "certification_id")
     )
-    private Set<Certification> certifications= new HashSet<>();
+    private List<Certification> certifications;
 
 
     // Kinh nghiệm
@@ -64,7 +67,7 @@ public class CurriculumVitae {
             joinColumns = @JoinColumn(name = "cv_id"),
             inverseJoinColumns = @JoinColumn(name = "experience_id")
     )
-    private Set<WorkExperience> workExperiences= new HashSet<>();
+    private List<WorkExperience> workExperiences;
     // hoạt động
     @ManyToMany
     @JsonManagedReference
@@ -73,7 +76,7 @@ public class CurriculumVitae {
             joinColumns = @JoinColumn(name = "cv_id"),
             inverseJoinColumns = @JoinColumn(name = "active_id")
     )
-    private Set<Active> actives= new HashSet<>();
+    private List<Active> actives;
     // trình độ
     @ManyToMany
     @JsonManagedReference
@@ -82,7 +85,7 @@ public class CurriculumVitae {
             joinColumns = @JoinColumn(name = "cv_id"),
             inverseJoinColumns = @JoinColumn(name = "education_id")
     )
-    private Set<Educatuion> educatuions= new HashSet<>();
+    private List<Education> educations;
     // dự án
     @ManyToMany
     @JsonManagedReference
@@ -91,7 +94,7 @@ public class CurriculumVitae {
             joinColumns = @JoinColumn(name = "cv_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
-    private Set<Project> projects= new HashSet<>();
+    private List<Project> projects;
 
     //Người tham chiếu
     @ManyToMany
@@ -101,7 +104,7 @@ public class CurriculumVitae {
             joinColumns = @JoinColumn(name = "cv_id"),
             inverseJoinColumns = @JoinColumn(name = "reference_id")
     )
-    private Set<Reference> references= new HashSet<>();
+    private List<Reference> references;
 
 
     @ManyToOne

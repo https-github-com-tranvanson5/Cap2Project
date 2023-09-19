@@ -4,4 +4,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface TimViec365Service {
     ResponseEntity<?> crawlData();
+
+    ResponseEntity<?> getDataTimviec365();
 }

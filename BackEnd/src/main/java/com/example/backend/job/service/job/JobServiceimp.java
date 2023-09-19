@@ -171,4 +171,16 @@ public class JobServiceimp implements JobService {
         }
         return new ResponseEntity<>(jobs,HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<?> getAllDataListJobPm() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String id = ((UserPrinciple) authentication.getPrincipal()).getId();
+        User user= userRepository.getUserById(id);
+        List<Job> jobs= jobRepository.findAllByUser(user);
+        if(jobs.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(jobs,HttpStatus.OK);
+    }
 }

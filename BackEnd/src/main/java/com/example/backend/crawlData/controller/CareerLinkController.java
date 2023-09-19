@@ -1,14 +1,7 @@
 package com.example.backend.crawlData.controller;
 
-import com.example.backend.crawlData.model.TimViec365;
-import com.example.backend.crawlData.service.timviec365.TimViec365Service;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import com.example.backend.crawlData.service.careerlink.CareerLinkService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -18,23 +11,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
-@RequestMapping("/api/crawl/timviec365")
+@RequestMapping("/api/crawl/careerlink")
 @CrossOrigin(origins = "*")
 @Component
-public class crawlerTimViec365Controller {
+public class CareerLinkController {
     @Autowired
-    private TimViec365Service timViec365Service;
+    private CareerLinkService careerLinkService;
     @GetMapping("/crawl")
     @Scheduled(fixedRate = 10000)
     public ResponseEntity<?> crawl() throws IOException {
-        return timViec365Service.crawlData();
+        return careerLinkService.crawlData();
     }
-    @GetMapping("/getDataTimviec365")
-    public ResponseEntity<?> getDataTimviec365(){
-        return timViec365Service.getDataTimviec365();
+    @GetMapping("/getDataCareerlink")
+    public ResponseEntity<?> getDataCareerlink(){
+        return careerLinkService.getDataCareerlink();
     }
 }

@@ -62,9 +62,9 @@ public class User {
     @JsonBackReference
     private Set<Job> jobs= new HashSet<>();
 
-//    @OneToMany(mappedBy = "user")
-//    @JsonBackReference
-//    private Set<CurriculumVitae> curriculumVitaes= new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    private Set<CurriculumVitae> curriculumVitaes = new HashSet<>();
 
     private LocalDateTime createAt;
     @Enumerated(EnumType.STRING)
