@@ -50,10 +50,10 @@ function Container() {
                     </Link>
 
                     {form ? (
-                        <h2 className={cx('heading')}>Đăng nhập vào JobCare</h2>
+                        <h2 className={cx('heading')}>Đăng nhập vào JobFinded</h2>
                     ) : (
                         <h2 className={cx('heading')}>
-                            Đăng ký tài khoản JobCare
+                            Đăng ký tài khoản JobFinded
                         </h2>
                     )}
                 </div>

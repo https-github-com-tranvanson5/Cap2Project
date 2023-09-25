@@ -5,6 +5,7 @@ import { registerUser } from '../../../redux/apiRequest';
 import Button from '~/components/Button';
 import classNames from 'classnames/bind';
 import styles from '../FormAccounts.module.scss';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
@@ -25,10 +26,10 @@ const Register = () => {
             username: username,
         };
         registerUser(newUser, dispatch, navigate);
+        toast.success('Tạo tài khoản thành công');
     };
     return (
         <section className={cx('wrapper')}>
-            <div className="register-title"> Sign up </div>
             <form onSubmit={handleRegister}>
                 <div className={cx('form-group')}>
                     <div className={cx('label-form-accounts')}>
@@ -48,41 +49,47 @@ const Register = () => {
                     <div className={cx('label-form-accounts')}>
                         <label>Địa chỉ Email</label>
                     </div>
-                    <input
-                        className={cx('input-text')}
-                        type="text"
-                        placeholder="Enter your email"
-                        onChange={(e) => setEmail(e.target.value)}
-                    />{' '}
+                    <div className={cx('input-block')}>
+                        <input
+                            className={cx('input-text')}
+                            type="text"
+                            placeholder="Enter your email"
+                            onChange={(e) => setEmail(e.target.value)}
+                        />{' '}
+                    </div>
                 </div>
                 <div className={cx('form-group')}>
                     {' '}
                     <div className={cx('label-form-accounts')}>
-                        <label htmlFor="password">Tên đăng nhập</label>
+                        <label htmlFor="email">Tên đăng nhập</label>
                     </div>
-                    <input
-                        className={cx('input-text')}
-                        type="text"
-                        placeholder="Enter your username"
-                        onChange={(e) => setUsername(e.target.value)}
-                    />{' '}
+                    <div className={cx('input-block')}>
+                        <input
+                            className={cx('input-text')}
+                            type="text"
+                            placeholder="Enter your username"
+                            onChange={(e) => setUsername(e.target.value)}
+                        />{' '}
+                    </div>
                 </div>
                 <div className={cx('form-group')}>
                     {' '}
                     <div className={cx('label-form-accounts')}>
                         <label htmlFor="password">Mật khẩu</label>
                     </div>
-                    <input
-                        className={cx('input-text')}
-                        type="password"
-                        placeholder="Enter your password"
-                        onChange={(e) => setPassword(e.target.value)}
-                    />{' '}
+                    <div className={cx('input-block')}>
+                        <input
+                            className={cx('input-text')}
+                            type="password"
+                            placeholder="Enter your password"
+                            onChange={(e) => setPassword(e.target.value)}
+                        />{' '}
+                    </div>
                 </div>
 
                 <Button primary rounded type="submit">
                     {' '}
-                    Create account{' '}
+                    Tạo tài khoản {' '}
                 </Button>
             </form>
         </section>

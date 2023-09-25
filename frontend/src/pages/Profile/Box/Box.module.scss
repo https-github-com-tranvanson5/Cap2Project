@@ -1,0 +1,25 @@
+.wrapper {
+    max-width: 652px;
+    padding: 20px;
+    border: 1px solid var(--gray-light-color);
+    box-shadow: var(--box-shadow-2);
+    border-radius: 12px;
+    overflow: hidden;
+
+    .title {
+        font-size: 16px;
+        font-weight: 600;
+    }
+}
+
+.box-item {
+    display: flex;
+    align-items: center;
+    .icon {
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-right: 8px;
+    }
+}

@@ -28,7 +28,6 @@ export const loginUser = async (user, dispatch, navigate) => {
             user,
         );
         dispatch(loginSuccess(res.data));
-        navigate('/');
     } catch (err) {
         dispatch(loginFailed());
     }
@@ -39,7 +38,7 @@ export const registerUser = async (user, dispatch, navigate) => {
     try {
         await axios.post('http://localhost:8080/api/auth/signup', user);
         dispatch(registerSuccess());
-        navigate('/login');
+        navigate('/');
     } catch (err) {
         dispatch(registerFailed());
     }

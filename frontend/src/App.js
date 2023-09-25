@@ -28,18 +28,20 @@ import Home from './pages/Home';
 import { getAllUsers } from './redux/apiRequest';
 
 function App() {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.login?.currentUser);
+    const isAuth = useSelector((state) => state.auth.login?.isFetching);
+    console.log(isAuth);
     // console.log(user.roles[0].authority)
 
-    useEffect(() => {
-        if (user?.jwt) {
-            getAllUsers(user?.jwt, dispatch);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    // useEffect(() => {
+    //     if (user?.jwt) {
+    //         getAllUsers(user?.jwt, dispatch);
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
 
-    if (typeof user == false) {
+    if (isAuth ?? false) {
         return <Loading></Loading>;
     }
 
@@ -68,7 +70,7 @@ function App() {
                         element={
                             <ProtectedRoute
                                 redirectPath={config.routes.accounts}
-                                isAllowed={user}
+                                isAllowed={isAuth}
                             />
                         }
                     >
