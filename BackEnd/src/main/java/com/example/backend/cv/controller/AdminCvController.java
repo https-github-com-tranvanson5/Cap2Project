@@ -16,4 +16,8 @@ public class AdminCvController {
     public ResponseEntity<?> getAllCvByAdmin() {
         return cvService.getCV();
     }
+    @GetMapping("getCvbyId")
+    public ResponseEntity<?> getCvbyIdByAdmin(@RequestParam Long id) {
+        return cvService.getCvbyIdByAdmin(id);
+    }
 }

@@ -15,4 +15,6 @@ public interface CvService {
     ResponseEntity<?> getCvbyIdbyUser(Long id);
 
     ResponseEntity<?> deleteCvbyIdbyUser(Long id);
+
+    ResponseEntity<?> getCvbyIdByAdmin(Long id);
 }

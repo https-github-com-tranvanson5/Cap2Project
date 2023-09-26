@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.backend.cv.contains.CvStatus.ACTIVE;
 import static com.example.backend.cv.contains.CvStatus.DELETED;
@@ -44,6 +45,9 @@ public class CvServiceimpl implements CvService{
     @Override
     public ResponseEntity<?> getCV() {
         List<CurriculumVitae> curriculumVitaes = cvRepository.findAll();
+        if(curriculumVitaes==null){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(curriculumVitaes, HttpStatus.OK);
     }
 
@@ -220,6 +224,15 @@ public class CvServiceimpl implements CvService{
         messageResponse.setTitle("Thành công");
         messageResponse.setMessage("Đã xoá thành công");
         return new ResponseEntity<>(messageResponse,HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> getCvbyIdByAdmin(Long id) {
+        Optional<CurriculumVitae> curriculumVitaes = cvRepository.findById(id);
+        if(curriculumVitaes==null){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(curriculumVitaes.get(), HttpStatus.OK);
     }
 
 }
