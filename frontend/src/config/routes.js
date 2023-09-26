@@ -7,7 +7,7 @@ const routes = {
     // ListPostOfRecruiter: '/recruiter/ListPostOfRecruiter',
     // ListRecruitmentPost: '/recruiter/listpost',
     profile: '/profile',
-    // settings: '/settings',
+    settings: '/settings',
     accounts: '/accounts',
     // blog: '/blog/listblog',
     cv: '/cv',

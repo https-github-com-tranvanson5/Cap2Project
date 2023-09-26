@@ -20,7 +20,7 @@ import {
 } from './userSlice';
 //npm install axios
 
-export const loginUser = async (user, dispatch, navigate) => {
+export const loginUser = async (user, dispatch) => {
     dispatch(loginStart());
     try {
         const res = await axios.post(
@@ -44,11 +44,11 @@ export const registerUser = async (user, dispatch, navigate) => {
     }
 };
 
-export const getAllUsers = async (jwt, dispatch) => {
+export const getProfileUser = async (jwt, dispatch) => {
     dispatch(getUsersStart());
     try {
         const res = await axios.get(
-            'http://localhost:8080/api/userManager/getDataListUser',
+            'http://localhost:8080/api/user/getProfileUser',
             {
                 headers: {
                     Authorization: `Bearer ${jwt}`,

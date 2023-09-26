@@ -25,13 +25,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { renderRoutes } from './utils/route.utils';
 import Home from './pages/Home';
-import { getAllUsers } from './redux/apiRequest';
+// import { getAllUsers } from './redux/apiRequest';
 
 function App() {
     // const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.login?.currentUser);
     const isAuth = useSelector((state) => state.auth.login?.isFetching);
-    console.log(isAuth);
+    // console.log(user);
     // console.log(user.roles[0].authority)
 
     // useEffect(() => {

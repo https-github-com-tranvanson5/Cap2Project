@@ -7,6 +7,7 @@ import RecruitmentPage from '~/pages/RecruitmentPage/RecruitmentPage';
 import Accounts from '~/pages/account/Accounts';
 import Dashboard from '~/pages/admin/Dashboard';
 import UsersManage from '~/pages/admin/UsersManage';
+import Settings from '~/pages/settings/Setting';
 
 export const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -17,6 +18,7 @@ export const publicRoutes = [
 export const privateRoutes = [
     { path: config.routes.recruitmentpage, component: RecruitmentPage },
     { path: config.routes.profile, component: Profile },
+    { path: config.routes.settings, component: Settings },
 ];
 
 export const userPrivateRoutes = [
