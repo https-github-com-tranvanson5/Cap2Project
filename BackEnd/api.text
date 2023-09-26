@@ -1,5 +1,34 @@
 user create cv:
 - POST http://localhost:8080/api/CurriculumVitae/createCv
+{
+    "name":" Trần Văn Sơn",
+    "dob":"2001-03-17",
+    "phone":"0972105691",
+    "email":"tranvanson231099@gmail.com",
+    "address": "Quảng Nam",
+    "skills":[
+        {
+            "name":"Kĩ năng 1",
+            "description": "ádasdasdasdasda",
+            "level":10
+        },
+         {
+            "name":"Kĩ năng 2",
+            "description": "ádasdasdasdasda",
+            "level":8
+        }
+        ],
+        "certifications":[
+            {
+                "name":"adsadasdas",
+                "start":"2022",
+                "end":"2023",
+                "description":"adsadasdasdasdas"
+            }
+        ]
+}
+
+
 admin get api:
 - GET http://localhost:8080/api/admin/CurriculumVitae/getCv
 craw database:
@@ -32,3 +61,6 @@ job admin:
 - GET http://localhost:8080/api/admin/job/getDataJobByStatus?status=do_not_allow
 job user:
 - GET http://localhost:8080/api/job/getAllJobUser
+
+Job pm:
+- GET http://localhost:8080/api/pm/job/getJob
