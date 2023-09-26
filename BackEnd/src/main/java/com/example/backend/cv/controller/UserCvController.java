@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/CurriculumVitae")
 @CrossOrigin(origins = "*")
@@ -14,7 +16,7 @@ public class UserCvController {
     @Autowired
     private CvService cvService;
     @PostMapping("/createCv")
-    public ResponseEntity<?> createCvByUser(@RequestBody CurriculumVitaeCreateForm curriculumVitaeCreateForm) {
+    public ResponseEntity<?> createCvByUser(@Valid @RequestBody CurriculumVitaeCreateForm curriculumVitaeCreateForm) {
         return cvService.createCvByUser(curriculumVitaeCreateForm);
     }
 }

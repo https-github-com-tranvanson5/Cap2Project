@@ -107,4 +107,5 @@ public class CvServiceimpl implements CvService{
         curriculumVitae.setUser(user);
         return new ResponseEntity<>(cvRepository.save(curriculumVitae),HttpStatus.OK);
     }
+
 }

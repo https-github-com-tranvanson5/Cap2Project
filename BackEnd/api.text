@@ -1,0 +1,34 @@
+user create cv:
+- POST http://localhost:8080/api/CurriculumVitae/createCv
+admin get api:
+- GET http://localhost:8080/api/admin/CurriculumVitae/getCv
+craw database:
+- GET http://localhost:8080/api/crawl/careerlink/getDataCareerlink
+- GET http://localhost:8080/api/crawl/timviec365/crawl
+job admin:
+- POST http://localhost:8080/api/admin/job/createJob
+{
+        "title": "Tuyển dụng it",
+        "position": "dev",
+        "nameCompany": "Fpt software",
+        "address": "Ngũ Hành Sơn, Đà Nẵng",
+        "salary": "1000$",
+        "quantity": 100,
+        "description": "Fpt software Ngũ Hành Sơn Đà Nẵng",
+        "welfare": "Nhận lương tháng 13",
+        "requirements": "Có ít nhất 3 năm kinh nghiệm",
+        "info": " name: Trần Văn Sơn, Sdt: 0972105691, email: tranvanson231099@gmail.com",
+        "image": "1",
+        "categoryId": 1,
+        "status": "allow"
+}
+- PUT http://localhost:8080/api/admin/job/updateJob?id=5
+{
+
+}
+
+- GET http://localhost:8080/api/admin/job/changStatusJob?id=1&status=do_not_allow
+- GET http://localhost:8080/api/admin/job/getDataJobById?id=1
+- GET http://localhost:8080/api/admin/job/getDataJobByStatus?status=do_not_allow
+job user:
+- GET http://localhost:8080/api/job/getAllJobUser
