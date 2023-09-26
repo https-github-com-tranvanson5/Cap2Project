@@ -1,4 +1,4 @@
-user create cv:
+user cv:
 - POST http://localhost:8080/api/CurriculumVitae/createCv
 {
     "name":" Trần Văn Sơn",
@@ -27,7 +27,32 @@ user create cv:
             }
         ]
 }
-
+-           GET http://localhost:8080/api/user/CurriculumVitae/getAllCvByUser
+-           GET http://localhost:8080/api/user/CurriculumVitae/getCvbyIdbyUser?id=12
+-           GET http://localhost:8080/api/user/CurriculumVitae/deleteCvbyIdbyUser?id=12
+-           PUT http://localhost:8080/api/user/CurriculumVitae/updateCv
+{
+    "name":" Trần Văn Sơn",
+    "dob":"2001-03-17",
+    "phone":"0972105691",
+    "email":"tranvanson231099@gmail.com",
+    "address": "Quảng Nam",
+    "skills":[
+        {
+            "name":"Tiếng anh",
+            "description": "Thành thạo giao tiếp bằng tiếng anh",
+            "level":10
+        }
+        ],
+        "certifications":[
+            {
+                "name":"Đạt chứng chỉ lập trình codegym",
+                "start":"2022",
+                "end":"2023",
+                "description":"Đạt chứng chỉ lập trình codegym"
+            }
+        ]
+}
 
 admin get api:
 - GET http://localhost:8080/api/admin/CurriculumVitae/getCv

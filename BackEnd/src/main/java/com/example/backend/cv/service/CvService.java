@@ -7,4 +7,12 @@ public interface CvService {
     ResponseEntity<?> getCV();
 
     ResponseEntity<?> createCvByUser(CurriculumVitaeCreateForm curriculumVitaeCreateForm);
+
+    ResponseEntity<?> updateCvByUser(CurriculumVitaeCreateForm curriculumVitaeCreateForm, Long id);
+
+    ResponseEntity<?> getAllCvByUser();
+
+    ResponseEntity<?> getCvbyIdbyUser(Long id);
+
+    ResponseEntity<?> deleteCvbyIdbyUser(Long id);
 }
