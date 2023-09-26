@@ -70,7 +70,7 @@ function App() {
                         element={
                             <ProtectedRoute
                                 redirectPath={config.routes.accounts}
-                                isAllowed={isAuth}
+                                isAllowed={user}
                             />
                         }
                     >
