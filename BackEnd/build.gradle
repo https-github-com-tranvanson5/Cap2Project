@@ -15,6 +15,10 @@ repositories {
 }
 
 dependencies {
+
+	implementation 'org.jsoup:jsoup:1.14.3'
+
+
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	// https://mvnrepository.com/artifact/com.eaio.uuid/uuid
 	implementation group: 'com.eaio.uuid', name: 'uuid', version: '3.2'

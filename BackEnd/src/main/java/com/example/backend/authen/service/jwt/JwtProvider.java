@@ -15,20 +15,30 @@ public class JwtProvider {
 
 
     private String jwtSecret="jwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKey";
+    private String jwtSecret1="jwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKeysdfsdsdsff";
 
 
     private int jwtExpiration = 86400;
 
-    public String generateJwtToken(Authentication authentication) {
-
+    public String generateJwtToken(Authentication authentication,String action) {
         UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
+        if(action== "LOGIN"){
 
-        return Jwts.builder()
-                .setSubject((userPrincipal.getUsername()))
-                .setIssuedAt(new Date())
-                // .setExpiration(new Date((new Date()).getTime() + jwtExpiration * 1000))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
+            return Jwts.builder()
+                    .setSubject((userPrincipal.getUsername()))
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date((new Date()).getTime() + jwtExpiration * 1000))
+                    .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                    .compact();
+        }else {
+            return Jwts.builder()
+                    .setSubject((userPrincipal.getUsername()))
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date((new Date()).getTime() + 180000))
+                    .signWith(SignatureAlgorithm.HS512, jwtSecret1)
+                    .compact();
+        }
+
     }
 
     public boolean validateJwtToken(String authToken) {
