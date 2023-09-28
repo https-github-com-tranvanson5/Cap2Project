@@ -15,13 +15,10 @@ const cx = classNames.bind(styles);
 export default function Setting() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.login?.currentUser);
-    const [userData, setUserData] = useState(
-        useSelector((state) => state.users.users?.profileUser),
-    );
+    const userData = useSelector((state) => state.users.users?.profileUser);
     const loading = useSelector((state) => state.users.users?.isFetching);
     useEffect(() => {
         getProfileUser(user?.jwt, dispatch);
-        setUserData();
     }, []);
 
     return (

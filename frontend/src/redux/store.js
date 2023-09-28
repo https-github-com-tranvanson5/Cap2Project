@@ -12,13 +12,14 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { cvSlice } from "~/pages/CV/cvSlice";
 
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
 };
-const rootReducer = combineReducers({ auth: authReducer, users: userReducer });
+const rootReducer = combineReducers({ auth: authReducer, users: userReducer , cv: cvSlice.reducer, });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({

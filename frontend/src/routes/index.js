@@ -1,5 +1,6 @@
 import SidebarLayout from '~/Layouts/SidebarLayout';
 import config from '~/config';
+import CV from '~/pages/CV';
 import Home from '~/pages/Home';
 import Profile from '~/pages/Profile';
 import Recruiter from '~/pages/Recruiter/Recruiter';
@@ -19,6 +20,7 @@ export const privateRoutes = [
     { path: config.routes.recruitmentpage, component: RecruitmentPage },
     { path: config.routes.profile, component: Profile },
     { path: config.routes.settings, component: Settings },
+    { path: config.routes.cv, component: CV },
 ];
 
 export const userPrivateRoutes = [

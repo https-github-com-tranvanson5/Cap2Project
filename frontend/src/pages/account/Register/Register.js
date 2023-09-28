@@ -19,6 +19,10 @@ const Register = () => {
 
     const handleRegister = (e) => {
         e.preventDefault();
+        if (!name || !email || !username || !password) {
+            toast.error('Hãu nhập đầy đủ thông tin');
+            return;
+        }
         const newUser = {
             email: email,
             name: name,
@@ -89,7 +93,7 @@ const Register = () => {
 
                 <Button primary rounded type="submit">
                     {' '}
-                    Tạo tài khoản {' '}
+                    Tạo tài khoản{' '}
                 </Button>
             </form>
         </section>

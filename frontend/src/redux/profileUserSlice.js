@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const profileUserSlice = createSlice({
+const profilUser = createSlice({
     name:"profile",
     initialState:{
         users: {
@@ -11,7 +11,7 @@ const profileUserSlice = createSlice({
         msg:"",
     },
     reducers:{
-        getProfileUserStart: (state)=>{
+        getProfileUsersStart: (state)=>{
             state.users.isFetching = true;
         },
         getProfileUsersSuccess: (state,action) =>{
@@ -22,28 +22,28 @@ const profileUserSlice = createSlice({
             state.users.isFetching = false;
             state.users.error = true;
         },
-        // deleteUserStart: (state)=>{
-        //     state.users.isFetching = true;
-        // },
-        // deleteUsersSuccess: (state,action)=>{
-        //     state.users.isFetching = false;
-        //     state.msg = action.payload;
-        // },
-        // deleteUserFailed: (state,action)=>{
-        //     state.users.isFetching = false;
-        //     state.users.error = true;
-        //     state.msg = action.payload;
-        // } 
+        deleteUserStart: (state)=>{
+            state.users.isFetching = true;
+        },
+        deleteUsersSuccess: (state,action)=>{
+            state.users.isFetching = false;
+            state.msg = action.payload;
+        },
+        deleteUserFailed: (state,action)=>{
+            state.users.isFetching = false;
+            state.users.error = true;
+            state.msg = action.payload;
+        } 
     }
 })
 
 export const {
-    getProfileUserStart,
+    getProfileUsersStart,
     getProfileUsersSuccess,
     getProfileUsersFailed,
-    // deleteUserStart,
-    // deleteUsersSuccess,
-    // deleteUserFailed
-} = profileUserSlice.actions;
+    deleteUserStart,
+    deleteUsersSuccess,
+    deleteUserFailed
+} = profilUser.actions;
 
-export default profileUserSlice.reducer;
+export default profilUser.reducer;
