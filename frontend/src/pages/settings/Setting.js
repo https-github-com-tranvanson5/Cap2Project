@@ -1,26 +1,17 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import classNames from 'classnames/bind';
 import styles from './Settings.module.scss';
 import { Col, Container, Row } from 'react-bootstrap';
 import Loading from '~/components/Loading/Loading';
 import FormGroup from './FormGroup/FormGroup';
 import FormUpload from './FormUpload/FormUpload';
-import { getProfileUser } from '~/redux/apiRequest';
 
 const cx = classNames.bind(styles);
 
 export default function Setting() {
-    const dispatch = useDispatch();
-    const user = useSelector((state) => state.auth.login?.currentUser);
     const userData = useSelector((state) => state.users.users?.profileUser);
     const loading = useSelector((state) => state.users.users?.isFetching);
-    useEffect(() => {
-        getProfileUser(user?.jwt, dispatch);
-    }, []);
-
     return (
         <>
             {loading === true ? <Loading /> : ''}

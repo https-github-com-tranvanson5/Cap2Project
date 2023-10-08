@@ -18,6 +18,14 @@ import {
     getUsersStart,
     getUsersSuccess,
 } from './userSlice';
+import {
+    deleteAllUserFailed,
+    deleteAllUsersSuccess,
+    deleteAllUserStart,
+    getAllUsersFailed,
+    getAllUsersStart,
+    getAllUsersSuccess,
+} from './allUserSlice';
 //npm install axios
 
 export const loginUser = async (user, dispatch) => {
@@ -28,6 +36,7 @@ export const loginUser = async (user, dispatch) => {
             user,
         );
         dispatch(loginSuccess(res.data));
+        getProfileUser(res.data.jwt, dispatch);
     } catch (err) {
         dispatch(loginFailed());
     }
@@ -61,18 +70,38 @@ export const getProfileUser = async (jwt, dispatch) => {
     }
 };
 
-export const deleteUser = async (accessToken, dispatch, id, axiosJWT) => {
-    dispatch(deleteUserStart());
+export const getAllUsers = async (jwt, dispatch) => {
+    dispatch(getAllUsersStart());
     try {
-        const res = await axiosJWT.delete(
-            'http://localhost:8080/api/userManager/getDataListUser/' + id,
+        const res = await axios.get(
+            'http://localhost:8080/api/admin/getAllUserBySearch?search&column&sort',
             {
-                headers: { token: `Bearer ${accessToken}` },
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
             },
         );
-        dispatch(deleteUsersSuccess(res.data));
+        dispatch(getAllUsersSuccess(res.data));
     } catch (err) {
-        dispatch(deleteUserFailed(err.response.data));
+        dispatch(getAllUsersFailed());
+    }
+};
+
+export const deleteUser = async (jwt, dispatch, id,) => {
+    dispatch(deleteAllUserStart());
+    try {
+        const res = await axios.get(
+            `http://localhost:8080/api/admin/changeStatus?id=${id}&status=DELETE`,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+        console.log(res);
+        dispatch(deleteAllUsersSuccess(res.data));
+    } catch (err) {
+        dispatch(deleteAllUserFailed(err.response.data));
     }
 };
 

@@ -35,11 +35,12 @@ export const options = {
 
 function StatisticalLinesChart({ data }) {
     const dataChart = {
-        labels: data?.jobCount.map((item) => `Ngày mùng ${item.day}`),
+        labels: ['January', 'Februar', 'March', 'April', 'May', 'June', 'July', 'August'],
         datasets: [
             {
                 label: 'Thống kê tuyển dụng',
-                data: data?.jobCount.map((item) => item.count),
+                // data: data?.jobCount.map((item) => item.count),
+                data:[10,15,35,41,50,58,70,80],
                 borderColor: '#4bc0c0',
                 backgroundColor: '#a4f5f5',
             },

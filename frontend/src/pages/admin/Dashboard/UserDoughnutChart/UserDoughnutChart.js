@@ -13,7 +13,7 @@ function UserDoughnutChart({ data }) {
         datasets: [
             {
                 label: '',
-                data: [],
+                data: [70,30],
                 backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)'],
                 hoverOffset: 4,
             },

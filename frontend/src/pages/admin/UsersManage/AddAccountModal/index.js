@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import Modal from 'react-bootstrap/Modal';
 
 import styles from './AddAccountModal.module.scss';
-import RegisterForm from '~/pages/Accounts/RegisterForm/RegisterForm';
+import Register from '~/pages/account/Register/Register';
 
 const cx = classNames.bind(styles);
 
@@ -17,7 +17,7 @@ function AddAccountModal({ show, onClose }) {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <RegisterForm adminAddAccountForm />
+                        <Register adminAddAccountForm />
                     </Modal.Body>
                 </Modal>
             </div>
