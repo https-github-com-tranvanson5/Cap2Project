@@ -29,7 +29,7 @@ function Footer() {
                                 Hotline: 076 3030 364
                             </div>
                             <div className={cx('text-item')}>
-                                Email: hotro@jobcare.com
+                                Email: hotro@jobfinded.com
                             </div>
                             <div className={cx('text-item')}>
                                 Trụ sở: 03 Trưng Nữ Vương, Bình Hiên, Hải Châu,
@@ -52,7 +52,7 @@ function Footer() {
                                 </div>
                                 <div className={cx('text-item')}>
                                     <Link to="/vechungtoi">
-                                        Hợp tác cùng Jobcare
+                                        Hợp tác cùng JobFinded
                                     </Link>
                                 </div>
                             </Col>
@@ -70,7 +70,7 @@ function Footer() {
                                 </div>
                                 <div className={cx('text-item')}>
                                     <Link to="/vechungtoi">
-                                        Quy chế sàn TMĐT Jobcare
+                                        Quy chế sàn TMĐT JobFinded
                                     </Link>
                                 </div>
                             </Col>

@@ -29,7 +29,7 @@ export default function Signin() {
                         <p className={cx('sub-title')}>
                             Bạn đang đau đầu với vấn đề tuyển dụng và quản lý
                             nhân sự? Điền thông tin ngay để đăng ký dùng thử 14
-                            ngày miễn phí cùng JobCare.
+                            ngày miễn phí cùng JobFinded.
                         </p>
                         <Row>
                             <Col>

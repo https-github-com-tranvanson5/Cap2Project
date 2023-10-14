@@ -1,7 +1,18 @@
-import React from 'react'
+import classNames from 'classnames/bind';
+
+import MainJob from './MainJob/MainJob';
+import Carousel from '../Home/Slider/Slider';
+import styles from './RecruitmentPage.module.scss';
+import Search from './Search/SearchJob/SearchJob';
+
+const cx = classNames.bind(styles);
 
 export default function RecruitmentPage() {
-  return (
-    <div>RecruitmentPage</div>
-  )
+    return (
+        <div className={cx('wrapper')}>
+            <Search />
+            <Carousel />
+            <MainJob />
+        </div>
+    );
 }

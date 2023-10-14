@@ -6,7 +6,7 @@ const images = {
     cvBox: require('~/assets/images/banner-cv.png'),
     testBox: require('~/assets/images/banner-test.png'),
     avatarDefault: require('~/assets/images/avatar-default.png'),
-    findJobs: require('~/assets/images/find-jobs-img.png'),
+    findJobs: require('~/assets/images/findjob.svg'),
     recruitmentCard: require('~/assets/images/recruitment-card.jpg'),
     cvAvatar: require('~/assets/images/cv-avatar-default.png'),
     icon: {

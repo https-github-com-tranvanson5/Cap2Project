@@ -35,7 +35,7 @@ function ToolBar({ cvRef }) {
                 heightLeft -= pageHeight;
             }
 
-            doc.save('jobcare.pdf');
+            doc.save('jobFinded.pdf');
         });
     };
 

@@ -13,7 +13,7 @@ export default function RuleBottom({ data }) {
             <Container>
                 <div className={cx('content')}>
                     <h2 className={cx('content-header')}>
-                        Tại sao nên sử dụng JobCare
+                        Tại sao nên sử dụng JobFinded
                     </h2>
                     <div className={cx('content-rule')}>
                         <h3>

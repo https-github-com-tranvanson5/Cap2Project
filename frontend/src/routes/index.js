@@ -3,17 +3,23 @@ import config from '~/config';
 import CV from '~/pages/CV';
 import Home from '~/pages/Home';
 import Profile from '~/pages/Profile';
-import Recruiter from '~/pages/Recruiter/Recruiter';
+// import Recruiter from '~/pages/Recruiter/Recruiter';
+import Recruiter from '~/pages/Recruiter/RecruiterNews/RecruiterNews';
+import RecruiterPostManage from '~/pages/Recruiter/Post';
+import RecruiterManagePost from '~/pages/Recruiter/ManagePost';
+import ListPostOfRecruiter from '~/pages/Recruiter/RecruiterSaved/ListRecruitmentPost';
+import ListPostRecruiter from '~/pages/Recruiter/RecruiterNews/RecruiterNews';
+import RecruiterPost from '~/pages/Recruiter/RecruiterPost/RecruiterPost';
 import RecruitmentPage from '~/pages/RecruitmentPage/RecruitmentPage';
 import Accounts from '~/pages/account/Accounts';
 import Dashboard from '~/pages/admin/Dashboard';
 import UsersManage from '~/pages/admin/UsersManage';
 import Settings from '~/pages/settings/Setting';
+import ManageCandidates from '~/pages/Recruiter/ManageCandidates';
 
 export const publicRoutes = [
     { path: config.routes.home, component: Home },
     { path: config.routes.accounts, component: Accounts, layout: null },
-    { path: config.routes.recruitmentpage, component: RecruitmentPage },
 ];
 
 export const privateRoutes = [
@@ -23,13 +29,37 @@ export const privateRoutes = [
     { path: config.routes.cv, component: CV },
 ];
 
-export const userPrivateRoutes = [
-];
+export const userPrivateRoutes = [];
 
 export const recruiterPrivateRoutes = [
     {
+        path: config.routes.recruiterpost,
+        component: RecruiterPost,
+        layout: SidebarLayout,
+    },
+    {
         path: config.routes.recruiter,
         component: Recruiter,
+        layout: SidebarLayout,
+    },
+    {
+        path: config.routes.recruiterPostSidebar,
+        component: RecruiterPostManage,
+        layout: SidebarLayout,
+    },
+    {
+        path: config.routes.recruiterPostManageSidebar,
+        component: RecruiterManagePost,
+        layout: SidebarLayout,
+    },
+    {
+        path: config.routes.recruiterManageCandidates,
+        component: ManageCandidates,
+        layout: SidebarLayout,
+    },
+    {
+        path: config.routes.ListRecruitmentPost,
+        component: ListPostOfRecruiter,
         layout: SidebarLayout,
     },
 ];

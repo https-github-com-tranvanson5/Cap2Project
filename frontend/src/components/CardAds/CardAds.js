@@ -19,7 +19,7 @@ export default function CardAds({ to }) {
                                 <div className={cx('box-title')}>
                                     <h2>Tạo CV ấn tượng</h2>
                                     <p>
-                                        Jobcare hiện có 50+ mẫu CV chuyên
+                                        JobFinded hiện có 50+ mẫu CV chuyên
                                         nghiệp, độc đáo phù hợp với mọi ngành
                                         nghề.
                                     </p>

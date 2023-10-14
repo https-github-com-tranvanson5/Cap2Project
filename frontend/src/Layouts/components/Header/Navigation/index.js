@@ -16,7 +16,7 @@ const navigationMenu = [
     },
     {
         title: 'Tuyển dụng',
-        to: '/recruitment/recruiter',
+        to: config.routes.recruitmentpage,
         role: ['ROLE_PM'],
     },
     {

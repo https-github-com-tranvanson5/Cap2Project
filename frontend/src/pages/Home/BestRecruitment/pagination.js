@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { _LIMIT_PAGE } from '~/config/apis';
 
 // import ReactDOM from "react-dom";
 // import Pagination from '~/components/Pagination/Pagination';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Pagination from 'react-js-pagination';
+import { _LIMIT_PAGE } from '~/config/api';
 const PaginationStyled = styled.div`
     ul.pagination {
         display: flex;
