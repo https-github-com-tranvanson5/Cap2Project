@@ -5,6 +5,12 @@ import experienceInitial from './experience';
 import introduceInitial from './introduce';
 import projectsInitial from './projects';
 import skillsInitial from './skills';
+import languageInitial from './language';
+import goalsInitial from './goals';
+import certificateInitial from './certificate';
+import prizeInitial from './prize';
+import activityInitial from './activity';
+import customeInitial from './custome';
 
 const contentInitialValues = [
     {
@@ -31,6 +37,12 @@ export const contentGroupList = [
     { ...skillsInitial },
     { ...experienceInitial },
     { ...projectsInitial },
+    { ...languageInitial },
+    { ...goalsInitial },
+    { ...certificateInitial },
+    { ...prizeInitial },
+    { ...activityInitial },
+    { ...customeInitial },
 ];
 
 export default contentInitialValues;
