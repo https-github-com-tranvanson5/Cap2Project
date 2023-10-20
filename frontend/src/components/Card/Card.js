@@ -30,7 +30,6 @@ export default function Card({
     const handleShow = () => setShow(true);
     const dispatch = useDispatch();
 
-
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -73,7 +72,7 @@ export default function Card({
                         <div className={cx('subdesc-item subdesc-left')}>
                             <div className={cx('subdesc-text')}>
                                 <ion-icon name="cash-outline"></ion-icon>
-                                <span>{data?.salary}</span>
+                                <span>{data?.endSalary}</span>
                             </div>
                             <div className={cx('subdesc-text')}>
                                 <ion-icon name="location-outline"></ion-icon>

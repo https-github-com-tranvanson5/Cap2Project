@@ -18,7 +18,7 @@ const routes = {
     // manageBlog: '/blog/postblog/:id',
     usersManagement: '/admin/usermanagement',
     recruiterpost: '/recruiter/recruiterpostjob',
-    // recruitmentdetail: 'recruitmentpage/recruitmentdetail/:recruitmentId',
+    recruitmentdetail: 'recruitmentpage/recruitmentdetail/:recruitmentId',
     recruitmentpage: '/recruitmentpage/user',
     // displayquizz: 'testuser/displayquizz/:id',
     // displayquizz2: '/recruiter/showquizrecuiter/displayquizz/:id',

@@ -33,7 +33,6 @@ function App() {
     const isAuth = useSelector((state) => state.auth.login?.currentUser);
     const loading = useSelector((state) => state.auth.login?.isFetching);
     const userData = useSelector((state) => state.users.users?.profileUser);
-    console.log(userData);
 
     useEffect(() => {
         getProfileUser(isAuth?.jwt, dispatch);

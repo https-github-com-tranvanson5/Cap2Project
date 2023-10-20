@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 
 import styles from './ModalCv.module.scss';
 import Button from '~/components/Button';
-import { cloudinaryUploadApi } from '~/services/uploadService';
+// import { cloudinaryUploadApi } from '~/services/uploadService';
 import { fetchApplyJobs } from '~/pages/RecruitmentDetail/RecruitmentPageSlice';
 
 const cx = classNames.bind(styles);
@@ -29,7 +29,7 @@ function Modal({ setOpenModal, data }) {
         const formData = new FormData();
         formData.append('file', file, 'file');
 
-        const res = await cloudinaryUploadApi(formData);
+        const res = '';
 
         if (res.image_url) {
             const dataApplyJobs = {

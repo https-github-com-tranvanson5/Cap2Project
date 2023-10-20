@@ -5,36 +5,31 @@ import styles from './MainJob.module.scss';
 import { Col, Container, Row } from 'react-bootstrap';
 import Card from '~/components/Card/Card';
 import { useDispatch, useSelector } from 'react-redux';
-// import { fetchListJob } from '~/pages/Home/homeSlice';
-// import { jobListSelector } from '~/redux/Selectors/jobSelector';
 import PaginationCOM from '~/pages/Home/BestRecruitment/pagination';
+
 // import { fetchSavedRecruitments } from '~/pages/Accounts/accountsSlice';
+import { getAllJobs } from '~/redux/apiRequest';
 import { _LIMIT_PAGE } from '~/config/api';
 
 const cx = classNames.bind(styles);
 function MainJob() {
-    const [jobsItem, setjobsItem] = useState([]);
     const dispatch = useDispatch();
-    const jobListData = '';
+    const user = useSelector((state) => state.auth.login?.currentUser);
+    const jobListData = useSelector((state) => state.allJob.jobs?.allJobs);
 
     useEffect(() => {
-        // dispatch(fetchListJob());
-        // dispatch(fetchSavedRecruitments());
-        if (jobListData.length > 0) {
-            const jobs = jobListData.slice(0, _LIMIT_PAGE);
-            setjobsItem(jobs);
-        }
-    }, [JSON.stringify(jobListData)]);
+        getAllJobs(user?.jwt, dispatch);
+    }, []);
 
     return (
-        <Container>
-            <div className={cx('wrapper')}>
-                <h2 className={cx('heading')}>Việc làm nổi bật</h2>
-                {jobListData.length ? (
+        <>
+            <Container>
+                <div className={cx('wrapper')}>
+                    <h2 className={cx('heading')}>Việc làm nổi bật</h2>
                     <div className={cx('wrapper')}>
                         <Row>
-                            {jobsItem &&
-                                jobsItem.map((recruitment) => {
+                            {jobListData &&
+                                jobListData?.content.map((recruitment) => {
                                     return (
                                         <Col
                                             key={recruitment.id}
@@ -54,12 +49,9 @@ function MainJob() {
                                 })}
                         </Row>
                     </div>
-                ) : (
-                    ''
-                )}
-                <PaginationCOM items={jobListData} setjobsItem={setjobsItem} />
-            </div>
-        </Container>
+                </div>
+            </Container>
+        </>
     );
 }
 

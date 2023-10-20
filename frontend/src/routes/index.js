@@ -16,6 +16,7 @@ import Dashboard from '~/pages/admin/Dashboard';
 import UsersManage from '~/pages/admin/UsersManage';
 import Settings from '~/pages/settings/Setting';
 import ManageCandidates from '~/pages/Recruiter/ManageCandidates';
+import RecruitmentDetail from '~/pages/RecruitmentDetail/RecruitmentDetail';
 
 export const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -27,6 +28,7 @@ export const privateRoutes = [
     { path: config.routes.profile, component: Profile },
     { path: config.routes.settings, component: Settings },
     { path: config.routes.cv, component: CV },
+    { path: config.routes.recruitmentdetail, component: RecruitmentDetail },
 ];
 
 export const userPrivateRoutes = [];

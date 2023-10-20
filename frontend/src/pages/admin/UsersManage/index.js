@@ -18,7 +18,6 @@ function UsersManage() {
     const user = useSelector((state) => state.auth.login?.currentUser);
     const isLoading = useSelector((state) => state.allUser.users?.isFetching);
     const userList = useSelector((state) => state.allUser.users?.allUsers);
-    console.log(userList);
     const isErrors = useSelector((state) => state.allUser.users?.error);
     const [showModal, setShowModal] = useState(false);
     const [showModalDelete, setShowModalDelete] = useState(false);

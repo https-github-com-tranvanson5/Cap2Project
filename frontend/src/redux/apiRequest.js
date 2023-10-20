@@ -26,6 +26,7 @@ import {
     getAllUsersStart,
     getAllUsersSuccess,
 } from './allUserSlice';
+import { getAllJobsFailed, getAllJobsStart, getAllJobsSuccess } from './allJobSlice';
 //npm install axios
 
 export const loginUser = async (user, dispatch) => {
@@ -74,7 +75,7 @@ export const getAllUsers = async (jwt, dispatch) => {
     dispatch(getAllUsersStart());
     try {
         const res = await axios.get(
-            'http://localhost:8080/api/admin/getAllUserBySearch?search&column&sort',
+            'http://localhost:8080/api/admin/getDataUser',
             {
                 headers: {
                     Authorization: `Bearer ${jwt}`,
@@ -113,5 +114,22 @@ export const logOut = async (dispatch, navigate) => {
         navigate('/login');
     } catch (err) {
         dispatch(logOutFailed());
+    }
+};
+
+export const getAllJobs = async (jwt, dispatch) => {
+    dispatch(getAllJobsStart());
+    try {
+        const res = await axios.get(
+            'http://localhost:8080/api/user/job/getAllDataListJobBySearch',
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+        dispatch(getAllJobsSuccess(res.data));
+    } catch (err) {
+        dispatch(getAllJobsFailed());
     }
 };
