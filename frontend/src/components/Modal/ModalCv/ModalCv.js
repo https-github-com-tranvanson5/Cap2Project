@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import styles from './ModalCv.module.scss';
 import Button from '~/components/Button';
 // import { cloudinaryUploadApi } from '~/services/uploadService';
-import { fetchApplyJobs } from '~/pages/RecruitmentDetail/RecruitmentPageSlice';
+// import { fetchApplyJobs } from '~/pages/RecruitmentDetail/RecruitmentPageSlice';
 
 const cx = classNames.bind(styles);
 
@@ -36,9 +36,9 @@ function Modal({ setOpenModal, data }) {
                 imageUrl: res.image_url,
                 jobId: data.id,
                 coverLetter,
-                recruiterId: data.recruiter_jobs.id,
+                // recruiterId: data.recruiter_jobs.id,
             };
-            dispatch(fetchApplyJobs(dataApplyJobs));
+            // dispatch(fetchApplyJobs(dataApplyJobs));
         }
     };
 

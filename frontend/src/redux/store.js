@@ -2,7 +2,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
 import userReducer from './userSlice';
 import allUserReducer from './allUserSlice';
-import allJobReducer from './allJobSlice'
+import allJobReducer from './jobSlice'
 import {
     persistStore,
     persistReducer,

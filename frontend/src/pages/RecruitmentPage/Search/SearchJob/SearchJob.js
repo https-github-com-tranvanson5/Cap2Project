@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import classNames from 'classnames/bind';
-import styles from './Search.module.scss';
+import styles from './SearchJob.module.scss';
 import { Col, Container, Row } from 'react-bootstrap';
 import Input from '~/components/Input/Input/Input';
 import DropDown from '~/components/Input/DropDown/DropDown';

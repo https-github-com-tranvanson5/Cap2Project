@@ -39,7 +39,7 @@ export default function Card({
             {/* /id */}
             <Link
                 className={cx('link')}
-                to={`/recruitmentpage/recruitmentdetail/${data.id}`}
+                to={{ pathname: `/recruitmentpage/recruitmentdetail/${data.id}` }}
             >
                 <div className={cx('image-block')}>
                     {data?.thumbnail ? (
@@ -63,11 +63,11 @@ export default function Card({
                             {data?.description}
                         </div>
                     )}
-                    {data.recruiter_jobs?.fullname && (
+                    {/* {data.recruiter_jobs?.fullname && (
                         <div className={cx('description')}>
                             {data.recruiter_jobs.fullname}
                         </div>
-                    )}
+                    )} */}
                     <div className={cx('subdesc')}>
                         <div className={cx('subdesc-item subdesc-left')}>
                             <div className={cx('subdesc-text')}>

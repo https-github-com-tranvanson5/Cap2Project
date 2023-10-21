@@ -26,7 +26,7 @@ import {
     getAllUsersStart,
     getAllUsersSuccess,
 } from './allUserSlice';
-import { getAllJobsFailed, getAllJobsStart, getAllJobsSuccess } from './allJobSlice';
+import { getAllJobsFailed, getAllJobsStart, getAllJobsSuccess, getJobFailed, getJobStart, getJobSuccess } from './jobSlice';
 //npm install axios
 
 export const loginUser = async (user, dispatch) => {
@@ -131,5 +131,17 @@ export const getAllJobs = async (jwt, dispatch) => {
         dispatch(getAllJobsSuccess(res.data));
     } catch (err) {
         dispatch(getAllJobsFailed());
+    }
+};
+
+export const getJob = async (dispatch, id,) => {
+    dispatch(getJobStart());
+    try {
+        const res = await axios.get(
+            `http://localhost:8080/api/user/job/getJobById?id=${id}`,
+        );
+        dispatch(getJobSuccess(res.data));
+    } catch (err) {
+        dispatch(getJobFailed(err.response.data));
     }
 };

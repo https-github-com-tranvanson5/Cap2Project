@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Card from '~/components/Card/Card';
-import { fetchListJob } from '../homeSlice';
 // import { jobListSelector } from '~/redux/Selectors/jobSelector';
 import config from '~/config';
 // import { fetchSavedRecruitments } from '~/pages/Accounts/accountsSlice';

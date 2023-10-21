@@ -9,24 +9,24 @@ import images from '~/assets/images';
 import Button from '~/components/Button';
 import Modal from '~/components/Modal/ModalCv/ModalCv';
 import config from '~/config';
-// import { jobDetailSelector } from '~/redux/Selectors/recruitmentDetail';
-// import { fetchDetailJobDesc } from '../RecruitmentPageSlice';
+import { getJob } from '~/redux/apiRequest';
 
 const cx = classNames.bind(styles);
 
 export default function DetailInfor({ data }) {
     const dispatch = useDispatch();
+    const { id } = useParams();
     const [modalOpen, setModalOpen] = useState(false);
-    const { recruitmentId } = useParams();
-    const jobDetailData = '';
+    const jobDetailData = useSelector((state) => state.allJob.jobs?.job);
 
-    // useEffect(() => {
-    //     dispatch(fetchDetailJobDesc(recruitmentId));
-    // }, [dispatch, recruitmentId]);
+    useEffect(() => {
+        getJob(dispatch, id);
+    }, []);
+    console.log(jobDetailData.company);
 
-    // useEffect(() => {
-    //     window.scrollTo(0, 0);
-    // }, [recruitmentId]);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [id]);
 
     return (
         <>
@@ -38,31 +38,34 @@ export default function DetailInfor({ data }) {
                             <div className={cx('title')}>
                                 <h2 className={cx('title-header')}>
                                     {jobDetailData?.title}
-                                    <span className={cx('type-work-icon')}>
-                                        <ion-icon
-                                            name="checkmark-circle-outline"
-                                            className={cx('check-icon')}
-                                        ></ion-icon>
-                                    </span>
                                 </h2>
                             </div>
                             <h3 className={cx('company-name')}>
-                                {jobDetailData?.recruiter_jobs?.fullname}
+                                {jobDetailData?.company}
                             </h3>
                             <div className={cx('time')}>
-                                <span className={cx('type-work-icon')}>
+                                <span className={cx('type-work-icons')}>
                                     <ion-icon
                                         name="time-outline"
                                         className={cx('time-icon')}
                                     ></ion-icon>
                                 </span>
-                                <span>
-                                    Hạn nộp hồ sơ: {jobDetailData?.endDate}
+                                <span className={cx('end-day')}>
+                                    Hạn nộp hồ sơ:{' '}
+                                    {jobDetailData?.recruitmentEndDate}
                                 </span>
                             </div>
                         </div>
                         <div className={cx('box-logo')}>
-                            <img src={images.CV} alt="" />
+                            <img
+                                src={
+                                    jobDetailData?.recruiter_jobs?.imageUrl
+                                        ? jobDetailData?.imageUrl
+                                        : images.avatarDefault
+                                }
+                                alt={jobDetailData?.company}
+                            />
+                            {/* <img src={images.CV} alt="" /> */}
                         </div>
                     </div>
                     <div className={cx('content-detail')}>
@@ -85,7 +88,7 @@ export default function DetailInfor({ data }) {
                                                 <span>Mức lương</span>
                                             </div>
                                             <span className={cx('type-detail')}>
-                                                {jobDetailData?.salary}
+                                                {jobDetailData?.endSalary}
                                             </span>
                                         </Col>
                                         <Col md={6} className={'mb-5'}>
@@ -100,7 +103,7 @@ export default function DetailInfor({ data }) {
                                                 <span>Số lượng người</span>
                                             </div>
                                             <span className={cx('type-detail')}>
-                                                {jobDetailData?.amount}
+                                                {jobDetailData?.jobStatus}
                                             </span>
                                         </Col>
                                         <Col md={6} className={'mb-5'}>
@@ -115,7 +118,7 @@ export default function DetailInfor({ data }) {
                                                 <span>Hình thức làm việc</span>
                                             </div>
                                             <span className={cx('type-detail')}>
-                                                {jobDetailData?.workFrom}
+                                                {jobDetailData?.jobType}
                                             </span>
                                         </Col>
                                         <Col md={6} className={'mb-5'}>
@@ -130,7 +133,7 @@ export default function DetailInfor({ data }) {
                                                 <span>Giới tính</span>
                                             </div>
                                             <span className={cx('type-detail')}>
-                                                {jobDetailData?.gender}
+                                                {jobDetailData?.genderRequest}
                                             </span>
                                         </Col>
                                         <Col md={6} className={'mb-5'}>
@@ -145,7 +148,7 @@ export default function DetailInfor({ data }) {
                                                 <span>Cấp bậc</span>
                                             </div>
                                             <span className={cx('type-detail')}>
-                                                {jobDetailData?.level}
+                                                {jobDetailData?.jobPosition}
                                             </span>
                                         </Col>
                                         <Col md={6} className={'mb-5'}>
@@ -160,7 +163,7 @@ export default function DetailInfor({ data }) {
                                                 <span>Kinh nghiệm</span>
                                             </div>
                                             <span className={cx('type-detail')}>
-                                                {jobDetailData?.experience}
+                                                {jobDetailData?.jobExperience}
                                             </span>
                                         </Col>
                                     </Row>
@@ -171,7 +174,7 @@ export default function DetailInfor({ data }) {
                                     Địa điểm làm việc
                                 </h2>
                                 <span className={cx('address-detail')}>
-                                    - {jobDetailData?.location}
+                                    - {jobDetailData?.contactAddress}
                                 </span>
                             </div>
                             <div className={cx('content-post')}>
@@ -190,7 +193,7 @@ export default function DetailInfor({ data }) {
                                     <div className={cx('content-tab')}>
                                         <span
                                             dangerouslySetInnerHTML={{
-                                                __html: jobDetailData?.jobRequire,
+                                                __html: jobDetailData?.skillDescription,
                                             }}
                                         ></span>
                                     </div>
@@ -200,7 +203,7 @@ export default function DetailInfor({ data }) {
                                     <div className={cx('content-tab')}>
                                         <span
                                             dangerouslySetInnerHTML={{
-                                                __html: jobDetailData?.welfare,
+                                                __html: jobDetailData?.benefit,
                                             }}
                                         ></span>
                                     </div>
@@ -233,9 +236,6 @@ export default function DetailInfor({ data }) {
                                     )}
                                 </div>
                                 <div className={cx('time')}>
-                                    <span className={cx('type-work-icon')}>
-                                        <ion-icon name="time-outline"></ion-icon>
-                                    </span>
                                     <span>
                                         Hạn nộp hồ sơ: {jobDetailData?.endDay}
                                     </span>

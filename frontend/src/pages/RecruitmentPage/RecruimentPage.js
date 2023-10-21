@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 
 import MainJob from './MainJob/MainJob';
 import Carousel from '../Home/Slider/Slider';
-import styles from './RecruitmentPage.module.scss';
+import styles from './RecruimentPage.module.scss';
 import Search from './Search/SearchJob/SearchJob';
 
 const cx = classNames.bind(styles);

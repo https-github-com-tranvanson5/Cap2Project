@@ -10,19 +10,19 @@ import Card from '~/components/Card/Card';
 
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-// import { jobListSelector } from '~/redux/Selectors/jobSelector';
-// import { fetchListJob } from '~/pages/Home/homeSlice';
+import { jobListSelector } from '~/redux/Selectors/jobSelector';
+import { fetchListJob } from '~/pages/Home/homeSlice';
 import config from '~/config';
 const cx = classNames.bind(styles);
 
 export default function RelatedJob() {
     const dispatch = useDispatch();
-    const jobListData = useSelector('');
+    const jobListData = useSelector(jobListSelector);
     ////State quiz from firebase
 
-    // useEffect(() => {
-    //     dispatch(fetchListJob());
-    // }, []);
+    useEffect(() => {
+        dispatch(fetchListJob());
+    }, []);
     return (
         <Container>
             <div className={cx('wrapper')}>
