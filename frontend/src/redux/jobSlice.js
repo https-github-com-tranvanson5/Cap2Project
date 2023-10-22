@@ -9,6 +9,11 @@ const allJobSlice = createSlice({
             error: false,
             job: null,
         },
+        postJob: {
+            isFetching: false,
+            error: false,
+            success: false,
+        },
         msg: '',
     },
     reducers: {
@@ -36,7 +41,21 @@ const allJobSlice = createSlice({
             state.jobs.isFetching = false;
             state.jobs.error = true;
         },
-
+        //post job
+        postJobStart: (state) => {
+            state.postJob.isFetching = true;
+        },
+        postJobSuccess: (state) => {
+            state.postJob.isFetching = false;
+            state.postJob.error = false;
+            state.postJob.success = true;
+        },
+        postJobFailed: (state) => {
+            state.postJob.isFetching = false;
+            state.postJob.error = true;
+            state.postJob.success = false;
+        },
+        //deletejob
         deleteAllJobStart: (state) => {
             state.jobs.isFetching = true;
         },
@@ -59,6 +78,9 @@ export const {
     getJobStart,
     getJobSuccess,
     getJobFailed,
+    postJobStart,
+    postJobSuccess,
+    postJobFailed,
     deleteAllJobStart,
     deleteAllJobsSuccess,
     deleteAllJobFailed,

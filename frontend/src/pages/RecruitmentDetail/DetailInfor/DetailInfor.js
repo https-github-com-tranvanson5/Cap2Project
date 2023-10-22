@@ -22,7 +22,7 @@ export default function DetailInfor({ data }) {
     useEffect(() => {
         getJob(dispatch, id);
     }, []);
-    console.log(jobDetailData.company);
+
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -183,7 +183,7 @@ export default function DetailInfor({ data }) {
                                     <div className={cx('content-tab')}>
                                         <span
                                             dangerouslySetInnerHTML={{
-                                                __html: jobDetailData.jobDescription,
+                                                __html: jobDetailData?.jobDescription,
                                             }}
                                         ></span>
                                     </div>

@@ -20,7 +20,7 @@ const Register = () => {
     const handleRegister = (e) => {
         e.preventDefault();
         if (!name || !email || !username || !password) {
-            toast.error('Hãu nhập đầy đủ thông tin');
+            toast.error('Hãy nhập đầy đủ thông tin');
             return;
         }
         const newUser = {
