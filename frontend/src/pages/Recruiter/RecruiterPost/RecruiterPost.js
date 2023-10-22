@@ -31,17 +31,37 @@ function RecruiterPost() {
     const [endSalary, setEndSalary] = useState('');
     const isAuth = useSelector((state) => state.auth.login?.currentUser);
     const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!title || !jobExperience || !startSalary || !endSalary) {
-            toast.error('Hãy nhập đầy đủ thông tin');
-            return;
-        }
+        // e.preventDefault();
+        // if (!title || !jobExperience || !startSalary || !endSalary) {
+        //     toast.error('Hãy nhập đầy đủ thông tin');
+        //     return;
+        // }
         const data = {
-            title: title,
-            jobExperience: jobExperience,
-            startSalary: startSalary,
-            endSalary: endSalary,
-            id : isAuth.id,
+            title: 'tuyển dụng nhan vien cua hang ban dien thoaithoai',
+            jobExperience: 'LESS_THAN_ONE_YEAR',
+            startSalary: 10000000,
+            endSalary: 20000000,
+            recruitmentStartDate: '2023-10-01',
+            recruitmentEndDate: '2023-10-10',
+            genderRequest: 'Nam/nữ',
+            jobDescription: '123456asd',
+            skillDescription: '123456asd',
+            benefit: '123456asdl',
+            jobEducation: 'BACHELOR',
+            jobPosition: 'INTERN',
+            company: 'CÔNG TY TRAN HUU THANG',
+            companyDescription: '123456asd',
+            companyLink: '123456asd',
+            imageUrl: '123456asd',
+            address: '123456asd',
+            careers: [1, 2],
+            contactName: 'TRAN VAN SON',
+            contactAddress: 'ĐÀ NẴNG',
+            contactEmail: 'TRANVANSON@GMAIL.COM',
+            contactPhone: '0972105691',
+            note: 'null',
+            jobType: 'FULLTIME',
+            jobStatus: 'ACTIVE',
         };
         postJob(data, isAuth?.jwt, dispatch);
     };
@@ -57,7 +77,6 @@ function RecruiterPost() {
                             <input
                                 className={cx('input-text')}
                                 type="text"
-                                placeholder="Họ và tên của bạn"
                                 onChange={(e) => setTitle(e.target.value)}
                             />
                         </div>
@@ -71,8 +90,9 @@ function RecruiterPost() {
                             <input
                                 className={cx('input-text')}
                                 type="text"
-                                placeholder="Enter your email"
-                                onChange={(e) => setJobExperience(e.target.value)}
+                                onChange={(e) =>
+                                    setJobExperience(e.target.value)
+                                }
                             />{' '}
                         </div>
                     </div>
@@ -85,7 +105,6 @@ function RecruiterPost() {
                             <input
                                 className={cx('input-text')}
                                 type="text"
-                                placeholder="Enter your username"
                                 onChange={(e) => setStartSalary(e.target.value)}
                             />{' '}
                         </div>
@@ -99,7 +118,6 @@ function RecruiterPost() {
                             <input
                                 className={cx('input-text')}
                                 type="text"
-                                placeholder="Enter your text"
                                 onChange={(e) => setEndSalary(e.target.value)}
                             />{' '}
                         </div>
