@@ -9,7 +9,8 @@ import images from '~/assets/images';
 import Button from '~/components/Button';
 import Modal from '~/components/Modal/ModalCv/ModalCv';
 import config from '~/config';
-import { getJob } from '~/redux/apiRequest';
+import { getCareer, getJob } from '~/redux/apiRequest';
+import { dataCountry, getAllProvinces } from '~/helper/geomap';
 
 const cx = classNames.bind(styles);
 
@@ -18,11 +19,101 @@ export default function DetailInfor({ data }) {
     const { id } = useParams();
     const [modalOpen, setModalOpen] = useState(false);
     const jobDetailData = useSelector((state) => state.allJob.jobs?.job);
+    const careers = useSelector((state) => state.allJob.career?.careerCurrent);
+    const isAuth = useSelector((state) => state.auth.login?.currentUser);
+
+    const categoryExperienceOption = [
+        {
+            value: 'LESS_THAN_ONE_YEAR',
+            name: 'Dưới 1 năm',
+        },
+        {
+            value: 'ONE_TO_TWO_YEARS',
+            name: 'Từ 1 đến 2 năm',
+        },
+        {
+            value: 'TWO_TO_FIVE_YEARS',
+            name: 'Từ 2 đến 5 năm',
+        },
+        {
+            value: 'FIVE_TO_TEN_YEARS',
+            name: 'Từ 5 đến 10 năm',
+        },
+        {
+            value: 'MORE_THAN_TEN_YEARS',
+            name: 'Trên 10 năm',
+        },
+    ];
+
+    //Category of Education
+    const categoryEducationOption = [
+        {
+            value: 'JUNIOR_HIGH_SCHOOL',
+            name: 'Trung học cơ sở',
+        },
+        {
+            value: 'HIGH_SCHOOL',
+            name: 'Trung học phổ thông',
+        },
+        {
+            value: 'CERTIFICATE',
+            name: 'Giấy chứng nhận',
+        },
+        {
+            value: 'ASSOCIATE',
+            name: 'Kết hợp',
+        },
+        {
+            value: 'BACHELOR',
+            name: 'Cử nhân',
+        },
+        {
+            value: 'MASTER',
+            name: 'Bậc thầy',
+        },
+        {
+            value: 'DOCTORAL',
+            name: 'Tiến sĩ',
+        },
+    ];
+
+    function getNameByValueExp(value) {
+        const option = categoryExperienceOption.find(
+            (option) => option.value === value,
+        );
+        return option ? option.name : '';
+    }
+
+    function getNameByValueEducation(value) {
+        const option = categoryEducationOption.find(
+            (option) => option.value === value,
+        );
+        return option ? option.name : '';
+    }
+
+    const dataCountry = getAllProvinces();
+
+    function getNameByValueCity(value) {
+        const option = dataCountry.find((option) => option.value === value);
+        return option ? option.name : '';
+    }
 
     useEffect(() => {
         getJob(dispatch, id);
+        getCareer(isAuth?.jwt, dispatch);
     }, []);
+    useEffect(() => {
+        getCareer(isAuth?.jwt, dispatch);
+    }, []);
+    const careerOption = careers?.map((career) => career);
+    const carrerDetail = jobDetailData?.careers?.map((career) => career?.id);
+    console.log(carrerDetail);
 
+    function getNameByValueCareers(id) {
+        const option = careerOption.find((option) => option.id === id);
+        return option ? option.name : '';
+    }
+    console.log(getNameByValueCareers(4));
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -43,6 +134,18 @@ export default function DetailInfor({ data }) {
                             <h3 className={cx('company-name')}>
                                 {jobDetailData?.company}
                             </h3>
+                            <div className={cx('time')}>
+                                <span className={cx('type-work-icons')}>
+                                    <ion-icon
+                                        name="time-outline"
+                                        className={cx('time-icon')}
+                                    ></ion-icon>
+                                </span>
+                                <span className={cx('end-day')}>
+                                    Tạo ngày:{' '}
+                                    {jobDetailData?.recruitmentStartDate}
+                                </span>
+                            </div>
                             <div className={cx('time')}>
                                 <span className={cx('type-work-icons')}>
                                     <ion-icon
@@ -85,7 +188,22 @@ export default function DetailInfor({ data }) {
                                                 >
                                                     <ion-icon name="cash-outline"></ion-icon>
                                                 </span>
-                                                <span>Mức lương</span>
+                                                <span>Mức lương khởi điểm</span>
+                                            </div>
+                                            <span className={cx('type-detail')}>
+                                                {jobDetailData?.startSalary}
+                                            </span>
+                                        </Col>
+                                        <Col md={6} className={'mb-5'}>
+                                            <div className={cx('type-work')}>
+                                                <span
+                                                    className={cx(
+                                                        'type-work-icon',
+                                                    )}
+                                                >
+                                                    <ion-icon name="cash-outline"></ion-icon>
+                                                </span>
+                                                <span>Mức lương tối đa</span>
                                             </div>
                                             <span className={cx('type-detail')}>
                                                 {jobDetailData?.endSalary}
@@ -158,12 +276,49 @@ export default function DetailInfor({ data }) {
                                                         'type-work-icon',
                                                     )}
                                                 >
+                                                    <ion-icon name="podium-outline"></ion-icon>
+                                                </span>
+                                                <span>Trình độ học vấn</span>
+                                            </div>
+                                            <span className={cx('type-detail')}>
+                                                {getNameByValueEducation(
+                                                    jobDetailData?.jobEducation,
+                                                )}
+                                            </span>
+                                        </Col>
+                                        <Col md={6} className={'mb-5'}>
+                                            <div className={cx('type-work')}>
+                                                <span
+                                                    className={cx(
+                                                        'type-work-icon',
+                                                    )}
+                                                >
+                                                    <ion-icon name="podium-outline"></ion-icon>
+                                                </span>
+                                                <span>Thể loại ngành nghề</span>
+                                            </div>
+                                            {/* <span className={cx('type-detail')}>
+                                                {getNameByValueCareers(carrerDetail)}
+                                            </span> */}
+                                            {/* {getNameByValueCareers(
+                                                carrerDetail,
+                                            )} */}
+                                        </Col>
+                                        <Col md={6} className={'mb-5'}>
+                                            <div className={cx('type-work')}>
+                                                <span
+                                                    className={cx(
+                                                        'type-work-icon',
+                                                    )}
+                                                >
                                                     <ion-icon name="accessibility-outline"></ion-icon>
                                                 </span>
                                                 <span>Kinh nghiệm</span>
                                             </div>
                                             <span className={cx('type-detail')}>
-                                                {jobDetailData?.jobExperience}
+                                                {getNameByValueExp(
+                                                    jobDetailData?.jobExperience,
+                                                )}
                                             </span>
                                         </Col>
                                     </Row>
@@ -174,7 +329,16 @@ export default function DetailInfor({ data }) {
                                     Địa điểm làm việc
                                 </h2>
                                 <span className={cx('address-detail')}>
-                                    - {jobDetailData?.contactAddress}
+                                    -{' '}
+                                    {getNameByValueCity(
+                                        jobDetailData?.contactAddress,
+                                    )}
+                                </span>
+                                <h2 className={cx('adress')}>
+                                    Địa điểm chi tiết
+                                </h2>
+                                <span className={cx('address-detail')}>
+                                    - {jobDetailData?.address}
                                 </span>
                             </div>
                             <div className={cx('content-post')}>
@@ -234,11 +398,6 @@ export default function DetailInfor({ data }) {
                                             setOpenModal={setModalOpen}
                                         />
                                     )}
-                                </div>
-                                <div className={cx('time')}>
-                                    <span>
-                                        Hạn nộp hồ sơ: {jobDetailData?.endDay}
-                                    </span>
                                 </div>
                             </div>
                         </div>

@@ -10,6 +10,7 @@ public class Reference {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String title;
     @Column(columnDefinition = "longtext")
-    private String info;
+    private String description;
 }

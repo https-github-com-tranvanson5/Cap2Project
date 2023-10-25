@@ -11,14 +11,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import DropDown from '~/components/Input/DropDown/DropDown';
-// import { fetchPostJobDesc, homeSlice } from '~/pages/Home/homeSlice';
-
-import { fetchPostJobDesc, recruiterSlice } from '../recruiterSlice';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import TextEditor from '~/pages/Blogs/EditorContent';
 import { getCareer, postJob } from '~/redux/apiRequest';
-import Input from '~/components/Input/Input/Input';
+
 const cx = classNames.bind(styles);
 
 const initialState = {
@@ -30,34 +26,6 @@ const initialState = {
     note: '',
     jobType: '',
 };
-//Category of carrer
-
-const categoryCareerOption = [
-    {
-        value: '1',
-        name: 'Công nghệ thông tin',
-    },
-    // {
-    //     value: '2',
-    //     name: 'Kế toán',
-    // },
-    // {
-    //     value: '3',
-    //     name: 'Ngân hàng',
-    // },
-    // {
-    //     value: '4',
-    //     name: 'Nhân viên kinh doanh',
-    // },
-    // {
-    //     value: '4',
-    //     name: 'Giảng viên',
-    // },
-    // {
-    //     value: '4',
-    //     name: 'Điều dưỡng',
-    // },
-];
 
 //Category of tuye of job
 const categoryTypeOption = [
@@ -277,6 +245,7 @@ function RecruiterPost() {
         };
         console.log(data);
         postJob(data, isAuth?.jwt, dispatch);
+        toast.success('Đăng bài thành công');
     };
     return (
         <Container>

@@ -1,6 +1,6 @@
 package com.example.backend.authen.service.userdetail;
 
-import com.example.backend.user.contains.UserStatus;
+import com.example.backend.user.constain.UserStatus;
 import com.example.backend.user.model.User;
 import com.example.backend.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -29,4 +28,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return UserPrinciple.build(user);
     }
+
 }

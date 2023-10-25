@@ -6,13 +6,14 @@ import javax.persistence.*;
 
 @Data
 @Entity
-public class Certification{
+public class Certification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String start;
-    private String end;
+    private String title;
+    private String time;
     @Column(columnDefinition = "longtext")
-    private String description;
+    private String name;
+    @Column(columnDefinition = "longtext")
+    private String descripton;
 }

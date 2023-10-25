@@ -10,10 +10,14 @@ public class Education {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String course;
-    private String school;
+    private String title;
     @Column(columnDefinition = "longtext")
-    private String description;
+    private String name;
+    @Column(columnDefinition = "longtext")
+    private String course;
     private String start;
     private String end;
+    @Column(columnDefinition = "longtext")
+    private String description;
+
 }

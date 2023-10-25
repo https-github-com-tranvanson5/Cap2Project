@@ -10,10 +10,12 @@ public class Active {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String position;
-    private String organization;
+    private String title;
     @Column(columnDefinition = "longtext")
-    private String description;
+    private String name;
+    private String position;
     private String start;
     private String end;
+    @Column(columnDefinition = "longtext")
+    private String description;
 }
