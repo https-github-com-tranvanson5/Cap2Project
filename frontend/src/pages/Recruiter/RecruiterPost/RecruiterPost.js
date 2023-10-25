@@ -6,9 +6,6 @@ import styles from './RecruiterPost.module.scss';
 import Button from '~/components/Button';
 import { useState } from 'react';
 import { getAllProvinces, getAllDistricts } from '~/helper/geomap';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -195,13 +192,13 @@ function RecruiterPost() {
     const [benefit, setBenefit] = useState('');
     const careers = useSelector((state) => state.allJob.career?.careerCurrent);
     const isAuth = useSelector((state) => state.auth.login?.currentUser);
-    const nameContact = isAuth.name
-    const emailContact = isAuth.email
+    const nameContact = isAuth.name;
+    const emailContact = isAuth.email;
     const formatDate = 'YYYY-MM-DD';
     var date = new Date();
     const starDays = moment(date).format(formatDate);
     const next15Days = moment().add(15, 'days').format(formatDate);
-    console.log(next15Days)
+    console.log(next15Days);
 
     useEffect(() => {
         getCareer(isAuth?.jwt, dispatch);
@@ -223,7 +220,6 @@ function RecruiterPost() {
         recruitmentStartDate = starDays,
         contactPhone,
     } = form;
-
 
     const [listCareerId, setListCareerId] = useState([]);
 
@@ -251,10 +247,6 @@ function RecruiterPost() {
     const onGenderChange = (e) => {
         setForm({ ...form, genderRequest: e.target.value });
     };
-
-    const onBenefitChange = (e) => {
-        setForm({ ...form, benefit: e.target.value });
-    };
     const onEduCationChange = (e) => {
         setForm({ ...form, jobEducation: e.target.value });
     };
@@ -277,336 +269,345 @@ function RecruiterPost() {
             companyDescription,
             benefit,
             careers: listCareerId,
-            recruitmentEndDate : next15Days,
+            recruitmentEndDate: next15Days,
             recruitmentStartDate,
             jobStatus,
-            contactName : nameContact,
-            contactEmail : emailContact,
-            
+            contactName: nameContact,
+            contactEmail: emailContact,
         };
         console.log(data);
         postJob(data, isAuth?.jwt, dispatch);
     };
     return (
-        <div className={cx('wrapper')}>
-            <section className={cx('wrapper')}>
-                <form onSubmit={handleSubmit}>
-                    <div className={cx('title-header')}>
-                        Tạo bài tuyển dụng mới
-                    </div>
-                    <div className={cx('post-title')}>Thông tin cơ bản</div>
-                    <div className={cx('title-post')}>
-                        <div className={cx('content-detail')}>
-                            <Row>
-                                <Col sm={12} md={12} className={'mb-5'}>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Tên doanh nghiệp
+        <Container>
+            <div className={cx('wrapper')}>
+                <section className={cx('wrapper')}>
+                    <form onSubmit={handleSubmit}>
+                        <div className={cx('title-header')}>
+                            Tạo bài tuyển dụng mới
+                        </div>
+                        <div className={cx('post-title')}>Thông tin cơ bản</div>
+                        <div className={cx('title-post')}>
+                            <div className={cx('content-detail')}>
+                                <Row>
+                                    <Col sm={12} md={12} className={'mb-5'}>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Tên doanh nghiệp
+                                            </div>
+                                            <input
+                                                className={cx('input-text')}
+                                                name="company"
+                                                value={company}
+                                                type="text"
+                                                placeholder="Nhập tên doanh nghiệp của bạn"
+                                                onChange={handleChange}
+                                            />
                                         </div>
-                                        <input
-                                            className={cx('input-text')}
-                                            name="company"
-                                            value={company}
-                                            type="text"
-                                            placeholder="Nhập tên doanh nghiệp của bạn"
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col sm={12} md={12} className={'mb-5'}>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Mô tả về doanh nghiệp
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={12} md={12} className={'mb-5'}>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Mô tả về doanh nghiệp
+                                            </div>
+                                            <TextEditor
+                                                setContentBlog={
+                                                    setCompanyDescription
+                                                }
+                                                sHidderTools={false}
+                                                isHidderTools={true}
+                                            />
                                         </div>
-                                        <TextEditor
-                                            setContentBlog={
-                                                setCompanyDescription
-                                            }
-                                            sHidderTools={false}
-                                            isHidderTools={true}
-                                        />
-                                    </div>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col sm={12} md={12} className={'mb-5'}>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Vị trí muốn tuyển dụng
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={12} md={12} className={'mb-5'}>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Vị trí muốn tuyển dụng
+                                            </div>
+                                            <input
+                                                className={cx('input-text')}
+                                                name="title"
+                                                value={title}
+                                                type="text"
+                                                placeholder="Nhập vị trí bạn muốn tuyển"
+                                                onChange={handleChange}
+                                            />
                                         </div>
-                                        <input
-                                            className={cx('input-text')}
-                                            name="title"
-                                            value={title}
-                                            type="text"
-                                            placeholder="Nhập vị trí bạn muốn tuyển"
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col sm={12} md={12} className={'mb-5'}>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Mô tả về công việc
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={12} md={12} className={'mb-5'}>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Mô tả về công việc
+                                            </div>
+                                            <TextEditor
+                                                setContentBlog={
+                                                    setJobDescription
+                                                }
+                                                sHidderTools={false}
+                                                isHidderTools={true}
+                                            />
                                         </div>
-                                        <TextEditor
-                                            setContentBlog={setJobDescription}
-                                            sHidderTools={false}
-                                            isHidderTools={true}
-                                        />
-                                    </div>
-                                </Col>
+                                    </Col>
 
-                                <div className={cx('content-input')}>
-                                    <div className={cx('detail-name')}>
-                                        Thể loại công việc
-                                    </div>
-                                    {careers?.map((career) => (
-                                        <div className={cx('content-rule')}>
-                                            <div
-                                                key={career.id}
-                                                className={cx('rule')}
-                                            >
-                                                <input
-                                                    type="checkbox"
-                                                    checked={listCareerId.includes(
-                                                        career.id,
-                                                    )}
-                                                    onChange={() =>
-                                                        handleCheckboxChange(
+                                    <div className={cx('content-input')}>
+                                        <div className={cx('detail-name')}>
+                                            Thể loại công việc
+                                        </div>
+                                        {careers?.map((career) => (
+                                            <div className={cx('content-rule')}>
+                                                <div
+                                                    key={career.id}
+                                                    className={cx('rule')}
+                                                >
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={listCareerId.includes(
                                                             career.id,
-                                                        )
-                                                    }
-                                                    className={cx('checkbox')}
+                                                        )}
+                                                        onChange={() =>
+                                                            handleCheckboxChange(
+                                                                career.id,
+                                                            )
+                                                        }
+                                                        className={cx(
+                                                            'checkbox',
+                                                        )}
+                                                    />
+                                                    <div>{career.name}</div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <Col sm={12} md={12} className={'mb-5'}>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Yêu cầu kỹ năng cho công việc
+                                            </div>
+                                            <TextEditor
+                                                setContentBlog={
+                                                    setSkillDesccription
+                                                }
+                                                sHidderTools={false}
+                                                isHidderTools={true}
+                                            />
+                                        </div>
+                                    </Col>
+                                    <Col md={6} className={'mb-5'}>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Lương khởi điểm
+                                            </div>
+                                            <input
+                                                className={cx('input-text')}
+                                                name="startSalary"
+                                                value={startSalary}
+                                                type="text"
+                                                placeholder="Nhập lương khởi điểm"
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+                                    </Col>
+                                    <Col>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Lương tối đa
+                                            </div>
+                                            <input
+                                                className={cx('input-text')}
+                                                name="endSalary"
+                                                value={endSalary}
+                                                type="text"
+                                                placeholder="Nhập lương tối đa"
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row lg={4}>
+                                    <Col>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Thành phố
+                                            </div>
+                                            <div
+                                                className={cx('dropdown')}
+                                                value={contactAddress}
+                                                onChange={onCityChange}
+                                            >
+                                                <DropDown
+                                                    title="Thành phố"
+                                                    data={getAllProvinces()}
                                                 />
-                                                <div>{career.name}</div>
                                             </div>
                                         </div>
-                                    ))}
-                                </div>
-                                <Col sm={12} md={12} className={'mb-5'}>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Yêu cầu kỹ năng cho công việc
-                                        </div>
-                                        <TextEditor
-                                            setContentBlog={
-                                                setSkillDesccription
-                                            }
-                                            sHidderTools={false}
-                                            isHidderTools={true}
-                                        />
-                                    </div>
-                                </Col>
-                                <Col md={6} className={'mb-5'}>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Lương khởi điểm
-                                        </div>
-                                        <input
-                                            className={cx('input-text')}
-                                            name="startSalary"
-                                            value={startSalary}
-                                            type="text"
-                                            placeholder="Nhập lương khởi điểm"
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                </Col>
-                                <Col>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Lương tối đa
-                                        </div>
-                                        <input
-                                            className={cx('input-text')}
-                                            name="endSalary"
-                                            value={endSalary}
-                                            type="text"
-                                            placeholder="Nhập lương tối đa"
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                </Col>
-                            </Row>
-                            <Row lg={4}>
-                                <Col>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Thành phố
-                                        </div>
-                                        <div
-                                            className={cx('dropdown')}
-                                            value={contactAddress}
-                                            onChange={onCityChange}
-                                        >
-                                            <DropDown
-                                                title="Thành phố"
-                                                data={getAllProvinces()}
+                                    </Col>
+                                    <Col>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Địa chỉ
+                                            </div>
+                                            <input
+                                                className={cx('input-text')}
+                                                name="address"
+                                                value={address}
+                                                type="text"
+                                                placeholder="Nhập địa chỉ của bạn"
+                                                onChange={handleChange}
                                             />
                                         </div>
-                                    </div>
-                                </Col>
-                                <Col>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Địa chỉ
-                                        </div>
-                                        <input
-                                            className={cx('input-text')}
-                                            name="address"
-                                            value={address}
-                                            type="text"
-                                            placeholder="Nhập địa chỉ của bạn"
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                </Col>
-                                <Col>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Số điện thoại
-                                        </div>
-                                        <input
-                                            className={cx('input-text')}
-                                            name="contactPhone"
-                                            value={contactPhone}
-                                            type="text"
-                                            placeholder="Nhập số điện thoại"
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                </Col>
-                            </Row>
-                            <Row lg={4}>
-                                <Col>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Giới tính
-                                        </div>
-                                        <div
-                                            className={cx('dropdown')}
-                                            value={genderRequest}
-                                            onChange={onGenderChange}
-                                        >
-                                            <DropDown
-                                                title="Giới tính"
-                                                data={categoryGenderOption}
+                                    </Col>
+                                    <Col>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Số điện thoại
+                                            </div>
+                                            <input
+                                                className={cx('input-text')}
+                                                name="contactPhone"
+                                                value={contactPhone}
+                                                type="text"
+                                                placeholder="Nhập số điện thoại"
+                                                onChange={handleChange}
                                             />
                                         </div>
-                                    </div>
-                                </Col>
-                            </Row>
-                            <Row lg={4}>
-                                <Col>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Thời gian làm việc
+                                    </Col>
+                                </Row>
+                                <Row lg={4}>
+                                    <Col>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Giới tính
+                                            </div>
+                                            <div
+                                                className={cx('dropdown')}
+                                                value={genderRequest}
+                                                onChange={onGenderChange}
+                                            >
+                                                <DropDown
+                                                    title="Giới tính"
+                                                    data={categoryGenderOption}
+                                                />
+                                            </div>
                                         </div>
-                                        <div
-                                            className={cx('dropdown')}
-                                            value={jobType}
-                                            onChange={onJobTypeChange}
-                                        >
-                                            <DropDown
-                                                title="Thời gian làm việc"
-                                                data={categoryTypeOption}
+                                    </Col>
+                                </Row>
+                                <Row lg={4}>
+                                    <Col>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Thời gian làm việc
+                                            </div>
+                                            <div
+                                                className={cx('dropdown')}
+                                                value={jobType}
+                                                onChange={onJobTypeChange}
+                                            >
+                                                <DropDown
+                                                    title="Thời gian làm việc"
+                                                    data={categoryTypeOption}
+                                                />
+                                            </div>
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row lg={4}>
+                                    <Col>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Vị trí công việc
+                                            </div>
+                                            <div
+                                                className={cx('dropdown')}
+                                                value={jobPosition}
+                                                onChange={onJobPositionChange}
+                                            >
+                                                <DropDown
+                                                    title="Vị trí"
+                                                    data={
+                                                        categoryPositionOption
+                                                    }
+                                                />
+                                            </div>
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row lg={4}>
+                                    <Col>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Bằng cấp
+                                            </div>
+                                            <div
+                                                className={cx('dropdown')}
+                                                value={jobEducation}
+                                                onChange={onEduCationChange}
+                                            >
+                                                <DropDown
+                                                    title="Bằng cấp"
+                                                    data={
+                                                        categoryEducationOption
+                                                    }
+                                                />
+                                            </div>
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row lg={4}>
+                                    <Col>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Kinh nghiệm
+                                            </div>
+                                            <div
+                                                className={cx('dropdown')}
+                                                value={jobExperience}
+                                                onChange={onJobExperienceChange}
+                                            >
+                                                <DropDown
+                                                    title="Kinh nghiệm"
+                                                    data={
+                                                        categoryExperienceOption
+                                                    }
+                                                />
+                                            </div>
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={12} md={12} className={'mb-5'}>
+                                        <div className={cx('content-input')}>
+                                            <div className={cx('detail-name')}>
+                                                Quyền lợi
+                                            </div>
+                                            <TextEditor
+                                                setContentBlog={setBenefit}
+                                                sHidderTools={false}
+                                                isHidderTools={true}
                                             />
                                         </div>
-                                    </div>
-                                </Col>
-                            </Row>
-                            <Row lg={4}>
-                                <Col>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Vị trí công việc
-                                        </div>
-                                        <div
-                                            className={cx('dropdown')}
-                                            value={jobPosition}
-                                            onChange={onJobPositionChange}
-                                        >
-                                            <DropDown
-                                                title="Vị trí"
-                                                data={categoryPositionOption}
-                                            />
-                                        </div>
-                                    </div>
-                                </Col>
-                            </Row>
-                            <Row lg={4}>
-                                <Col>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Bằng cấp
-                                        </div>
-                                        <div
-                                            className={cx('dropdown')}
-                                            value={jobEducation}
-                                            onChange={onEduCationChange}
-                                        >
-                                            <DropDown
-                                                title="Bằng cấp"
-                                                data={categoryEducationOption}
-                                            />
-                                        </div>
-                                    </div>
-                                </Col>
-                            </Row>
-                            <Row lg={4}>
-                                <Col>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Kinh nghiệm
-                                        </div>
-                                        <div
-                                            className={cx('dropdown')}
-                                            value={jobExperience}
-                                            onChange={onJobExperienceChange}
-                                        >
-                                            <DropDown
-                                                title="Kinh nghiệm"
-                                                data={categoryExperienceOption}
-                                            />
-                                        </div>
-                                    </div>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col sm={12} md={12} className={'mb-5'}>
-                                    <div className={cx('content-input')}>
-                                        <div className={cx('detail-name')}>
-                                            Quyền lợi
-                                        </div>
-                                        <TextEditor
-                                            setContentBlog={
-                                                setBenefit
-                                            }
-                                            sHidderTools={false}
-                                            isHidderTools={true}
-                                        />
-                                    </div>
-                                </Col>
-                            </Row>
+                                    </Col>
+                                </Row>
+                            </div>
                         </div>
-                    </div>
-                    <div className={cx('submit-btn')}>
-                        <div className={cx('btn-right')}>
-                            <Button saveInput>Lưu nháp</Button>
-                            {/* <ModalDeleted></ModalDeleted> */}
-                            <Button type="submit" primary>
-                                Đăng bài
-                            </Button>
+                        <div className={cx('submit-btn')}>
+                            <div className={cx('btn-right')}>
+                                <Button saveInput>Lưu nháp</Button>
+                                {/* <ModalDeleted></ModalDeleted> */}
+                                <Button type="submit" primary>
+                                    Đăng bài
+                                </Button>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </section>
-        </div>
+                    </form>
+                </section>
+            </div>
+        </Container>
     );
 }
 
