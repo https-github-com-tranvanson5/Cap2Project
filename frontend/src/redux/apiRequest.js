@@ -30,6 +30,9 @@ import {
     getAllJobsFailed,
     getAllJobsStart,
     getAllJobsSuccess,
+    getCareerFailed,
+    getCareerStart,
+    getCareerSuccess,
     getJobFailed,
     getJobStart,
     getJobSuccess,
@@ -167,5 +170,22 @@ export const postJob = async (job, jwt, dispatch) => {
         dispatch(postJobSuccess());
     } catch (err) {
         dispatch(postJobFailed());
+    }
+};
+
+export const getCareer = async (jwt, dispatch) => {
+    dispatch(getCareerStart());
+    try {
+        const res = await axios.get(
+            'http://localhost:8080/api/pm/job/getCareerJob',
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+        dispatch(getCareerSuccess(res?.data));
+    } catch (err) {
+        dispatch(getCareerFailed());
     }
 };

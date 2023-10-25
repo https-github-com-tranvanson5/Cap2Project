@@ -136,14 +136,18 @@
     }
     .content-rule {
         margin: 20px 0 20px 0;
-        display: flex;
         width: 100%;
+        display: flex;
         .rule {
             margin-left: 5px;
-            font-weight: 800;
+            display: flex;
         }
         .checkbox-rule {
             width: 3%;
+        }
+        .checkbox{
+            background-color: red($color: #000000);
+            margin-right: 10px;
         }
     }
     .submit-btn {

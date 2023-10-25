@@ -14,6 +14,11 @@ const allJobSlice = createSlice({
             error: false,
             success: false,
         },
+        career: {
+            careerCurrent: null,
+            isFetching: false,
+            error: false,
+        },
         msg: '',
     },
     reducers: {
@@ -40,6 +45,18 @@ const allJobSlice = createSlice({
         getJobFailed: (state) => {
             state.jobs.isFetching = false;
             state.jobs.error = true;
+        },
+        // career
+        getCareerStart: (state) => {
+            state.career.isFetching = true;
+        },
+        getCareerSuccess: (state, action) => {
+            state.career.isFetching = false;
+            state.career.careerCurrent = action.payload;
+        },
+        getCareerFailed: (state) => {
+            state.career.isFetching = false;
+            state.career.error = true;
         },
         //post job
         postJobStart: (state) => {
@@ -84,6 +101,9 @@ export const {
     deleteAllJobStart,
     deleteAllJobsSuccess,
     deleteAllJobFailed,
+    getCareerStart,
+    getCareerSuccess,
+    getCareerFailed,
 } = allJobSlice.actions;
 
 export default allJobSlice.reducer;
