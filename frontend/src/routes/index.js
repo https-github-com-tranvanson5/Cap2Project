@@ -9,7 +9,6 @@ import RecruiterPostManage from '~/pages/Recruiter/Post';
 import RecruiterManagePost from '~/pages/Recruiter/ManagePost';
 import ListPostOfRecruiter from '~/pages/Recruiter/RecruiterSaved/ListRecruitmentPost';
 import ListPostRecruiter from '~/pages/Recruiter/RecruiterNews/RecruiterNews';
-import RecruiterPost from '~/pages/Recruiter/RecruiterPost/RecruiterPost';
 import Accounts from '~/pages/account/Accounts';
 import Dashboard from '~/pages/admin/Dashboard';
 import UsersManage from '~/pages/admin/UsersManage';
@@ -17,6 +16,7 @@ import Settings from '~/pages/settings/Setting';
 import ManageCandidates from '~/pages/Recruiter/ManageCandidates';
 import RecruitmentPage from '~/pages/RecruitmentPage/RecruimentPage';
 import RecruitmentDetail from '~/pages/RecruitmentDetail/RecruitmentDetail';
+import RecruiterPost from '~/pages/Recruiter/RecruiterPost/Component/RecruiterPost';
 
 export const publicRoutes = [
     { path: config.routes.home, component: Home },

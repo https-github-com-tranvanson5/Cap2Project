@@ -16,7 +16,6 @@ const EditorStyled = styled.div`
         width: 100%;
         height: ${(p) =>
             p.isHidderTools ? '150px !important' : '100% !important'};
-        padding-left: 5px;
     }
 `;
 const TextEditor = ({

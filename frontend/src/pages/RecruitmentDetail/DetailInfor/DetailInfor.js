@@ -105,15 +105,10 @@ export default function DetailInfor({ data }) {
     useEffect(() => {
         getCareer(isAuth?.jwt, dispatch);
     }, []);
-    const careerOption = careers?.map((career) => career);
-    const carrerDetail = jobDetailData?.careers?.map((career) => career?.id);
-    console.log(carrerDetail);
-
-    function getNameByValueCareers(id) {
-        const option = careerOption.find((option) => option.id === id);
-        return option ? option.name : '';
-    }
-    console.log(getNameByValueCareers(4));
+    // console.log(careerOption);
+    const carrerDetailName = jobDetailData?.careers?.map(
+        (career) => career?.name,
+    );
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -168,6 +163,11 @@ export default function DetailInfor({ data }) {
                                 }
                                 alt={jobDetailData?.company}
                             />
+                            <div className={cx('time')}>
+                                <span className={cx('end-day')}>
+                                    {jobDetailData?.contactEmail}
+                                </span>
+                            </div>
                             {/* <img src={images.CV} alt="" /> */}
                         </div>
                     </div>
@@ -293,16 +293,13 @@ export default function DetailInfor({ data }) {
                                                         'type-work-icon',
                                                     )}
                                                 >
-                                                    <ion-icon name="podium-outline"></ion-icon>
+                                                    <ion-icon name="keypad-outline"></ion-icon>
                                                 </span>
                                                 <span>Thể loại ngành nghề</span>
                                             </div>
-                                            {/* <span className={cx('type-detail')}>
-                                                {getNameByValueCareers(carrerDetail)}
-                                            </span> */}
-                                            {/* {getNameByValueCareers(
-                                                carrerDetail,
-                                            )} */}
+                                            <span className={cx('type-detail')}>
+                                                {carrerDetailName}
+                                            </span>
                                         </Col>
                                         <Col md={6} className={'mb-5'}>
                                             <div className={cx('type-work')}>
@@ -339,6 +336,18 @@ export default function DetailInfor({ data }) {
                                 </h2>
                                 <span className={cx('address-detail')}>
                                     - {jobDetailData?.address}
+                                </span>
+                                <h2 className={cx('adress')}>
+                                    Người đăng bài tuyển dụng
+                                </h2>
+                                <span className={cx('address-detail')}>
+                                    - {jobDetailData?.contactName}
+                                </span>
+                                <h2 className={cx('adress')}>
+                                    Số điện thoại liên lạc
+                                </h2>
+                                <span className={cx('address-detail')}>
+                                    - {jobDetailData?.contactPhone}
                                 </span>
                             </div>
                             <div className={cx('content-post')}>
