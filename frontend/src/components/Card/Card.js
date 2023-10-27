@@ -42,10 +42,10 @@ export default function Card({
                 to={{ pathname: `/recruitmentpage/recruitmentdetail/${data.id}` }}
             >
                 <div className={cx('image-block')}>
-                    {data?.thumbnail ? (
+                    {data?.imageUrl ? (
                         <img
                             className={cx('image')}
-                            src={data?.thumbnail}
+                            src={data?.imageUrl}
                             alt="anh nha tuyen dung"
                         />
                     ) : (

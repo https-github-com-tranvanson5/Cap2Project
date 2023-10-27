@@ -2,43 +2,34 @@ import moment from 'moment/moment';
 import React from 'react';
 import { toast } from 'react-toastify';
 import classNames from 'classnames/bind';
+import { ref } from 'firebase/storage';
 import styles from './RecruiterPost.module.scss';
-import Button from '~/components/Button';
-import { useState } from 'react';
-import { getAllProvinces, getAllDistricts } from '~/helper/geomap';
 import { useDispatch, useSelector } from 'react-redux';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import DropDown from '~/components/Input/DropDown/DropDown';
-// import { fetchPostJobDesc, homeSlice } from '~/pages/Home/homeSlice';
-
-import { fetchPostJobDesc, recruiterSlice } from '../../recruiterSlice';
+import Button from '~/components/Button';
+import { useState } from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getAllProvinces, getAllDistricts } from '~/helper/geomap';
+import DropDown from '~/components/Input/DropDown/DropDown';
 import TextEditor from '~/pages/Blogs/EditorContent';
 import { getCareer, postJob } from '~/redux/apiRequest';
-import Input from '~/components/Input/Input/Input';
-import { categoryTypeOption, categoryGenderOption, categoryExperienceOption, categoryEducationOption, categoryPositionOption } from '../Data/DataEntry';
-import initializeFirebaseStorage from '../ImageProcess/firebaseConfig';
-import ImagePreview from '../ImageProcess/ImagePreview';
-import { v4 } from "uuid";
-import {ref, uploadBytes,getDownloadURL,listAll,list,} from "firebase/storage";
-
-
+import {
+    categoryTypeOption,
+    categoryGenderOption,
+    categoryExperienceOption,
+    categoryEducationOption,
+    categoryPositionOption,
+} from '../Data/DataEntry';
+import ImagePreview from '../ImageProcess/Image/ImagePreview';
+import FirebaseFileUploader from '~/pages/Recruiter/RecruiterPost/ImageProcess/Firebase/FirebaseFileUploader';
+import initializeFirebaseStorage from '~/pages/Recruiter/RecruiterPost/ImageProcess/Firebase/firebaseConfig';
 
 const cx = classNames.bind(styles);
 
-
-const initialState = {
-    recruitmentEndDate: '',
-    jobPosition: '',
-    company: '',
-    companyLink: '',
-    imageUrl: '',
-    note: '',
-    jobType: '',
-};
+const initialState = {};
 
 function RecruiterPost() {
     const dispatch = useDispatch();
@@ -55,7 +46,7 @@ function RecruiterPost() {
     var date = new Date();
     const starDays = moment(date).format(formatDate);
     const next15Days = moment().add(15, 'days').format(formatDate);
-    const [imageUrls, setImageUrls] = useState([]);
+    const [imageUpload, setImageUpload] = useState(null);
 
     // console.log(next15Days);
 
@@ -119,15 +110,17 @@ function RecruiterPost() {
         setForm({ ...form, jobType: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+        const storageRef = ref(
+            initializeFirebaseStorage(),
+            `images/${Date.now()}_${imageUpload.name}`,
+        );
         e.preventDefault();
-        if(imageUpload!=null || imageUpload!= undefined) {
-            uploadFile();
-        }
-        
+        const url = await FirebaseFileUploader(imageUpload, storageRef);
+        console.log(url);
         const data = {
             ...form,
-            imageUrl: imageUrls[0],
+            imageUrl: url,
             skillDescription,
             jobDescription,
             companyDescription,
@@ -140,39 +133,13 @@ function RecruiterPost() {
             contactEmail: emailContact,
         };
         console.log(data);
-        // postJob(data, isAuth?.jwt, dispatch);
+        postJob(data, isAuth?.jwt, dispatch);
     };
 
-
-    const storage = initializeFirebaseStorage();
-    const [imageUpload, setImageUpload] = useState(null);
-    const imagesListRef = ref(storage, 'images/jobs');
-    
- 
     const handleCallback = (data) => {
         setImageUpload(data);
-      };
+    };
 
-  const uploadFile = () => {
-    if (imageUpload == null) return;
-    const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
-    uploadBytes(imageRef, imageUpload).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
-        setImageUrls((prev) => [...prev, url]);
-      });
-    });
-  };
-
-  useEffect(() => {
-    listAll(imagesListRef).then((response) => {
-      response.items.forEach((item) => {
-        getDownloadURL(item).then((url) => {
-          setImageUrls((prev) => [...prev, url]);
-        });
-      });
-    //   console.log(imageUrls);
-    });
-  }, []);
     return (
         <Container>
             <div className={cx('wrapper')}>
@@ -184,15 +151,15 @@ function RecruiterPost() {
                         <div className={cx('post-title')}>Thông tin cơ bản</div>
                         <div className={cx('title-post')}>
                             <div className={cx('content-detail')}>
-                            
-                            <Row>
-                                <Col sm={12} md={12} className={'mb-5'}>
-                                    <div>
-                                        <ImagePreview callback={handleCallback} />
-                                    </div>
-                                </Col>
-                            </Row>
-
+                                <Row>
+                                    <Col sm={12} md={12} className={'mb-5'}>
+                                        <div>
+                                            <ImagePreview
+                                                callback={handleCallback}
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
 
                                 <Row>
                                     <Col sm={12} md={12} className={'mb-5'}>
@@ -218,13 +185,13 @@ function RecruiterPost() {
                                                 Mô tả về doanh nghiệp
                                             </div>
                                             <div className={cx('text-editor')}>
-                                                <TextEditor 
+                                                <TextEditor
                                                     setContentBlog={
                                                         setCompanyDescription
                                                     }
                                                     sHidderTools={false}
-                                                    isHidderTools={false} 
-                                                    />
+                                                    isHidderTools={false}
+                                                />
                                             </div>
                                         </div>
                                     </Col>
@@ -259,7 +226,9 @@ function RecruiterPost() {
                                                     }
                                                     sHidderTools={false}
                                                     isHidderTools={false}
-                                                    className={cx('item-text-editor')}
+                                                    className={cx(
+                                                        'item-text-editor',
+                                                    )}
                                                 />
                                             </div>
                                         </div>
@@ -300,11 +269,13 @@ function RecruiterPost() {
                                                 Yêu cầu kỹ năng cho công việc
                                             </div>
                                             <div className={cx('text-editor')}>
-                                            <TextEditor
-                                                setContentBlog={setSkillDesccription}
-                                                sHidderTools={false} // Set this to false to show the toolbar
-                                                isHidderTools={false}
-                                            />
+                                                <TextEditor
+                                                    setContentBlog={
+                                                        setSkillDesccription
+                                                    }
+                                                    sHidderTools={false} // Set this to false to show the toolbar
+                                                    isHidderTools={false}
+                                                />
                                             </div>
                                         </div>
                                     </Col>
@@ -407,8 +378,6 @@ function RecruiterPost() {
                                             </div>
                                         </div>
                                     </Col>
-                                </Row>
-                                <Row lg={4}>
                                     <Col>
                                         <div className={cx('content-input')}>
                                             <div className={cx('detail-name')}>
@@ -426,8 +395,6 @@ function RecruiterPost() {
                                             </div>
                                         </div>
                                     </Col>
-                                </Row>
-                                <Row lg={4}>
                                     <Col>
                                         <div className={cx('content-input')}>
                                             <div className={cx('detail-name')}>
@@ -468,8 +435,6 @@ function RecruiterPost() {
                                             </div>
                                         </div>
                                     </Col>
-                                </Row>
-                                <Row lg={4}>
                                     <Col>
                                         <div className={cx('content-input')}>
                                             <div className={cx('detail-name')}>
