@@ -47,6 +47,9 @@ function RecruiterPost() {
     const starDays = moment(date).format(formatDate);
     const next15Days = moment().add(15, 'days').format(formatDate);
     const [imageUpload, setImageUpload] = useState(null);
+    //error message
+    const [errorCompany, setErrorCompany] = useState('');
+    const [errorTitle, setErrorTitle] = useState('');
 
     // console.log(next15Days);
 
@@ -136,24 +139,36 @@ function RecruiterPost() {
             return false;
         }
         if (!company) {
-            toast.error('Bạn chưa điền tên doanh nghiệp');
-            return false;
+            setErrorCompany('Tên doanh nghiệp không được để trống');
+            return;
+        } else if (company.length < 5) {
+            setErrorCompany('Tên doanh nghiệp phải có ít nhất 5 kí tự');
+            return;
         }
-        if ( !companyDescription ||
+        if (
+            !companyDescription ||
             companyDescription === '<p></p>\n' ||
             companyDescription === '<p style="text-align:start;"></p>\n' ||
-            companyDescription === '<h2 style="text-align:start;"></h2>\n') {
+            companyDescription === '<h2 style="text-align:start;"></h2>\n'
+        ) {
             toast.error('Bạn chưa điền vào ô mô tả về doanh nghiệp');
             return false;
         }
         if (!title) {
-            toast.error('Bạn chưa điền vào ô vị trí muốn tuyển dụng');
-            return false;
+            setErrorTitle('Bạn chưa điền vào ô vị trí muốn tuyển dụng');
+            toast.error('Bạn chưa điền vào ô vị trí muốn tuyển dụng')
+            return;
+        }else if(title.length < 10){
+            setErrorTitle('Vị trí muốn tuyển dụng phải ít nhất 10 kí tự');
+            toast.error('Vị trí muốn tuyển dụng phải ít nhất 10 kí tự')
+            return;
         }
-        if ( !jobDescription ||
+        if (
+            !jobDescription ||
             jobDescription === '<p></p>\n' ||
             jobDescription === '<p style="text-align:start;"></p>\n' ||
-            jobDescription === '<h2 style="text-align:start;"></h2>\n') {
+            jobDescription === '<h2 style="text-align:start;"></h2>\n'
+        ) {
             toast.error('Bạn chưa điền vào ô mô tả về công việc');
             return false;
         }
@@ -161,10 +176,12 @@ function RecruiterPost() {
             toast.error('Bạn chưa chọn thể loại ông việc');
             return false;
         }
-        if ( !skillDescription ||
+        if (
+            !skillDescription ||
             skillDescription === '<p></p>\n' ||
             skillDescription === '<p style="text-align:start;"></p>\n' ||
-            skillDescription === '<h2 style="text-align:start;"></h2>\n') {
+            skillDescription === '<h2 style="text-align:start;"></h2>\n'
+        ) {
             toast.error('Bạn chưa điền vào ô mô tả kỹ năng công việc');
             return false;
         }
@@ -221,8 +238,11 @@ function RecruiterPost() {
             toast.error('Bạn chưa nhập quyền lợi');
             return false;
         }
-        window.confirm('Bạn có muốn đăng bài tuyển dụng')
-        console.log(data);
+        const confirmed = window.confirm('Bạn có muốn đăng bài tuyển dụng ?');
+        if (confirmed) {
+            console.log(data);
+            return;
+        }
 
         // postJob(data, isAuth?.jwt, dispatch);
     };
@@ -267,6 +287,11 @@ function RecruiterPost() {
                                                 onChange={handleChange}
                                             />
                                         </div>
+                                        {errorCompany && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorCompany}
+                                            </div>
+                                        )}
                                     </Col>
                                 </Row>
                                 <Row>
@@ -302,6 +327,11 @@ function RecruiterPost() {
                                                 onChange={handleChange}
                                             />
                                         </div>
+                                        {errorTitle && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorTitle}
+                                            </div>
+                                        )}
                                     </Col>
                                 </Row>
                                 <Row>
