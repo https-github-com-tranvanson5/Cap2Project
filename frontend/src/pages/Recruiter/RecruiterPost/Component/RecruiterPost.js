@@ -111,13 +111,12 @@ function RecruiterPost() {
     };
 
     const handleSubmit = async (e) => {
+        e.preventDefault();
         const storageRef = ref(
             initializeFirebaseStorage(),
-            `images/${Date.now()}_${imageUpload.name}`,
+            `images/${Date.now()}_${imageUpload?.name}`,
         );
-        e.preventDefault();
         const url = await FirebaseFileUploader(imageUpload, storageRef);
-        console.log(url);
         const data = {
             ...form,
             imageUrl: url,
@@ -132,8 +131,100 @@ function RecruiterPost() {
             contactName: nameContact,
             contactEmail: emailContact,
         };
+        if (!url) {
+            toast.error('Bạn chưa chọn hình ảnh');
+            return false;
+        }
+        if (!company) {
+            toast.error('Bạn chưa điền tên doanh nghiệp');
+            return false;
+        }
+        if ( !companyDescription ||
+            companyDescription === '<p></p>\n' ||
+            companyDescription === '<p style="text-align:start;"></p>\n' ||
+            companyDescription === '<h2 style="text-align:start;"></h2>\n') {
+            toast.error('Bạn chưa điền vào ô mô tả về doanh nghiệp');
+            return false;
+        }
+        if (!title) {
+            toast.error('Bạn chưa điền vào ô vị trí muốn tuyển dụng');
+            return false;
+        }
+        if ( !jobDescription ||
+            jobDescription === '<p></p>\n' ||
+            jobDescription === '<p style="text-align:start;"></p>\n' ||
+            jobDescription === '<h2 style="text-align:start;"></h2>\n') {
+            toast.error('Bạn chưa điền vào ô mô tả về công việc');
+            return false;
+        }
+        if (listCareerId.length == 0) {
+            toast.error('Bạn chưa chọn thể loại ông việc');
+            return false;
+        }
+        if ( !skillDescription ||
+            skillDescription === '<p></p>\n' ||
+            skillDescription === '<p style="text-align:start;"></p>\n' ||
+            skillDescription === '<h2 style="text-align:start;"></h2>\n') {
+            toast.error('Bạn chưa điền vào ô mô tả kỹ năng công việc');
+            return false;
+        }
+        if (!startSalary) {
+            toast.error('Bạn chưa điền vào lương khởi điểm');
+            return false;
+        }
+        if (!endSalary) {
+            toast.error('Bạn chưa điền vào lương tối đa');
+            return false;
+        }
+        if (listCareerId.length == 0) {
+            toast.error('Bạn chưa chọn thể loại ông việc');
+            return false;
+        }
+        if (!contactAddress) {
+            toast.error('Bạn chưa chọn thành phố');
+            return false;
+        }
+        if (!address) {
+            toast.error('Bạn chưa nhập địa điểm cụ thể ');
+            return false;
+        }
+        if (!contactPhone) {
+            toast.error('Bạn chưa nhập số điện thoan');
+            return false;
+        }
+        if (!genderRequest) {
+            toast.error('Bạn chưa chọn giới tính');
+            return false;
+        }
+        if (!jobType) {
+            toast.error('Bạn chưa chọn kiểu làm việc');
+            return false;
+        }
+        if (!jobPosition) {
+            toast.error('Bạn chưa chọn vị trí công việc');
+            return false;
+        }
+        if (!jobEducation) {
+            toast.error('Bạn chưa chọn yêu cầu bằng cấp');
+            return false;
+        }
+        if (!jobExperience) {
+            toast.error('Bạn chưa chọn yêu cầu kinh nghiệm');
+            return false;
+        }
+        if (
+            !benefit ||
+            benefit === '<p></p>\n' ||
+            benefit === '<p style="text-align:start;"></p>\n' ||
+            benefit === '<h2 style="text-align:start;"></h2>\n'
+        ) {
+            toast.error('Bạn chưa nhập quyền lợi');
+            return false;
+        }
+        window.confirm('Bạn có muốn đăng bài tuyển dụng')
         console.log(data);
-        postJob(data, isAuth?.jwt, dispatch);
+
+        // postJob(data, isAuth?.jwt, dispatch);
     };
 
     const handleCallback = (data) => {
