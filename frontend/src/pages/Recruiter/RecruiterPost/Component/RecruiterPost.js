@@ -12,7 +12,7 @@ import Button from '~/components/Button';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllProvinces, getAllDistricts } from '~/helper/geomap';
+import { getAllProvinces } from '~/helper/geomap';
 import DropDown from '~/components/Input/DropDown/DropDown';
 import TextEditor from '~/pages/Blogs/EditorContent';
 import { getCareer, postJob } from '~/redux/apiRequest';
@@ -48,10 +48,28 @@ function RecruiterPost() {
     const next15Days = moment().add(15, 'days').format(formatDate);
     const [imageUpload, setImageUpload] = useState(null);
     //error message
+    const [errorImage, setErrorImage] = useState('');
     const [errorCompany, setErrorCompany] = useState('');
+    const [errorCompanyDescription, setErrorCompanyDescription] = useState('');
     const [errorTitle, setErrorTitle] = useState('');
+    const [errorJobDescription, setErrorJobDescription] = useState('');
+    const [errorCareer, setErrorCareer] = useState('');
+    const [errorSkillDescription, setErrorSkillDescription] = useState('');
+    const [errorStartSalary, setErrorStartSalary] = useState('');
+    const [errorEndSalary, setErrorEndSalary] = useState('');
+    const [errorSalary, setErrorSalary] = useState('');
+    const [errorContactAddress, setErrorContactAddress] = useState('');
+    const [errorAddress, setErrorAddress] = useState('');
+    const [errorContactPhone, setErrorContactPhone] = useState('');
+    const [errorPhone, setErrorPhone] = useState('');
+    const [errorGenderRequest, setErrorGenderRequest] = useState('');
+    const [errorJobType, setErrorJobType] = useState('');
+    const [errorJobPostion, setErrorJobPostion] = useState('');
+    const [errorJobEducation, setErrorJobEducation] = useState('');
+    const [errorJobExperience, setErrorJobExperience] = useState('');
+    const [errorBenefit, setErrorBenefit] = useState('');
 
-    // console.log(next15Days);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getCareer(isAuth?.jwt, dispatch);
@@ -134,117 +152,215 @@ function RecruiterPost() {
             contactName: nameContact,
             contactEmail: emailContact,
         };
-        if (!url) {
-            toast.error('Bạn chưa chọn hình ảnh');
+
+        // // validate phone number
+        // const validatePhoneNumber = (contactPhone) => {
+        //     const regex = /^[0-9]{10}$/;
+        //     return regex.test(contactPhone);
+        // };
+        // //image
+        // if (!url) {
+        //     setErrorImage('Bạn chưa chọn hình ảnh');
+        //     toast.error('Bạn chưa chọn hình ảnh');
+        //     return;
+        // } else {
+        //     setErrorImage(null);
+        // }
+        // //company name
+        // if (!company) {
+        //     setErrorCompany('Tên doanh nghiệp không được để trống');
+        //     toast.error('Tên doanh nghiệp không được để trống');
+        //     return;
+        // } else {
+        //     setErrorCompany(null);
+        // }
+        // //company name vailidate < 5
+        // if (company.length < 5) {
+        //     setErrorCompany('Tên doanh nghiệp phải có ít nhất 5 kí tự');
+        //     toast.error('Tên doanh nghiệp phải có ít nhất 5 kí tự');
+        //     return;
+        // } else {
+        //     setErrorCompany(null);
+        // }
+        // // company description
+        // if (
+        //     !companyDescription ||
+        //     companyDescription === '<p></p>\n' ||
+        //     companyDescription === '<p style="text-align:start;"></p>\n' ||
+        //     companyDescription === '<h2 style="text-align:start;"></h2>\n' ||
+        //     companyDescription === '<p style="text-align:left;"></p>\n' ||
+        //     companyDescription === '<p style="text-align:right;"></p>\n'
+        // ) {
+        //     setErrorCompanyDescription(
+        //         'Bạn chưa điền vào ô mô tả về doanh nghiệp',
+        //     );
+        //     toast.error('Bạn chưa điền vào ô mô tả về doanh nghiệp');
+        //     return;
+        // } else {
+        //     setErrorCompanyDescription(null);
+        // }
+        // // title
+        // if (!title) {
+        //     setErrorTitle('Bạn chưa điền vào ô vị trí muốn tuyển dụng');
+        //     toast.error('Bạn chưa điền vào ô vị trí muốn tuyển dụng');
+        //     return;
+        // } else {
+        //     setErrorTitle(null);
+        // }
+        // //validate title < 10
+        // if (title.length < 10) {
+        //     setErrorTitle('Vị trí muốn tuyển dụng phải ít nhất 10 kí tự');
+        //     toast.error('Vị trí muốn tuyển dụng phải ít nhất 10 kí tự');
+        //     return;
+        // } else {
+        //     setErrorTitle(null);
+        // }
+        // // job description
+        // if (
+        //     !jobDescription ||
+        //     jobDescription === '<p></p>\n' ||
+        //     jobDescription === '<p style="text-align:start;"></p>\n' ||
+        //     jobDescription === '<h2 style="text-align:start;"></h2>\n' ||
+        //     jobDescription === '<p style="text-align:left;"></p>\n' ||
+        //     jobDescription === '<p style="text-align:right;"></p>\n'
+        // ) {
+        //     setErrorJobDescription('Bạn chưa điền vào ô mô tả về công việc');
+        //     toast.error('Bạn chưa điền vào ô mô tả về công việc');
+        //     return;
+        // } else {
+        //     setErrorJobDescription(null);
+        // }
+        // // career
+        // if (listCareerId.length == 0) {
+        //     setErrorCareer('Bạn chưa chọn thể loại ông việc');
+        //     toast.error('Bạn chưa chọn thể loại ông việc');
+        //     return;
+        // } else {
+        //     setErrorCareer(null);
+        // }
+        // // skill description
+        // if (
+        //     !skillDescription ||
+        //     skillDescription === '<p></p>\n' ||
+        //     skillDescription === '<p style="text-align:start;"></p>\n' ||
+        //     skillDescription === '<h2 style="text-align:start;"></h2>\n' ||
+        //     skillDescription === '<p style="text-align:left;"></p>\n' ||
+        //     skillDescription === '<p style="text-align:right;"></p>\n'
+        // ) {
+        //     setErrorSkillDescription(
+        //         'Bạn chưa điền vào ô mô tả kỹ năng công việc',
+        //     );
+        //     toast.error('Bạn chưa điền vào ô mô tả kỹ năng công việc');
+        //     return;
+        // } else {
+        //     setErrorSkillDescription(null);
+        // }
+        // // start salary
+        // if (!startSalary) {
+        //     setErrorStartSalary('Bạn chưa điền vào lương khởi điểm');
+        //     toast.error('Bạn chưa điền vào lương khởi điểm');
+        //     return;
+        // } else {
+        //     setErrorStartSalary(null);
+        // }
+        // // end salary
+        // if (!endSalary) {
+        //     setErrorEndSalary('Bạn chưa điền vào lương tối đa');
+        //     toast.error('Bạn chưa điền vào lương tối đa');
+        //     return;
+        // } else {
+        //     setErrorEndSalary(null);
+        // }
+        // // city
+        // if (!contactAddress) {
+        //     setErrorContactAddress('Bạn chưa chọn thành phố');
+        //     toast.error('Bạn chưa chọn thành phố');
+        //     return;
+        // } else {
+        //     setErrorContactAddress(null);
+        // }
+        // //address
+        // if (!address) {
+        //     setErrorAddress('Bạn chưa nhập địa điểm cụ thể ');
+        //     toast.error('Bạn chưa nhập địa điểm cụ thể ');
+        //     return;
+        // } else {
+        //     setErrorAddress(null);
+        // }
+        // //phone
+        // if (!contactPhone || contactPhone.length === 0) {
+        //     setErrorContactPhone('Số điện thoại không được để trống');
+        // } else if (!validatePhoneNumber(contactPhone)) {
+        //     setErrorPhone('Số điện thoại không hợp lệ');
+        // } else {
+        //     setErrorContactPhone(null);
+        //     setErrorPhone(null);
+        // }
+        // // gender
+        // if (!genderRequest) {
+        //     setErrorGenderRequest('Bạn chưa chọn giới tính');
+        //     toast.error('Bạn chưa chọn giới tính');
+        //     return;
+        // } else {
+        //     setErrorGenderRequest(null);
+        // }
+        // //job type
+        // if (!jobType) {
+        //     setErrorJobType('Bạn chưa chọn kiểu làm việc');
+        //     toast.error('Bạn chưa chọn kiểu làm việc');
+        //     return;
+        // } else {
+        //     setErrorJobType(null);
+        // }
+        // //Job position
+        // if (!jobPosition) {
+        //     setErrorJobPostion('Bạn chưa chọn vị trí công việc');
+        //     toast.error('Bạn chưa chọn vị trí công việc');
+        //     return;
+        // } else {
+        //     setErrorJobPostion(null);
+        // }
+        // //job education
+        // if (!jobEducation) {
+        //     setErrorJobEducation('Bạn chưa chọn yêu cầu bằng cấp');
+        //     toast.error('Bạn chưa chọn yêu cầu bằng cấp');
+        //     return;
+        // } else {
+        //     setErrorJobEducation(null);
+        // }
+        // // job experience
+        // if (!jobExperience) {
+        //     setErrorJobExperience('Bạn chưa chọn yêu cầu kinh nghiệm');
+        //     toast.error('Bạn chưa chọn yêu cầu kinh nghiệm');
+        //     return;
+        // } else {
+        //     setErrorJobExperience(null);
+        // }
+        // //benefit
+        // if (
+        //     !benefit ||
+        //     benefit === '<p></p>\n' ||
+        //     benefit === '<p style="text-align:start;"></p>\n' ||
+        //     benefit === '<h2 style="text-align:start;"></h2>\n'
+        // ) {
+        //     setErrorBenefit('Bạn chưa nhập quyền lợi của ứng viên');
+        //     toast.error('Bạn chưa nhập quyền lợi của ứng viên');
+        //     return;
+        // } else {
+        //     setErrorBenefit(null);
+        // }
+        // //validate endSalary <= startSalary
+        if (endSalary <= startSalary) {
+            toast.error('Lương tối đa phải nhiều hơn lương khởi điểm');
             return false;
-        }
-        if (!company) {
-            setErrorCompany('Tên doanh nghiệp không được để trống');
-            return;
-        } else if (company.length < 5) {
-            setErrorCompany('Tên doanh nghiệp phải có ít nhất 5 kí tự');
-            return;
-        }
-        if (
-            !companyDescription ||
-            companyDescription === '<p></p>\n' ||
-            companyDescription === '<p style="text-align:start;"></p>\n' ||
-            companyDescription === '<h2 style="text-align:start;"></h2>\n'
-        ) {
-            toast.error('Bạn chưa điền vào ô mô tả về doanh nghiệp');
-            return false;
-        }
-        if (!title) {
-            setErrorTitle('Bạn chưa điền vào ô vị trí muốn tuyển dụng');
-            toast.error('Bạn chưa điền vào ô vị trí muốn tuyển dụng')
-            return;
-        }else if(title.length < 10){
-            setErrorTitle('Vị trí muốn tuyển dụng phải ít nhất 10 kí tự');
-            toast.error('Vị trí muốn tuyển dụng phải ít nhất 10 kí tự')
-            return;
-        }
-        if (
-            !jobDescription ||
-            jobDescription === '<p></p>\n' ||
-            jobDescription === '<p style="text-align:start;"></p>\n' ||
-            jobDescription === '<h2 style="text-align:start;"></h2>\n'
-        ) {
-            toast.error('Bạn chưa điền vào ô mô tả về công việc');
-            return false;
-        }
-        if (listCareerId.length == 0) {
-            toast.error('Bạn chưa chọn thể loại ông việc');
-            return false;
-        }
-        if (
-            !skillDescription ||
-            skillDescription === '<p></p>\n' ||
-            skillDescription === '<p style="text-align:start;"></p>\n' ||
-            skillDescription === '<h2 style="text-align:start;"></h2>\n'
-        ) {
-            toast.error('Bạn chưa điền vào ô mô tả kỹ năng công việc');
-            return false;
-        }
-        if (!startSalary) {
-            toast.error('Bạn chưa điền vào lương khởi điểm');
-            return false;
-        }
-        if (!endSalary) {
-            toast.error('Bạn chưa điền vào lương tối đa');
-            return false;
-        }
-        if (listCareerId.length == 0) {
-            toast.error('Bạn chưa chọn thể loại ông việc');
-            return false;
-        }
-        if (!contactAddress) {
-            toast.error('Bạn chưa chọn thành phố');
-            return false;
-        }
-        if (!address) {
-            toast.error('Bạn chưa nhập địa điểm cụ thể ');
-            return false;
-        }
-        if (!contactPhone) {
-            toast.error('Bạn chưa nhập số điện thoan');
-            return false;
-        }
-        if (!genderRequest) {
-            toast.error('Bạn chưa chọn giới tính');
-            return false;
-        }
-        if (!jobType) {
-            toast.error('Bạn chưa chọn kiểu làm việc');
-            return false;
-        }
-        if (!jobPosition) {
-            toast.error('Bạn chưa chọn vị trí công việc');
-            return false;
-        }
-        if (!jobEducation) {
-            toast.error('Bạn chưa chọn yêu cầu bằng cấp');
-            return false;
-        }
-        if (!jobExperience) {
-            toast.error('Bạn chưa chọn yêu cầu kinh nghiệm');
-            return false;
-        }
-        if (
-            !benefit ||
-            benefit === '<p></p>\n' ||
-            benefit === '<p style="text-align:start;"></p>\n' ||
-            benefit === '<h2 style="text-align:start;"></h2>\n'
-        ) {
-            toast.error('Bạn chưa nhập quyền lợi');
-            return false;
-        }
+        } 
         const confirmed = window.confirm('Bạn có muốn đăng bài tuyển dụng ?');
         if (confirmed) {
-            console.log(data);
+            navigate(-1);
+            postJob(data, isAuth?.jwt, dispatch);
+            toast.success('Đăng tin tuyển dụng thành công');
             return;
         }
-
-        // postJob(data, isAuth?.jwt, dispatch);
     };
 
     const handleCallback = (data) => {
@@ -269,6 +385,11 @@ function RecruiterPost() {
                                                 callback={handleCallback}
                                             />
                                         </div>
+                                        {errorImage && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorImage}
+                                            </div>
+                                        )}
                                     </Col>
                                 </Row>
 
@@ -310,6 +431,11 @@ function RecruiterPost() {
                                                 />
                                             </div>
                                         </div>
+                                        {errorCompanyDescription && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorCompanyDescription}
+                                            </div>
+                                        )}
                                     </Col>
                                 </Row>
                                 <Row>
@@ -352,6 +478,11 @@ function RecruiterPost() {
                                                     )}
                                                 />
                                             </div>
+                                            {errorJobDescription && (
+                                                <div style={{ color: 'red' }}>
+                                                    {errorJobDescription}
+                                                </div>
+                                            )}
                                         </div>
                                     </Col>
 
@@ -383,6 +514,11 @@ function RecruiterPost() {
                                                 </div>
                                             </div>
                                         ))}
+                                        {errorCareer && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorCareer}
+                                            </div>
+                                        )}
                                     </div>
                                     <Col sm={12} md={12} className={'mb-5'}>
                                         <div className={cx('content-input')}>
@@ -398,6 +534,11 @@ function RecruiterPost() {
                                                     isHidderTools={false}
                                                 />
                                             </div>
+                                            {errorSkillDescription && (
+                                                <div style={{ color: 'red' }}>
+                                                    {errorSkillDescription}
+                                                </div>
+                                            )}
                                         </div>
                                     </Col>
 
@@ -410,10 +551,20 @@ function RecruiterPost() {
                                                 className={cx('input-text')}
                                                 name="startSalary"
                                                 value={startSalary}
-                                                type="text"
+                                                type="number"
                                                 placeholder="Nhập lương khởi điểm"
                                                 onChange={handleChange}
                                             />
+                                            {errorStartSalary && (
+                                                <div style={{ color: 'red' }}>
+                                                    {errorStartSalary}
+                                                </div>
+                                            )}
+                                            {errorSalary && (
+                                                <div style={{ color: 'red' }}>
+                                                    {errorSalary}
+                                                </div>
+                                            )}
                                         </div>
                                     </Col>
                                     <Col>
@@ -425,11 +576,21 @@ function RecruiterPost() {
                                                 className={cx('input-text')}
                                                 name="endSalary"
                                                 value={endSalary}
-                                                type="text"
+                                                type="number"
                                                 placeholder="Nhập lương tối đa"
                                                 onChange={handleChange}
                                             />
                                         </div>
+                                        {errorEndSalary && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorEndSalary}
+                                            </div>
+                                        )}
+                                        {errorSalary && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorSalary}
+                                            </div>
+                                        )}
                                     </Col>
                                 </Row>
                                 <Row lg={4}>
@@ -449,6 +610,11 @@ function RecruiterPost() {
                                                 />
                                             </div>
                                         </div>
+                                        {errorContactAddress && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorContactAddress}
+                                            </div>
+                                        )}
                                     </Col>
                                     <Col>
                                         <div className={cx('content-input')}>
@@ -464,6 +630,11 @@ function RecruiterPost() {
                                                 onChange={handleChange}
                                             />
                                         </div>
+                                        {errorAddress && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorAddress}
+                                            </div>
+                                        )}
                                     </Col>
                                     <Col>
                                         <div className={cx('content-input')}>
@@ -474,11 +645,21 @@ function RecruiterPost() {
                                                 className={cx('input-text')}
                                                 name="contactPhone"
                                                 value={contactPhone}
-                                                type="text"
+                                                type="number"
                                                 placeholder="Nhập số điện thoại"
                                                 onChange={handleChange}
                                             />
                                         </div>
+                                        {errorContactPhone && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorContactPhone}
+                                            </div>
+                                        )}
+                                        {errorPhone && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorPhone}
+                                            </div>
+                                        )}
                                     </Col>
                                 </Row>
                                 <Row lg={4}>
@@ -498,6 +679,11 @@ function RecruiterPost() {
                                                 />
                                             </div>
                                         </div>
+                                        {errorGenderRequest && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorGenderRequest}
+                                            </div>
+                                        )}
                                     </Col>
                                     <Col>
                                         <div className={cx('content-input')}>
@@ -515,6 +701,11 @@ function RecruiterPost() {
                                                 />
                                             </div>
                                         </div>
+                                        {errorJobType && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorJobType}
+                                            </div>
+                                        )}
                                     </Col>
                                     <Col>
                                         <div className={cx('content-input')}>
@@ -534,6 +725,11 @@ function RecruiterPost() {
                                                 />
                                             </div>
                                         </div>
+                                        {errorJobPostion && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorJobPostion}
+                                            </div>
+                                        )}
                                     </Col>
                                 </Row>
                                 <Row lg={4}>
@@ -555,6 +751,11 @@ function RecruiterPost() {
                                                 />
                                             </div>
                                         </div>
+                                        {errorJobEducation && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorJobEducation}
+                                            </div>
+                                        )}
                                     </Col>
                                     <Col>
                                         <div className={cx('content-input')}>
@@ -574,6 +775,11 @@ function RecruiterPost() {
                                                 />
                                             </div>
                                         </div>
+                                        {errorJobExperience && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorJobExperience}
+                                            </div>
+                                        )}
                                     </Col>
                                 </Row>
                                 <Row>
@@ -590,6 +796,11 @@ function RecruiterPost() {
                                                 />
                                             </div>
                                         </div>
+                                        {errorBenefit && (
+                                            <div style={{ color: 'red' }}>
+                                                {errorBenefit}
+                                            </div>
+                                        )}
                                     </Col>
                                 </Row>
                             </div>
