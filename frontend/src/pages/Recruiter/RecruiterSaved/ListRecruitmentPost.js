@@ -25,7 +25,7 @@ function MainJob() {
         <>
             <Container>
                 <div className={cx('wrapper')}>
-                    <h2 className={cx('heading')}>Việc làm nổi bật</h2>
+                    <h2 className={cx('heading')}>Những bài tuyển dụng bạn đã đăng</h2>
                     <div className={cx('wrapper')}>
                         <Row>
                             {jobListData &&
@@ -39,10 +39,14 @@ function MainJob() {
                                         >
                                             <Card
                                                 data={recruitment}
-                                                saved={
-                                                    <ion-icon name="heart-outline"></ion-icon>
+                                                deleted={
+                                                    <ion-icon name="trash-outline"></ion-icon>
                                                 }
-                                                titleSaved="Lưu tin"
+                                                titleDeleted="Xóa tin"
+                                                repair={
+                                                    <ion-icon name="pencil-outline"></ion-icon>
+                                                }
+                                                titleRepair="Sửa tin"
                                             ></Card>
                                         </Col>
                                     );

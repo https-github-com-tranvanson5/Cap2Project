@@ -27,6 +27,9 @@ import {
     getAllUsersSuccess,
 } from './allUserSlice';
 import {
+    editJobFailed,
+    editJobStart,
+    editJobSuccess,
     getAllJobsFailed,
     getAllJobsRecruiterFailed,
     getAllJobsRecruiterStart,
@@ -190,6 +193,20 @@ export const postJob = async (job, jwt, dispatch) => {
         dispatch(postJobSuccess());
     } catch (err) {
         dispatch(postJobFailed());
+    }
+};
+
+export const editJob = async (job, jwt, dispatch) => {
+    dispatch(editJobStart());
+    try {
+        await axios.put('http://localhost:8080/api/pm/job/updateJob', job, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
+        dispatch(editJobSuccess());
+    } catch (err) {
+        dispatch(editJobFailed());
     }
 };
 

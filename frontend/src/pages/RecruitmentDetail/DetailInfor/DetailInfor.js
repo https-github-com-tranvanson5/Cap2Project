@@ -19,7 +19,6 @@ export default function DetailInfor({ data }) {
     const { id } = useParams();
     const [modalOpen, setModalOpen] = useState(false);
     const jobDetailData = useSelector((state) => state.allJob.jobs?.job);
-    const careers = useSelector((state) => state.allJob.career?.careerCurrent);
     const isAuth = useSelector((state) => state.auth.login?.currentUser);
 
     const categoryExperienceOption = [

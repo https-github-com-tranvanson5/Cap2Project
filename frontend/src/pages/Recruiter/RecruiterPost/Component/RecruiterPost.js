@@ -15,7 +15,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getAllProvinces } from '~/helper/geomap';
 import DropDown from '~/components/Input/DropDown/DropDown';
 import TextEditor from '~/pages/Blogs/EditorContent';
-import { getCareer, postJob } from '~/redux/apiRequest';
+import { editJob, getCareer, getJob, postJob } from '~/redux/apiRequest';
 import {
     categoryTypeOption,
     categoryGenderOption,
@@ -38,16 +38,17 @@ function RecruiterPost() {
     const [skillDescription, setSkillDesccription] = useState('');
     const [jobDescription, setJobDescription] = useState('');
     const [companyDescription, setCompanyDescription] = useState('');
+    const [imageUpload, setImageUpload] = useState(null);
     const [benefit, setBenefit] = useState('');
     const careers = useSelector((state) => state.allJob.career?.careerCurrent);
     const isAuth = useSelector((state) => state.auth.login?.currentUser);
+    const jobDetailData = useSelector((state) => state.allJob.jobs?.job);
     const nameContact = isAuth.name;
     const emailContact = isAuth.email;
     const formatDate = 'YYYY-MM-DD';
     var date = new Date();
     const starDays = moment(date).format(formatDate);
     const next15Days = moment().add(15, 'days').format(formatDate);
-    const [imageUpload, setImageUpload] = useState(null);
     //error message
     const [errorImage, setErrorImage] = useState('');
     const [errorCompany, setErrorCompany] = useState('');
@@ -74,7 +75,17 @@ function RecruiterPost() {
 
     useEffect(() => {
         getCareer(isAuth?.jwt, dispatch);
+        getJob(dispatch, id);
+        // setForm(jobDetailData)
+        // setSkillDesccription(jobDetailData);
+        // setJobDescription(jobDetailData);
+        // setCompanyDescription(jobDetailData);
+        // setImageUpload(jobDetailData);
+        // setBenefit(jobDetailData)
+
     }, []);
+
+    console.log();
 
     const {
         jobEducation,
@@ -366,14 +377,23 @@ function RecruiterPost() {
         }
         //validate endSalary <= startSalary
         const confirmed = window.confirm('Bạn có muốn đăng bài tuyển dụng ?');
+        const confirmedUpdate = window.confirm(
+            'Bạn có muốn sửa bài tuyển dụng ?',
+        );
         if (!id) {
             if (confirmed) {
                 navigate(-1);
                 console.log(data);
-                // postJob(data, isAuth?.jwt, dispatch);
+                postJob(data, isAuth?.jwt, dispatch);
                 toast.success('Đăng tin tuyển dụng thành công');
                 return;
             }
+        } else {
+            // navigate(-1);
+            console.log(data);
+            editJob(data, isAuth?.jwt, dispatch);
+            toast.success('Sửa tin tuyển dụng thành công');
+            return;
         }
     };
 
@@ -387,7 +407,9 @@ function RecruiterPost() {
                 <section className={cx('wrapper')}>
                     <form onSubmit={handleSubmit}>
                         <div className={cx('title-header')}>
-                            Tạo bài tuyển dụng mới
+                            {id
+                                ? 'Chỉnh sửa bài tuyển dụng '
+                                : 'Tạo bài tuyển dụng mới'}
                         </div>
                         <div className={cx('post-title')}>Thông tin cơ bản</div>
                         <div className={cx('title-post')}>
@@ -824,7 +846,7 @@ function RecruiterPost() {
                                 <Button saveInput>Lưu nháp</Button>
                                 {/* <ModalDeleted></ModalDeleted> */}
                                 <Button type="submit" primary>
-                                    Đăng bài
+                                    {id ? 'Chỉnh sửa' : 'Đăng bài'}
                                 </Button>
                             </div>
                         </div>

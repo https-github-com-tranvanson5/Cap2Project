@@ -20,6 +20,11 @@ const allJobSlice = createSlice({
             error: false,
             success: false,
         },
+        editJob: {
+            isFetching: false,
+            error: false,
+            success: false,
+        },
         career: {
             careerCurrent: null,
             isFetching: false,
@@ -64,7 +69,7 @@ const allJobSlice = createSlice({
             state.jobsRecruiter.isFetching = false;
             state.jobsRecruiter.error = true;
         },
-        //job recruiter
+        // get job for recruiter
         getJobRecruiterStart: (state) => {
             state.jobsRecruiter.isFetching = true;
         },
@@ -102,6 +107,20 @@ const allJobSlice = createSlice({
             state.postJob.error = true;
             state.postJob.success = false;
         },
+        // edit job
+        editJobStart: (state) => {
+            state.editJob.isFetching = true;
+        },
+        editJobSuccess: (state) => {
+            state.editJob.isFetching = false;
+            state.editJob.error = false;
+            state.editJob.success = true;
+        },
+        editJobFailed: (state) => {
+            state.editJob.isFetching = false;
+            state.editJob.error = true;
+            state.editJob.success = false;
+        },
         //deletejob
         deleteAllJobStart: (state) => {
             state.jobs.isFetching = true;
@@ -119,27 +138,31 @@ const allJobSlice = createSlice({
 });
 
 export const {
+    //All job for all roles
     getAllJobsStart,
     getAllJobsSuccess,
     getAllJobsFailed,
-    //
+    //detail job
     getJobStart,
     getJobSuccess,
     getJobFailed,
-    //
+    //All job for recruiter
     getAllJobsRecruiterStart,
     getAllJobsRecruiterSuccess,
     getAllJobsRecruiterFailed,
-    //
+    //detail job
     getJobRecruiterStart,
     getJobRecruiterSuccess,
     getJobRecruiterFailed,
-
-    //
+    //post job
     postJobStart,
     postJobSuccess,
     postJobFailed,
-    //
+    //edit job
+    editJobStart,
+    editJobSuccess,
+    editJobFailed,
+    //delete job
     deleteAllJobStart,
     deleteAllJobsSuccess,
     deleteAllJobFailed,

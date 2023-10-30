@@ -35,6 +35,11 @@ export const userPrivateRoutes = [];
 
 export const recruiterPrivateRoutes = [
     {
+        path: config.routes.editPost,
+        component: RecruiterPost,
+        layout: SidebarLayout,
+    },
+    {
         path: config.routes.recruiterpost,
         component: RecruiterPost,
         layout: SidebarLayout,

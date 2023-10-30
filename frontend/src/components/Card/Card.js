@@ -39,7 +39,9 @@ export default function Card({
             {/* /id */}
             <Link
                 className={cx('link')}
-                to={{ pathname: `/recruitmentpage/recruitmentdetail/${data.id}` }}
+                to={{
+                    pathname: `/recruitmentpage/recruitmentdetail/${data.id}`,
+                }}
             >
                 <div className={cx('image-block')}>
                     {data?.imageUrl ? (
@@ -96,31 +98,21 @@ export default function Card({
             /> */}
 
             <div className={cx('subdesc-control')}>
-                {data.recruiterId === userData.id && (
-                    <>
-                        <div
-                            onClick={handleShow}
-                            className={cx('subdesc-text')}
-                        >
-                            {deleted && (
-                                <span className={cx('subdesc-text')}>
-                                    {deleted}
-                                </span>
-                            )}
-                            <span>{titleDeleted}</span>
-                        </div>
-                        <Link to={`/recruiter/recruiterpostjob/${data.id}`}>
-                            <div className={cx('subdesc-text-repair')}>
-                                {repair && (
-                                    <span className={cx('subdesc-text')}>
-                                        {repair}
-                                    </span>
-                                )}
-                                <span>{titleRepair}</span>
-                            </div>
-                        </Link>
-                    </>
-                )}
+                <div onClick={handleShow} className={cx('subdesc-text')}>
+                    {deleted && (
+                        <span className={cx('subdesc-text')}>{deleted}</span>
+                    )}
+                    <span>{titleDeleted}</span>
+                </div>
+                <Link to={`/recruiter/recruiterpostjob/${data.id}`}>
+                    <div className={cx('subdesc-text-repair')}>
+                        {repair && (
+                            <span className={cx('subdesc-text')}>{repair}</span>
+                        )}
+                        <span>{titleRepair}</span>
+                    </div>
+                </Link>
+
                 <div className={cx('subdesc-text-save')}>
                     {saved && (
                         <span className={cx('subdesc-text')}>{saved}</span>

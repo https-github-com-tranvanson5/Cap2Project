@@ -26,7 +26,7 @@ const routes = {
     // saveblog: '/savedpost/savedBlog',
     // savequiz: '/savedpost/savedQuiz',
     // saverecruitment: '/post/recruitmentsaved',
-    // editPost: '/recruiter/recruiterpostjob/:id',
+    editPost: '/recruiter/recruiterpostjob/:id',
     // createblog: '/blog',
     // postblog: '/blog/postblog',
     // blogcontent: '/blog/postblog/blogcontent',
