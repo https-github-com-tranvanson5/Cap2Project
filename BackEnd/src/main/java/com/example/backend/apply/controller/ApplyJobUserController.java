@@ -28,7 +28,7 @@ public class ApplyJobUserController {
         return applyJobService.applyJob(applyJob);
     }
     @PutMapping("/cancleApply")
-    public ResponseEntity<?> cancleApply(@RequestParam Long id, @RequestParam ApplyStatus status){
-        return applyJobService.cancleApply(id,status);
+    public ResponseEntity<?> cancleApply(@RequestParam Long id){
+        return applyJobService.cancleApply(id);
     }
 }

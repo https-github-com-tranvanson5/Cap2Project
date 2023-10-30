@@ -15,7 +15,8 @@ import java.util.Optional;
 public interface ApplyJobRepository extends JpaRepository<ApplyJob,Long> {
     @Query(value = "SELECT * FROM apply_job " +
             "JOIN job on apply_job.job_id = job.id " +
-            "WHERE apply_job.id = :id AND job.user_id = :userId",
+            "WHERE apply_job.id = :id AND job.user_id = :userId"
+            ,
             nativeQuery = true)
     ApplyJob findByIdPM(@Param("id") Long id, @Param("userId") String userId);
 

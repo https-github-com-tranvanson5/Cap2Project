@@ -47,20 +47,20 @@ function ImagePreview({ callback }) {
               <img src={imagePreview} alt="Preview" />
             </div>
           )}
-          Chọn hình ảnh
+          Chọn tệp
         </label>
         <input
           type="file"
           id="file-input"
           className="input-file"
-          accept="image/*"
+          accept="image/ , application/pdf*"
           onChange={handleImageChange}
           ref={inputRef}
         />
         <br></br>
         {imagePreview && (
           <button onClick={clear} className="clear-button">
-            Xóa hình ảnh
+            Xóa tệp
           </button>
         )}
       </div>

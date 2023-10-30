@@ -10,5 +10,5 @@ public interface ApplyJobService {
 
     ResponseEntity<?> getDataJobApplyJob(String search, ApplyStatus status, Pageable pageable);
 
-    ResponseEntity<?> cancleApply(Long id, ApplyStatus status);
+    ResponseEntity<?> cancleApply(Long id);
 }

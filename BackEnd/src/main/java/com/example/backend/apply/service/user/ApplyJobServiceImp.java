@@ -49,33 +49,26 @@ public class ApplyJobServiceImp implements ApplyJobService {
         List<ApplyJob> existingApplication = applyJobRepository.findByUserIdApplyAndJobId(idUser, applyJob.getJobId());
 
         if (!existingApplication.isEmpty()) {
-            throw new RuntimeException("You have already applied for this job.");
+            return new ResponseEntity<>("Bạn đã apply job này",HttpStatus.BAD_REQUEST);
         }
-        if (jobOptional.isEmpty()) {
-            throw new RuntimeException("Job không tồn tại");
+        if (jobOptional.isEmpty()){
+            return new ResponseEntity<>("Lỗi job không tồn tại",HttpStatus.BAD_REQUEST);
         }
         Job job = jobOptional.get();
-        if(jobOptional.isEmpty()){
-            throw new RuntimeException("Job không tồn tại");
-        }
         if (job.getJobStatus() == JobStatus.BLOCK || job.getJobStatus() == JobStatus.DELETE) {
-            throw new RuntimeException("Job không tồn tại");
+            return new ResponseEntity<>("Lỗi job không tồn tại",HttpStatus.BAD_REQUEST);
         }
 
         if (idUser.isEmpty()) {
-            throw new RuntimeException("Lỗi user không tồn tại");
+            return new ResponseEntity<>("Lỗi user không tồn tại",HttpStatus.BAD_REQUEST);
         }
         apply.setJob(job);
 
         apply.setUrlCv(applyJob.getUrlCv());
-
-        if (!applyJob.getCvId().isEmpty()) {
+        if (applyJob.getCvId() != null && !applyJob.getCvId().isEmpty()) {
             Optional<Cv> optionalCv = cvRepository.findById(applyJob.getCvId());
             if (optionalCv.isEmpty()) {
-                throw new RuntimeException("Lỗi cv không tồn tại");
-            }
-            if(optionalCv.get().getStatus()== CvStatus.DELETE){
-                throw new RuntimeException("Lỗi cv không tồn tại");
+                return new ResponseEntity<>("Lỗi cv không tồn tại", HttpStatus.BAD_REQUEST);
             }
             apply.setCvId(optionalCv.get().getId());
         }
@@ -97,17 +90,17 @@ public class ApplyJobServiceImp implements ApplyJobService {
     }
 
     @Override
-    public ResponseEntity<?> cancleApply(Long id, ApplyStatus status) {
+    public ResponseEntity<?> cancleApply(Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String idUser = ((UserPrinciple) authentication.getPrincipal()).getId();
         ApplyJob applyJob= applyJobRepository.findByIdPM(id,idUser);
         if (applyJob==null){
             return new ResponseEntity<>("Apply job không tồn tại",HttpStatus.BAD_REQUEST);
         }
-        if(status!=ApplyStatus.CANCLE||applyJob.getStatus()==ApplyStatus.SUCCESS ){
+        if(applyJob.getStatus()!=ApplyStatus.CANCLE||applyJob.getStatus()==ApplyStatus.SUCCESS ){
             return new ResponseEntity<>("Action không hợp lệ",HttpStatus.BAD_REQUEST);
         }
-        applyJob.setStatus(status);
+        applyJob.setStatus(ApplyStatus.CANCLE);
         applyJobRepository.save(applyJob);
         return new ResponseEntity<>(applyJob.getStatus()+" thành công",HttpStatus.OK);
     }

@@ -104,7 +104,6 @@ export default function DetailInfor({ data }) {
     useEffect(() => {
         getCareer(isAuth?.jwt, dispatch);
     }, []);
-    // console.log(careerOption);
     const carrerDetailName = jobDetailData?.careers?.map(
         (career) => career?.name,
     );

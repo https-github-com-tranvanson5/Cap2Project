@@ -3,9 +3,12 @@ import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-
+import { ref } from 'firebase/storage';
 import styles from './ModalCv.module.scss';
 import Button from '~/components/Button';
+import FirebaseFileUploader from '~/pages/Recruiter/RecruiterPost/ImageProcess/Firebase/FirebaseFileUploader';
+import initializeFirebaseStorage from '~/pages/Recruiter/RecruiterPost/ImageProcess/Firebase/firebaseConfig';
+import ImagePreview from '~/pages/Recruiter/RecruiterPost/ImageProcess/Image/ImagePreview';
 // import { cloudinaryUploadApi } from '~/services/uploadService';
 // import { fetchApplyJobs } from '~/pages/RecruitmentDetail/RecruitmentPageSlice';
 
@@ -13,7 +16,7 @@ const cx = classNames.bind(styles);
 
 function Modal({ setOpenModal, data }) {
     const dispatch = useDispatch();
-    const [file, setFile] = useState('');
+    const [file, setFile] = useState(null);
     const [coverLetter, setCoverLetter] = useState('');
 
     const handleChangeFile = async (e) => {
@@ -21,25 +24,29 @@ function Modal({ setOpenModal, data }) {
         setFile(file);
     };
 
-    console.log('job-data:', data);
+    // console.log('job-data:', data);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append('file', file, 'file');
+        const storageRef = ref(
+            initializeFirebaseStorage(),
+            `pdf/${Date.now()}_${file?.name}`,
+        );
+        const url = await FirebaseFileUploader(file, storageRef);
 
-        const res = '';
+        const dataApplyJobs = {
+            imageUrl: url,
+            jobId: data.id,
+            // coverLetter,
+            // recruiterId: data.recruiter_jobs.id,
+        };
+        console.log(dataApplyJobs);
+        // dispatch(fetchApplyJobs(dataApplyJobs));
+    };
 
-        if (res.image_url) {
-            const dataApplyJobs = {
-                imageUrl: res.image_url,
-                jobId: data.id,
-                coverLetter,
-                // recruiterId: data.recruiter_jobs.id,
-            };
-            // dispatch(fetchApplyJobs(dataApplyJobs));
-        }
+    const handleCallback = (data) => {
+        setFile(data);
     };
 
     return (
@@ -73,18 +80,9 @@ function Modal({ setOpenModal, data }) {
                             </Link>
                         </div>
                         <div className={cx('modal-file')}>
-                            {/* <Input>
-                            <span>Chọn file</span>
-                        </Input> */}
-                            {/* <Button primary>Chọn file</Button> */}
-                            <input
-                                name="file"
-                                id="file"
-                                onChange={handleChangeFile}
-                                type="file"
-                            />
+                            <ImagePreview callback={handleCallback} />
                         </div>
-                        <div className={cx('modal-letter')}>
+                        {/* <div className={cx('modal-letter')}>
                             <h4>Thư giới thiệu:</h4>
                             <textarea
                                 value={coverLetter}
@@ -95,7 +93,7 @@ function Modal({ setOpenModal, data }) {
                                 placeholder="Viết giới thiệu ngắn gọn về bản thân (điểm mạnh, điểm yếu) và nêu rõ mong muốn, lý do làm việc tại công ty này. Đây là cách gây ấn tượng với nhà tuyển dụng nếu bạn có chưa có kinh nghiệm làm việc (hoặc CV không tốt)."
                                 className={cx('form-control')}
                             ></textarea>
-                        </div>
+                        </div> */}
                         <div className={cx('modal-btn')}>
                             <Button
                                 onClick={() => {
