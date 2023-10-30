@@ -11,7 +11,7 @@ import Container from 'react-bootstrap/Container';
 import Button from '~/components/Button';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getAllProvinces } from '~/helper/geomap';
 import DropDown from '~/components/Input/DropDown/DropDown';
 import TextEditor from '~/pages/Blogs/EditorContent';
@@ -33,6 +33,7 @@ const initialState = {};
 
 function RecruiterPost() {
     const dispatch = useDispatch();
+    const { id } = useParams();
     const [form, setForm] = useState(initialState);
     const [skillDescription, setSkillDesccription] = useState('');
     const [jobDescription, setJobDescription] = useState('');
@@ -153,213 +154,226 @@ function RecruiterPost() {
             contactEmail: emailContact,
         };
 
-        // // validate phone number
-        // const validatePhoneNumber = (contactPhone) => {
-        //     const regex = /^[0-9]{10}$/;
-        //     return regex.test(contactPhone);
-        // };
-        // //image
-        // if (!url) {
-        //     setErrorImage('Bạn chưa chọn hình ảnh');
-        //     toast.error('Bạn chưa chọn hình ảnh');
-        //     return;
-        // } else {
-        //     setErrorImage(null);
-        // }
-        // //company name
-        // if (!company) {
-        //     setErrorCompany('Tên doanh nghiệp không được để trống');
-        //     toast.error('Tên doanh nghiệp không được để trống');
-        //     return;
-        // } else {
-        //     setErrorCompany(null);
-        // }
-        // //company name vailidate < 5
-        // if (company.length < 5) {
-        //     setErrorCompany('Tên doanh nghiệp phải có ít nhất 5 kí tự');
-        //     toast.error('Tên doanh nghiệp phải có ít nhất 5 kí tự');
-        //     return;
-        // } else {
-        //     setErrorCompany(null);
-        // }
-        // // company description
-        // if (
-        //     !companyDescription ||
-        //     companyDescription === '<p></p>\n' ||
-        //     companyDescription === '<p style="text-align:start;"></p>\n' ||
-        //     companyDescription === '<h2 style="text-align:start;"></h2>\n' ||
-        //     companyDescription === '<p style="text-align:left;"></p>\n' ||
-        //     companyDescription === '<p style="text-align:right;"></p>\n'
-        // ) {
-        //     setErrorCompanyDescription(
-        //         'Bạn chưa điền vào ô mô tả về doanh nghiệp',
-        //     );
-        //     toast.error('Bạn chưa điền vào ô mô tả về doanh nghiệp');
-        //     return;
-        // } else {
-        //     setErrorCompanyDescription(null);
-        // }
-        // // title
-        // if (!title) {
-        //     setErrorTitle('Bạn chưa điền vào ô vị trí muốn tuyển dụng');
-        //     toast.error('Bạn chưa điền vào ô vị trí muốn tuyển dụng');
-        //     return;
-        // } else {
-        //     setErrorTitle(null);
-        // }
-        // //validate title < 10
-        // if (title.length < 10) {
-        //     setErrorTitle('Vị trí muốn tuyển dụng phải ít nhất 10 kí tự');
-        //     toast.error('Vị trí muốn tuyển dụng phải ít nhất 10 kí tự');
-        //     return;
-        // } else {
-        //     setErrorTitle(null);
-        // }
-        // // job description
-        // if (
-        //     !jobDescription ||
-        //     jobDescription === '<p></p>\n' ||
-        //     jobDescription === '<p style="text-align:start;"></p>\n' ||
-        //     jobDescription === '<h2 style="text-align:start;"></h2>\n' ||
-        //     jobDescription === '<p style="text-align:left;"></p>\n' ||
-        //     jobDescription === '<p style="text-align:right;"></p>\n'
-        // ) {
-        //     setErrorJobDescription('Bạn chưa điền vào ô mô tả về công việc');
-        //     toast.error('Bạn chưa điền vào ô mô tả về công việc');
-        //     return;
-        // } else {
-        //     setErrorJobDescription(null);
-        // }
-        // // career
-        // if (listCareerId.length == 0) {
-        //     setErrorCareer('Bạn chưa chọn thể loại ông việc');
-        //     toast.error('Bạn chưa chọn thể loại ông việc');
-        //     return;
-        // } else {
-        //     setErrorCareer(null);
-        // }
-        // // skill description
-        // if (
-        //     !skillDescription ||
-        //     skillDescription === '<p></p>\n' ||
-        //     skillDescription === '<p style="text-align:start;"></p>\n' ||
-        //     skillDescription === '<h2 style="text-align:start;"></h2>\n' ||
-        //     skillDescription === '<p style="text-align:left;"></p>\n' ||
-        //     skillDescription === '<p style="text-align:right;"></p>\n'
-        // ) {
-        //     setErrorSkillDescription(
-        //         'Bạn chưa điền vào ô mô tả kỹ năng công việc',
-        //     );
-        //     toast.error('Bạn chưa điền vào ô mô tả kỹ năng công việc');
-        //     return;
-        // } else {
-        //     setErrorSkillDescription(null);
-        // }
-        // // start salary
-        // if (!startSalary) {
-        //     setErrorStartSalary('Bạn chưa điền vào lương khởi điểm');
-        //     toast.error('Bạn chưa điền vào lương khởi điểm');
-        //     return;
-        // } else {
-        //     setErrorStartSalary(null);
-        // }
-        // // end salary
-        // if (!endSalary) {
-        //     setErrorEndSalary('Bạn chưa điền vào lương tối đa');
-        //     toast.error('Bạn chưa điền vào lương tối đa');
-        //     return;
-        // } else {
-        //     setErrorEndSalary(null);
-        // }
-        // // city
-        // if (!contactAddress) {
-        //     setErrorContactAddress('Bạn chưa chọn thành phố');
-        //     toast.error('Bạn chưa chọn thành phố');
-        //     return;
-        // } else {
-        //     setErrorContactAddress(null);
-        // }
-        // //address
-        // if (!address) {
-        //     setErrorAddress('Bạn chưa nhập địa điểm cụ thể ');
-        //     toast.error('Bạn chưa nhập địa điểm cụ thể ');
-        //     return;
-        // } else {
-        //     setErrorAddress(null);
-        // }
-        // //phone
-        // if (!contactPhone || contactPhone.length === 0) {
-        //     setErrorContactPhone('Số điện thoại không được để trống');
-        // } else if (!validatePhoneNumber(contactPhone)) {
-        //     setErrorPhone('Số điện thoại không hợp lệ');
-        // } else {
-        //     setErrorContactPhone(null);
-        //     setErrorPhone(null);
-        // }
-        // // gender
-        // if (!genderRequest) {
-        //     setErrorGenderRequest('Bạn chưa chọn giới tính');
-        //     toast.error('Bạn chưa chọn giới tính');
-        //     return;
-        // } else {
-        //     setErrorGenderRequest(null);
-        // }
-        // //job type
-        // if (!jobType) {
-        //     setErrorJobType('Bạn chưa chọn kiểu làm việc');
-        //     toast.error('Bạn chưa chọn kiểu làm việc');
-        //     return;
-        // } else {
-        //     setErrorJobType(null);
-        // }
-        // //Job position
-        // if (!jobPosition) {
-        //     setErrorJobPostion('Bạn chưa chọn vị trí công việc');
-        //     toast.error('Bạn chưa chọn vị trí công việc');
-        //     return;
-        // } else {
-        //     setErrorJobPostion(null);
-        // }
-        // //job education
-        // if (!jobEducation) {
-        //     setErrorJobEducation('Bạn chưa chọn yêu cầu bằng cấp');
-        //     toast.error('Bạn chưa chọn yêu cầu bằng cấp');
-        //     return;
-        // } else {
-        //     setErrorJobEducation(null);
-        // }
-        // // job experience
-        // if (!jobExperience) {
-        //     setErrorJobExperience('Bạn chưa chọn yêu cầu kinh nghiệm');
-        //     toast.error('Bạn chưa chọn yêu cầu kinh nghiệm');
-        //     return;
-        // } else {
-        //     setErrorJobExperience(null);
-        // }
-        // //benefit
-        // if (
-        //     !benefit ||
-        //     benefit === '<p></p>\n' ||
-        //     benefit === '<p style="text-align:start;"></p>\n' ||
-        //     benefit === '<h2 style="text-align:start;"></h2>\n'
-        // ) {
-        //     setErrorBenefit('Bạn chưa nhập quyền lợi của ứng viên');
-        //     toast.error('Bạn chưa nhập quyền lợi của ứng viên');
-        //     return;
-        // } else {
-        //     setErrorBenefit(null);
-        // }
-        // //validate endSalary <= startSalary
-        if (endSalary <= startSalary) {
-            toast.error('Lương tối đa phải nhiều hơn lương khởi điểm');
-            return false;
-        } 
-        const confirmed = window.confirm('Bạn có muốn đăng bài tuyển dụng ?');
-        if (confirmed) {
-            navigate(-1);
-            postJob(data, isAuth?.jwt, dispatch);
-            toast.success('Đăng tin tuyển dụng thành công');
+        // validate phone number
+        const validatePhoneNumber = (contactPhone) => {
+            const regex = /^[0-9]{10}$/;
+            return regex.test(contactPhone);
+        };
+        //validate startSlary >= endSlary
+        const parsedStartSlary = Number(startSalary);
+        const parsedEndSalary = Number(endSalary);
+        //image
+        if (!url) {
+            setErrorImage('Bạn chưa chọn hình ảnh');
+            toast.error('Bạn chưa chọn hình ảnh');
             return;
+        } else {
+            setErrorImage(null);
+        }
+        //company name
+        if (!company) {
+            setErrorCompany('Tên doanh nghiệp không được để trống');
+            toast.error('Tên doanh nghiệp không được để trống');
+            return;
+        } else {
+            setErrorCompany(null);
+        }
+        //company name vailidate < 5
+        if (company.length < 5) {
+            setErrorCompany('Tên doanh nghiệp phải có ít nhất 5 kí tự');
+            toast.error('Tên doanh nghiệp phải có ít nhất 5 kí tự');
+            return;
+        } else {
+            setErrorCompany(null);
+        }
+        // company description
+        if (
+            !companyDescription ||
+            companyDescription === '<p></p>\n' ||
+            companyDescription === '<p style="text-align:start;"></p>\n' ||
+            companyDescription === '<h2 style="text-align:start;"></h2>\n' ||
+            companyDescription === '<p style="text-align:left;"></p>\n' ||
+            companyDescription === '<p style="text-align:right;"></p>\n'
+        ) {
+            setErrorCompanyDescription(
+                'Bạn chưa điền vào ô mô tả về doanh nghiệp',
+            );
+            toast.error('Bạn chưa điền vào ô mô tả về doanh nghiệp');
+            return;
+        } else {
+            setErrorCompanyDescription(null);
+        }
+        // title
+        if (!title) {
+            setErrorTitle('Bạn chưa điền vào ô vị trí muốn tuyển dụng');
+            toast.error('Bạn chưa điền vào ô vị trí muốn tuyển dụng');
+            return;
+        } else {
+            setErrorTitle(null);
+        }
+        //validate title < 10
+        if (title.length < 10) {
+            setErrorTitle('Vị trí muốn tuyển dụng phải ít nhất 10 kí tự');
+            toast.error('Vị trí muốn tuyển dụng phải ít nhất 10 kí tự');
+            return;
+        } else {
+            setErrorTitle(null);
+        }
+        // job description
+        if (
+            !jobDescription ||
+            jobDescription === '<p></p>\n' ||
+            jobDescription === '<p style="text-align:start;"></p>\n' ||
+            jobDescription === '<h2 style="text-align:start;"></h2>\n' ||
+            jobDescription === '<p style="text-align:left;"></p>\n' ||
+            jobDescription === '<p style="text-align:right;"></p>\n'
+        ) {
+            setErrorJobDescription('Bạn chưa điền vào ô mô tả về công việc');
+            toast.error('Bạn chưa điền vào ô mô tả về công việc');
+            return;
+        } else {
+            setErrorJobDescription(null);
+        }
+        // career
+        if (listCareerId.length == 0) {
+            setErrorCareer('Bạn chưa chọn thể loại ông việc');
+            toast.error('Bạn chưa chọn thể loại ông việc');
+            return;
+        } else {
+            setErrorCareer(null);
+        }
+        // skill description
+        if (
+            !skillDescription ||
+            skillDescription === '<p></p>\n' ||
+            skillDescription === '<p style="text-align:start;"></p>\n' ||
+            skillDescription === '<h2 style="text-align:start;"></h2>\n' ||
+            skillDescription === '<p style="text-align:left;"></p>\n' ||
+            skillDescription === '<p style="text-align:right;"></p>\n'
+        ) {
+            setErrorSkillDescription(
+                'Bạn chưa điền vào ô mô tả kỹ năng công việc',
+            );
+            toast.error('Bạn chưa điền vào ô mô tả kỹ năng công việc');
+            return;
+        } else {
+            setErrorSkillDescription(null);
+        }
+        // start salary
+        if (!startSalary) {
+            setErrorStartSalary('Bạn chưa điền vào lương khởi điểm');
+            toast.error('Bạn chưa điền vào lương khởi điểm');
+            return;
+        } else {
+            setErrorStartSalary(null);
+        }
+        // end salary
+        if (!endSalary) {
+            setErrorEndSalary('Bạn chưa điền vào lương tối đa');
+            toast.error('Bạn chưa điền vào lương tối đa');
+            return;
+        } else {
+            setErrorEndSalary(null);
+        }
+        //
+        if (parsedEndSalary <= parsedStartSlary) {
+            setErrorSalary('Lương tối đa phải nhiều hơn lương khởi điểm');
+            toast.error('Lương tối đa phải nhiều hơn lương khởi điểm');
+            return;
+        } else {
+            setErrorSalary(null);
+        }
+
+        // city
+        if (!contactAddress) {
+            setErrorContactAddress('Bạn chưa chọn thành phố');
+            toast.error('Bạn chưa chọn thành phố');
+            return;
+        } else {
+            setErrorContactAddress(null);
+        }
+        //address
+        if (!address) {
+            setErrorAddress('Bạn chưa nhập địa điểm cụ thể ');
+            toast.error('Bạn chưa nhập địa điểm cụ thể ');
+            return;
+        } else {
+            setErrorAddress(null);
+        }
+        //phone
+        if (!contactPhone || contactPhone.length === 0) {
+            setErrorContactPhone('Số điện thoại không được để trống');
+        } else if (!validatePhoneNumber(contactPhone)) {
+            setErrorPhone('Số điện thoại không hợp lệ');
+        } else {
+            setErrorContactPhone(null);
+            setErrorPhone(null);
+        }
+        // gender
+        if (!genderRequest) {
+            setErrorGenderRequest('Bạn chưa chọn giới tính');
+            toast.error('Bạn chưa chọn giới tính');
+            return;
+        } else {
+            setErrorGenderRequest(null);
+        }
+        //job type
+        if (!jobType) {
+            setErrorJobType('Bạn chưa chọn kiểu làm việc');
+            toast.error('Bạn chưa chọn kiểu làm việc');
+            return;
+        } else {
+            setErrorJobType(null);
+        }
+        //Job position
+        if (!jobPosition) {
+            setErrorJobPostion('Bạn chưa chọn vị trí công việc');
+            toast.error('Bạn chưa chọn vị trí công việc');
+            return;
+        } else {
+            setErrorJobPostion(null);
+        }
+        //job education
+        if (!jobEducation) {
+            setErrorJobEducation('Bạn chưa chọn yêu cầu bằng cấp');
+            toast.error('Bạn chưa chọn yêu cầu bằng cấp');
+            return;
+        } else {
+            setErrorJobEducation(null);
+        }
+        // job experience
+        if (!jobExperience) {
+            setErrorJobExperience('Bạn chưa chọn yêu cầu kinh nghiệm');
+            toast.error('Bạn chưa chọn yêu cầu kinh nghiệm');
+            return;
+        } else {
+            setErrorJobExperience(null);
+        }
+        //benefit
+        if (
+            !benefit ||
+            benefit === '<p></p>\n' ||
+            benefit === '<p style="text-align:start;"></p>\n' ||
+            benefit === '<h2 style="text-align:start;"></h2>\n' ||
+            benefit === '<p style="text-align:left;"></p>\n' ||
+            benefit === '<p style="text-align:right;"></p>\n'
+        ) {
+            setErrorBenefit('Bạn chưa nhập quyền lợi của ứng viên');
+            toast.error('Bạn chưa nhập quyền lợi của ứng viên');
+            return;
+        } else {
+            setErrorBenefit(null);
+        }
+        //validate endSalary <= startSalary
+        const confirmed = window.confirm('Bạn có muốn đăng bài tuyển dụng ?');
+        if (!id) {
+            if (confirmed) {
+                navigate(-1);
+                console.log(data);
+                // postJob(data, isAuth?.jwt, dispatch);
+                toast.success('Đăng tin tuyển dụng thành công');
+                return;
+            }
         }
     };
 

@@ -1,24 +1,58 @@
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
-import React, { useEffect } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-
-import Card from '~/components/Card/Card';
-// import { accountsDataSelector } from '~/redux/Selectors/authSelector';
-// import { recruiterJobListSelector } from '~/redux/Selectors/recruiterSelector';
-import { fetchRecruiterDetail } from '../recruiterSlice';
-
 import styles from './ListRecruitmentPost.module.scss';
 
-const cx = classNames.bind(styles);
+import { Col, Container, Row } from 'react-bootstrap';
+import Card from '~/components/Card/Card';
+import { useDispatch, useSelector } from 'react-redux';
+import PaginationCOM from '~/pages/Home/BestRecruitment/pagination';
 
-function ListRecruitmentPost() {
+// import { fetchSavedRecruitments } from '~/pages/Accounts/accountsSlice';
+import {getAllJobsRecruiter } from '~/redux/apiRequest';
+import { _LIMIT_PAGE } from '~/config/api';
+
+const cx = classNames.bind(styles);
+function MainJob() {
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.auth.login?.currentUser);
+    const jobListData = useSelector((state) => state.allJob.jobsRecruiter?.allJobsRecruiter);
+
+    useEffect(() => {
+        getAllJobsRecruiter(user?.jwt, dispatch);
+    }, []);
 
     return (
-        <div className={cx('wrapper')}>
-            hello
-        </div>
+        <>
+            <Container>
+                <div className={cx('wrapper')}>
+                    <h2 className={cx('heading')}>Việc làm nổi bật</h2>
+                    <div className={cx('wrapper')}>
+                        <Row>
+                            {jobListData &&
+                                jobListData?.content.map((recruitment) => {
+                                    return (
+                                        <Col
+                                            key={recruitment.id}
+                                            lg={3}
+                                            md={4}
+                                            sm={6}
+                                        >
+                                            <Card
+                                                data={recruitment}
+                                                saved={
+                                                    <ion-icon name="heart-outline"></ion-icon>
+                                                }
+                                                titleSaved="Lưu tin"
+                                            ></Card>
+                                        </Col>
+                                    );
+                                })}
+                        </Row>
+                    </div>
+                </div>
+            </Container>
+        </>
     );
 }
 
-export default ListRecruitmentPost;
+export default MainJob;

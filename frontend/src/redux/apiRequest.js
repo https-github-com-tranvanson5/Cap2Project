@@ -28,6 +28,9 @@ import {
 } from './allUserSlice';
 import {
     getAllJobsFailed,
+    getAllJobsRecruiterFailed,
+    getAllJobsRecruiterStart,
+    getAllJobsRecruiterSuccess,
     getAllJobsStart,
     getAllJobsSuccess,
     getCareerFailed,
@@ -144,6 +147,23 @@ export const getAllJobs = async (jwt, dispatch) => {
         dispatch(getAllJobsSuccess(res.data));
     } catch (err) {
         dispatch(getAllJobsFailed());
+    }
+};
+
+export const getAllJobsRecruiter = async (jwt, dispatch) => {
+    dispatch(getAllJobsRecruiterStart());
+    try {
+        const res = await axios.get(
+            'http://localhost:8080/api/pm/job/getDataJob',
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+        dispatch(getAllJobsRecruiterSuccess(res.data));
+    } catch (err) {
+        dispatch(getAllJobsRecruiterFailed());
     }
 };
 

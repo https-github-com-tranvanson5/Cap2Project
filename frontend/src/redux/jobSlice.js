@@ -9,6 +9,12 @@ const allJobSlice = createSlice({
             error: false,
             job: null,
         },
+        jobsRecruiter: {
+            allJobsRecruiter: null,
+            isFetching: false,
+            error: false,
+            jobRecruiter: null,
+        },
         postJob: {
             isFetching: false,
             error: false,
@@ -45,6 +51,30 @@ const allJobSlice = createSlice({
         getJobFailed: (state) => {
             state.jobs.isFetching = false;
             state.jobs.error = true;
+        },
+        //all job recruiter
+        getAllJobsRecruiterStart: (state) => {
+            state.jobsRecruiter.isFetching = true;
+        },
+        getAllJobsRecruiterSuccess: (state, action) => {
+            state.jobsRecruiter.isFetching = false;
+            state.jobsRecruiter.allJobsRecruiter = action.payload;
+        },
+        getAllJobsRecruiterFailed: (state) => {
+            state.jobsRecruiter.isFetching = false;
+            state.jobsRecruiter.error = true;
+        },
+        //job recruiter
+        getJobRecruiterStart: (state) => {
+            state.jobsRecruiter.isFetching = true;
+        },
+        getJobRecruiterSuccess: (state, action) => {
+            state.jobsRecruiter.isFetching = false;
+            state.jobsRecruiter.jobRecruiter = action.payload;
+        },
+        getJobRecruiterFailed: (state) => {
+            state.jobsRecruiter.isFetching = false;
+            state.jobsRecruiter.error = true;
         },
         // career
         getCareerStart: (state) => {
@@ -92,15 +122,28 @@ export const {
     getAllJobsStart,
     getAllJobsSuccess,
     getAllJobsFailed,
+    //
     getJobStart,
     getJobSuccess,
     getJobFailed,
+    //
+    getAllJobsRecruiterStart,
+    getAllJobsRecruiterSuccess,
+    getAllJobsRecruiterFailed,
+    //
+    getJobRecruiterStart,
+    getJobRecruiterSuccess,
+    getJobRecruiterFailed,
+
+    //
     postJobStart,
     postJobSuccess,
     postJobFailed,
+    //
     deleteAllJobStart,
     deleteAllJobsSuccess,
     deleteAllJobFailed,
+    //
     getCareerStart,
     getCareerSuccess,
     getCareerFailed,
