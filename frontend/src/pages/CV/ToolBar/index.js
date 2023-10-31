@@ -34,8 +34,7 @@ function ToolBar({ cvRef }) {
                 doc.addImage(imgData, 'PNG', 0, position, pageWidth, imgHeight);
                 heightLeft -= pageHeight;
             }
-
-            doc.save('jobFinded.pdf');
+            // doc.save('jobFinded.pdf');
         });
     };
 
