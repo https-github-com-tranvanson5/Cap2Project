@@ -13,6 +13,7 @@ const cx = classNames.bind(styles);
 function Content(props, ref) {
     const theme = useSelector(themeSelector);
     const contentData = useSelector(contentCvSelector);
+    console.log(contentData)
 
     return (
         <ThemeProvider theme={theme}>

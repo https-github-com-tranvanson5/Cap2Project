@@ -2,13 +2,14 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ref } from 'firebase/storage';
 import styles from './ModalCv.module.scss';
 import Button from '~/components/Button';
 import FirebaseFileUploader from '~/pages/Recruiter/RecruiterPost/ImageProcess/Firebase/FirebaseFileUploader';
 import initializeFirebaseStorage from '~/pages/Recruiter/RecruiterPost/ImageProcess/Firebase/firebaseConfig';
 import ImagePreview from '~/pages/Recruiter/RecruiterPost/ImageProcess/Image/ImagePreview';
+import { applyJob } from '~/redux/apiRequest';
 // import { cloudinaryUploadApi } from '~/services/uploadService';
 // import { fetchApplyJobs } from '~/pages/RecruitmentDetail/RecruitmentPageSlice';
 
@@ -18,6 +19,7 @@ function Modal({ setOpenModal, data }) {
     const dispatch = useDispatch();
     const [file, setFile] = useState(null);
     const [coverLetter, setCoverLetter] = useState('');
+    const isAuth = useSelector((state) => state.auth.login?.currentUser);
 
     const handleChangeFile = async (e) => {
         const file = e.target.files[0];
@@ -36,13 +38,13 @@ function Modal({ setOpenModal, data }) {
         const url = await FirebaseFileUploader(file, storageRef);
 
         const dataApplyJobs = {
-            imageUrl: url,
+            urlCv: url,
             jobId: data.id,
             // coverLetter,
             // recruiterId: data.recruiter_jobs.id,
         };
         console.log(dataApplyJobs);
-        // dispatch(fetchApplyJobs(dataApplyJobs));
+        applyJob(dataApplyJobs, isAuth?.jwt, dispatch);
     };
 
     const handleCallback = (data) => {

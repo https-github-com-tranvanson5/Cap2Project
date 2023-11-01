@@ -3,6 +3,7 @@ import authReducer from './authSlice';
 import userReducer from './userSlice';
 import allUserReducer from './allUserSlice';
 import allJobReducer from './jobSlice'
+import applyJobReducer from './recruimentSlice'
 import {
     persistStore,
     persistReducer,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
     cv: cvSlice.reducer,
     allUser: allUserReducer,
     allJob : allJobReducer , 
+    recruitment: applyJobReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

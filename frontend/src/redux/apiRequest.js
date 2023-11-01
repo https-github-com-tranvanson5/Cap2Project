@@ -46,6 +46,14 @@ import {
     postJobStart,
     postJobSuccess,
 } from './jobSlice';
+import {
+    applyJobFailed,
+    applyJobStart,
+    applyJobSuccess,
+    getAllApplyJobsRecruiterFailed,
+    getAllApplyJobsRecruiterStart,
+    getAllApplyJobsRecruiterSuccess,
+} from './recruimentSlice';
 //npm install axios
 
 export const loginUser = async (user, dispatch) => {
@@ -224,5 +232,36 @@ export const getCareer = async (jwt, dispatch) => {
         dispatch(getCareerSuccess(res?.data));
     } catch (err) {
         dispatch(getCareerFailed());
+    }
+};
+
+export const applyJob = async (job, jwt, dispatch) => {
+    dispatch(applyJobStart());
+    try {
+        await axios.post('http://localhost:8080/api/user/applyjob/apply', job, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
+        dispatch(applyJobSuccess());
+    } catch (err) {
+        dispatch(applyJobFailed());
+    }
+};
+
+export const getAllApplyJobsRecruiter = async (jwt, dispatch) => {
+    dispatch(getAllApplyJobsRecruiterStart());
+    try {
+        const res = await axios.get(
+            'http://localhost:8080/api/pm/applyjob/getDataJobApplyJob',
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+        dispatch(getAllApplyJobsRecruiterSuccess(res.data));
+    } catch (err) {
+        dispatch(getAllApplyJobsRecruiterFailed());
     }
 };
