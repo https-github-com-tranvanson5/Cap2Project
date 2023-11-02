@@ -1,10 +1,6 @@
 import classNames from 'classnames/bind';
-import { useState } from 'react';
 import { useEffect } from 'react';
 import { Table } from 'react-bootstrap';
-
-// import { getCandidatesApi } from '~/services/recruiterService';
-
 import styles from './ManageCandidates.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -12,14 +8,10 @@ import {
     getAllJobsRecruiter,
 } from '~/redux/apiRequest';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
 
 const cx = classNames.bind(styles);
 
 function ManageCandidates() {
-    const [candidates, setCandidates] = useState([]);
-    const [updatedApplyJobListData, setUpdatedApplyJobListData] = useState(null);
-
     const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth.login?.currentUser);
     const applyJobListData = useSelector(
@@ -37,29 +29,32 @@ function ManageCandidates() {
         getAllJobsRecruiter(auth?.jwt, dispatch);
     }, []);
 
-    // console.log('apply job', applyJobListData?.content);
-    // console.log('job list', jobListData?.content);
-
     const filteredArrayJobTitle = jobListData?.content.filter((obj1) => {
         return applyJobListData?.content.some((obj2) => obj2.job === obj1.id);
     });
 
-    const addArray1ToObjectOfArray2 = (CvAplly, array2) => {
-        const updatedArray2 = array2?.map((object) => ({
-            ...object,
-            CvAplly: CvAplly,
-        }));
+    const applyJob = applyJobListData?.content;
 
-        return updatedArray2;
-    };
+    const candidate = [];
 
-    useEffect(() => {
-        setUpdatedApplyJobListData(
-            addArray1ToObjectOfArray2(applyJobListData, filteredArrayJobTitle),
-        );
-    }, []);
-    console.log('merge', updatedApplyJobListData);
+    // Duyệt qua mảng 1
+    filteredArrayJobTitle?.forEach((item1) => {
+        // Tìm kiếm item1 trong mảng 2
+        const item2 = applyJob.find((item2) => item2.job === item1.id);
 
+        // Nếu tìm thấy item2, thì gộp item1 và item2 lại với nhau
+        if (item2) {
+            candidate.push({
+                ...item1,
+                ...item2,
+            });
+        } else {
+            // Nếu không tìm thấy item2, thì thêm item1 vào kết quả
+            candidate.push(item1);
+        }
+    });
+
+    console.log('merge', candidate);
     return (
         <div className={cx('wrapper')}>
             <h2 className={cx('title')}>Ứng viên đang chờ</h2>
@@ -76,19 +71,22 @@ function ManageCandidates() {
                     </tr>
                 </thead>
                 <tbody>
-                    {updatedApplyJobListData?.length
-                        ? updatedApplyJobListData?.map((candidate, index) => {
+                    {candidate?.length
+                        ? candidate?.map((candidate, index) => {
                             return (
                                 <tr key={candidate.id}>
                                     <td>{index + 1}</td>
-                                    <td>full name</td>
+                                    <td>ho ten</td>
                                     <td>email</td>
-                                    <td>cv</td>
+                                    <td>
+                                        <Link to={`${candidate.urlCv}`}>
+                                            {' '}
+                                            Xem CV{' '}
+                                        </Link>
+                                    </td>
                                     <td> {candidate.title}</td>
 
-                                    {candidate.CvAplly.content.map((date) => (
-                                        <td key={date.id} >{date.createAt}</td>
-                                    ))}
+                                    <td>{candidate.createAt}</td>
 
                                     <td>
                                         <ion-icon name="trash-sharp"></ion-icon>

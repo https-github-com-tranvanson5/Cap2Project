@@ -71,4 +71,6 @@ public interface ApplyJobRepository extends JpaRepository<ApplyJob,Long> {
                     "AND (:status IS NULL OR apply_job.status = :status)",  // Added spaces after :status
             nativeQuery = true)
     Page<ApplyJob> findByUserIdAndSearchAllByAdmin(@Param("search") String search, @Param("status") String status, Pageable pageable);
+
+    Optional<ApplyJob> findByIdAndUserIdApply(Long id, String id1);
 }

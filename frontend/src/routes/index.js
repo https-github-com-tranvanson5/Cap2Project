@@ -17,6 +17,7 @@ import ManageCandidates from '~/pages/Recruiter/ManageCandidates';
 import RecruitmentPage from '~/pages/RecruitmentPage/RecruimentPage';
 import RecruitmentDetail from '~/pages/RecruitmentDetail/RecruitmentDetail';
 import RecruiterPost from '~/pages/Recruiter/RecruiterPost/Component/RecruiterPost';
+import SavedRecruitment from '~/pages/SavePost/SavedRecruitment/SavedRecruitment';
 
 export const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -29,6 +30,11 @@ export const privateRoutes = [
     { path: config.routes.settings, component: Settings },
     { path: config.routes.cv, component: CV },
     { path: config.routes.recruitmentdetail, component: RecruitmentDetail },
+    {
+        path: config.routes.saverecruitment,
+        component: SavedRecruitment,
+        layout: SidebarLayout,
+    },
 ];
 
 export const userPrivateRoutes = [];

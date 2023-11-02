@@ -12,6 +12,7 @@ import com.example.backend.job.constain.JobStatus;
 import com.example.backend.job.model.Job;
 import com.example.backend.job.repository.JobRepository;
 import com.example.backend.user.model.User;
+import com.example.backend.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +37,9 @@ public class ApplyJobServiceImp implements ApplyJobService {
 
     @Autowired
     private CvRepository cvRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     @Transactional
@@ -93,17 +97,20 @@ public class ApplyJobServiceImp implements ApplyJobService {
     public ResponseEntity<?> cancleApply(Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String idUser = ((UserPrinciple) authentication.getPrincipal()).getId();
-        ApplyJob applyJob= applyJobRepository.findByIdPM(id,idUser);
-        if (applyJob==null){
-            return new ResponseEntity<>("Apply job không tồn tại",HttpStatus.BAD_REQUEST);
+        Optional<User> optionalUser = userRepository.findById(idUser);
+        if (!optionalUser.isPresent()) {
+            return new ResponseEntity<>("Người dùng không tồn tại", HttpStatus.BAD_REQUEST);
         }
-        if(applyJob.getStatus()!=ApplyStatus.CANCLE||applyJob.getStatus()==ApplyStatus.SUCCESS ){
-            return new ResponseEntity<>("Action không hợp lệ",HttpStatus.BAD_REQUEST);
+        Optional<ApplyJob> optionalApplyJob = applyJobRepository.findByIdAndUserIdApply(id,optionalUser.get().getId());
+        ApplyJob applyJob= optionalApplyJob.get();
+        if (applyJob.getStatus()==ApplyStatus.CANCLE || applyJob.getStatus()==ApplyStatus.SUCCESS){
+            return new ResponseEntity<>("Không thể thay đổi trạng thái", HttpStatus.BAD_REQUEST);
         }
         applyJob.setStatus(ApplyStatus.CANCLE);
         applyJobRepository.save(applyJob);
-        return new ResponseEntity<>(applyJob.getStatus()+" thành công",HttpStatus.OK);
+        return new ResponseEntity<>("Đã huỷ bỏ thành công", HttpStatus.OK);
     }
+
 
 
 }

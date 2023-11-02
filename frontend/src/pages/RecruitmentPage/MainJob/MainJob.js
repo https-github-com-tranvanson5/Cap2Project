@@ -43,6 +43,7 @@ function MainJob() {
                                                     <ion-icon name="heart-outline"></ion-icon>
                                                 }
                                                 titleSaved="Lưu tin"
+                                                to={`/recruitmentpage/recruitmentdetail/${recruitment.id}`}
                                             ></Card>
                                         </Col>
                                     );

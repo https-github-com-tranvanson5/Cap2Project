@@ -42,7 +42,6 @@ function RecruiterPost() {
     const [benefit, setBenefit] = useState('');
     const careers = useSelector((state) => state.allJob.career?.careerCurrent);
     const isAuth = useSelector((state) => state.auth.login?.currentUser);
-    const jobDetailData = useSelector((state) => state.allJob.jobs?.job);
     const nameContact = isAuth.name;
     const emailContact = isAuth.email;
     const formatDate = 'YYYY-MM-DD';

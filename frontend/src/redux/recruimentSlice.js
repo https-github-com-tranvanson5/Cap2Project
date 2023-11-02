@@ -13,6 +13,11 @@ const recruimentSlice = createSlice({
             isFetching: false,
             error: false,
         },
+        applyJobsCandidate: {
+            allApllyJobsCandidate: null,
+            isFetching: false,
+            error: false,
+        },
         msg: '',
     },
     reducers: {
@@ -42,6 +47,18 @@ const recruimentSlice = createSlice({
             state.applyJobsRecruiter.isFetching = false;
             state.applyJobsRecruiter.error = true;
         },
+        //user geted apply job
+        getAllApplyJobsCandidateStart: (state) => {
+            state.applyJobsCandidate.isFetching = true;
+        },
+        getAllApplyJobsCandidateSuccess: (state, action) => {
+            state.applyJobsCandidate.isFetching = false;
+            state.applyJobsCandidate.allApllyJobsCandidate = action.payload;
+        },
+        getAllApplyJobsCandidateFailed: (state) => {
+            state.applyJobsCandidate.isFetching = false;
+            state.applyJobsCandidate.error = true;
+        },
     },
 });
 
@@ -52,6 +69,9 @@ export const {
     getAllApplyJobsRecruiterFailed,
     getAllApplyJobsRecruiterSuccess,
     getAllApplyJobsRecruiterStart,
+    getAllApplyJobsCandidateStart,
+    getAllApplyJobsCandidateSuccess,
+    getAllApplyJobsCandidateFailed,
 } = recruimentSlice.actions;
 
 export default recruimentSlice.reducer;

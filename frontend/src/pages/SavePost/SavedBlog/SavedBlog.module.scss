@@ -1,0 +1,10 @@
+.wrapper {
+    margin-top: 20px;
+    .heading {
+        display: flex;
+        justify-content: space-between;
+        .title-header {
+            color: var(--secondary-color);
+        }
+    }
+}

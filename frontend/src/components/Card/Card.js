@@ -8,6 +8,7 @@ import images from '~/assets/images';
 import ModalPost from '../Modal/ModalDeleted/ModalDeleted';
 
 import styles from './Card.module.scss';
+import { OverlayTrigger, Popover } from 'react-bootstrap';
 
 const cx = classNames.bind(styles);
 
@@ -20,6 +21,8 @@ export default function Card({
     titleDeleted = '',
     titleRepair = '',
     titleSaved = '',
+    handleClick,
+    status,
     onDelete,
     id,
 }) {
@@ -39,9 +42,8 @@ export default function Card({
             {/* /id */}
             <Link
                 className={cx('link')}
-                to={{
-                    pathname: `/recruitmentpage/recruitmentdetail/${data.id}`,
-                }}
+                to={to}
+                
             >
                 <div className={cx('image-block')}>
                     {data?.imageUrl ? (
@@ -112,13 +114,34 @@ export default function Card({
                         <span>{titleRepair}</span>
                     </div>
                 </Link>
-
-                <div className={cx('subdesc-text-save')}>
-                    {saved && (
-                        <span className={cx('subdesc-text')}>{saved}</span>
-                    )}
-                    <span>{titleSaved}</span>
-                </div>
+                {['right'].map((placement) => (
+                    <OverlayTrigger
+                        trigger="click"
+                        key={placement}
+                        placement={placement}
+                        overlay={
+                            <Popover id={`popover-positioned-${placement}`}>
+                                <Popover.Header as="h3">{'Đang trong trạng thái'}</Popover.Header>
+                                <Popover.Body>
+                                    Đang trong trạng thái{' '}
+                                    <strong>{status}</strong>
+                                </Popover.Body>
+                            </Popover>
+                        }
+                    >
+                        <div
+                            className={cx('subdesc-text-save')}
+                            onClick={handleClick}
+                        >
+                            {saved && (
+                                <span className={cx('subdesc-text')}>
+                                    {saved}
+                                </span>
+                            )}
+                            <span>{titleSaved}</span>
+                        </div>
+                    </OverlayTrigger>
+                ))}
             </div>
         </div>
     );

@@ -50,6 +50,8 @@ import {
     applyJobFailed,
     applyJobStart,
     applyJobSuccess,
+    getAllApplyJobsCandidateFailed,
+    getAllApplyJobsCandidateSuccess,
     getAllApplyJobsRecruiterFailed,
     getAllApplyJobsRecruiterStart,
     getAllApplyJobsRecruiterSuccess,
@@ -265,3 +267,21 @@ export const getAllApplyJobsRecruiter = async (jwt, dispatch) => {
         dispatch(getAllApplyJobsRecruiterFailed());
     }
 };
+
+export const getAllApplyJobsCandidate = async (jwt, dispatch) => {
+    dispatch(getAllApplyJobsRecruiterStart());
+    try {
+        const res = await axios.get(
+            'http://localhost:8080/api/user/applyjob/getDataJobApplyJob',
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+        dispatch(getAllApplyJobsCandidateSuccess(res.data));
+    } catch (err) {
+        dispatch(getAllApplyJobsCandidateFailed());
+    }
+};
+
