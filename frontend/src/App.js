@@ -16,27 +16,15 @@ import {
     recruiterPrivateRoutes,
 } from './routes';
 import ProtectedRoute from './routes/ProtectedRoute';
-// import { renderRoutes } from './utils/route.utils';
-// import Home from './pages/Home';
 import DefaultLayout from './Layouts/DefaultLayout';
 import Loading from './components/Loading/Loading';
-
 import 'react-toastify/dist/ReactToastify.css';
-
 import { renderRoutes } from './utils/route.utils';
 import Home from './pages/Home';
-import { getProfileUser } from './redux/apiRequest';
-// import { getAllUsers } from './redux/apiRequest';
 
 function App() {
-    const dispatch = useDispatch();
     const isAuth = useSelector((state) => state.auth.login?.currentUser);
     const loading = useSelector((state) => state.auth.login?.isFetching);
-    const userData = useSelector((state) => state.users.users?.profileUser);
-
-    useEffect(() => {
-        getProfileUser(isAuth?.jwt, dispatch);
-    }, []);
 
     if (loading ?? false) {
         return <Loading></Loading>;
@@ -80,7 +68,7 @@ function App() {
                             <ProtectedRoute
                                 redirectPath={config.routes.home}
                                 isAllowed={
-                                    userData &&
+                                    isAuth &&
                                     isAuth?.roles[0]?.authority === 'ROLE_PM'
                                 }
                             ></ProtectedRoute>
@@ -94,7 +82,7 @@ function App() {
                             <ProtectedRoute
                                 redirectPath={config.routes.home}
                                 isAllowed={
-                                    userData &&
+                                    isAuth &&
                                     isAuth?.roles[0]?.authority === 'ROLE_ADMIN'
                                 }
                             ></ProtectedRoute>

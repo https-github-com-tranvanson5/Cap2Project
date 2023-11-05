@@ -10,7 +10,6 @@ import PaginationCOM from '~/pages/Home/BestRecruitment/pagination';
 // import { fetchSavedRecruitments } from '~/pages/Accounts/accountsSlice';
 import {getAllJobsRecruiter } from '~/redux/apiRequest';
 import { _LIMIT_PAGE } from '~/config/api';
-
 const cx = classNames.bind(styles);
 function MainJob() {
     const dispatch = useDispatch();
@@ -20,6 +19,8 @@ function MainJob() {
     useEffect(() => {
         getAllJobsRecruiter(user?.jwt, dispatch);
     }, []);
+
+    console.log(jobListData)
 
     return (
         <>

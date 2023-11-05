@@ -1,20 +1,16 @@
 import classNames from 'classnames/bind';
 import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import styles from './UserOptions.module.scss';
 import images from '~/assets/images';
 import config from '~/config';
-import { logOut } from '~/redux/apiRequest';
 
 const cx = classNames.bind(styles);
 
 function UserOptions({ user }) {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
     const handleLogout = () => {
-        logOut(dispatch, navigate);
+        localStorage.clear();
+        localStorage.removeItem('profile');
     };
 
     return (

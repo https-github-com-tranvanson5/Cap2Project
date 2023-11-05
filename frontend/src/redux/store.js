@@ -21,11 +21,11 @@ const persistConfig = {
     key: 'root',
     version: 1,
     storage,
-    whitelist: ['auth'],
+    blacklist: ['cv' , 'allUser' , 'allJob' , 'recruitment'],
 };
 const rootReducer = combineReducers({
     auth: authReducer,
-    users: userReducer,
+    profile: userReducer,
     cv: cvSlice.reducer,
     allUser: allUserReducer,
     allJob : allJobReducer , 

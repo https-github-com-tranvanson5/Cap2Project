@@ -15,7 +15,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getAllProvinces } from '~/helper/geomap';
 import DropDown from '~/components/Input/DropDown/DropDown';
 import TextEditor from '~/pages/Blogs/EditorContent';
-import { editJob, getCareer, getJob, postJob } from '~/redux/apiRequest';
+import {
+    editJob,
+    getCareer,
+    getJobRecruiter,
+    postJob,
+} from '~/redux/apiRequest';
 import {
     categoryTypeOption,
     categoryGenderOption,
@@ -42,6 +47,9 @@ function RecruiterPost() {
     const [benefit, setBenefit] = useState('');
     const careers = useSelector((state) => state.allJob.career?.careerCurrent);
     const isAuth = useSelector((state) => state.auth.login?.currentUser);
+    const jobDataRecruiterDetail = useSelector(
+        (state) => state.allJob.jobsRecruiter?.jobRecruiter,
+    );
     const nameContact = isAuth.name;
     const emailContact = isAuth.email;
     const formatDate = 'YYYY-MM-DD';
@@ -74,17 +82,16 @@ function RecruiterPost() {
 
     useEffect(() => {
         getCareer(isAuth?.jwt, dispatch);
-        getJob(dispatch, id);
+        getJobRecruiter(isAuth?.jwt, id, dispatch);
         // setForm(jobDetailData)
         // setSkillDesccription(jobDetailData);
         // setJobDescription(jobDetailData);
         // setCompanyDescription(jobDetailData);
         // setImageUpload(jobDetailData);
         // setBenefit(jobDetailData)
-
     }, []);
 
-    console.log();
+    console.log(jobDataRecruiterDetail);
 
     const {
         jobEducation,

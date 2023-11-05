@@ -1,46 +1,65 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const userSlice = createSlice({
-    name:"user",
+    name:"profile",
     initialState:{
-        users: {
+        user: {
             profileUser:null,
+            isFetching:false,
+            error:false
+        },
+        updateProfile: {
+            updateProfileUser:null,
             isFetching:false,
             error:false
         },
         msg:"",
     },
     reducers:{
-        getUsersStart: (state)=>{
-            state.users.isFetching = true;
+        getProfileStart: (state)=>{
+            state.user.isFetching = true;
         },
-        getUsersSuccess: (state,action) =>{
-            state.users.isFetching = false;
-            state.users.profileUser = action.payload;
+        getProfileSuccess: (state,action) =>{
+            state.user.isFetching = false;
+            state.user.profileUser = action.payload;
         },
-        getUsersFailed: (state) => {
-            state.users.isFetching = false;
-            state.users.error = true;
+        getProfileFailed: (state) => {
+            state.user.isFetching = false;
+            state.user.error = true;
+        },
+        getUpdateProfileUsersStart: (state)=>{
+            state.user.isFetching = true;
+        },
+        getUpdateProfileUsersSuccess: (state,action) =>{
+            state.user.isFetching = false;
+            state.user.updateProfileUser = action.payload;
+        },
+        getUpdateProfileUsersFailed: (state) => {
+            state.user.isFetching = false;
+            state.user.error = true;
         },
         deleteUserStart: (state)=>{
-            state.users.isFetching = true;
+            state.user.isFetching = true;
         },
         deleteUsersSuccess: (state,action)=>{
-            state.users.isFetching = false;
+            state.user.isFetching = false;
             state.msg = action.payload;
         },
         deleteUserFailed: (state,action)=>{
-            state.users.isFetching = false;
-            state.users.error = true;
+            state.user.isFetching = false;
+            state.user.error = true;
             state.msg = action.payload;
         } 
     }
 })
 
 export const {
-    getUsersStart,
-    getUsersSuccess,
-    getUsersFailed,
+    getProfileStart,
+    getProfileSuccess,
+    getProfileFailed,
+    getUpdateProfileUsersStart,
+    getUpdateProfileUsersSuccess,
+    getUpdateProfileUsersFailed,
     deleteUserStart,
     deleteUsersSuccess,
     deleteUserFailed

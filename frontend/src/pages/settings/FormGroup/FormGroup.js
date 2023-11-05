@@ -1,44 +1,24 @@
 import classNames from 'classnames/bind';
-import { useEffect } from 'react';
 import { useState, useRef } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { getProfileUser } from '../../../redux/apiRequest'
 
 import Button from '~/components/Button';
 import styles from './FormGroup.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { editProfile } from '~/redux/apiRequest';
 
 const cx = classNames.bind(styles);
 
-function FormGroup({ unUpdate, label, desc, value, type }) {
+function FormGroup({ unUpdate, label, desc, value, type, setValue }) {
     const dispatch = useDispatch();
     const [visibleUpdate, setVisibleUpdate] = useState(false);
-    const [inputValue, setInputValue] = useState(value);
-    const [file, setFile] = useState({ preview: '', data: '' });
     const inputRef = useRef(null);
-    const user = useSelector((state) => state.auth.login?.currentUser);
-
-    useEffect(() => {
-        return () => {
-            file && URL.revokeObjectURL(file);
-        };
-    }, [file]);
-
-    const handleChangeFile = (e) => {
-        const img = {
-            preview: URL.createObjectURL(e.target.files[0]),
-            data: e.target.files[0],
-        };
-        setFile(img);
-    };
+    const auth = useSelector((state) => state.auth.login?.currentUser);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (type === 'file') {
-            getProfileUser(user?.jwt, dispatch, type, file);
-        } else {
-            getProfileUser(user?.jwt, dispatch,type, inputValue);
-        }
+        const data = value
+        console.log(data)
     };
 
     return (
@@ -53,9 +33,9 @@ function FormGroup({ unUpdate, label, desc, value, type }) {
                             ref={inputRef}
                             className={cx('input')}
                             type={type}
-                            value={inputValue}
+                            value={value}
                             onChange={(e) => {
-                                setInputValue(e.target.value);
+                                setValue(e.target.value);
                             }}
                             disabled
                         />
@@ -85,7 +65,7 @@ function FormGroup({ unUpdate, label, desc, value, type }) {
                                         rounded
                                         onClick={() => {
                                             setVisibleUpdate(false);
-                                            setInputValue(value);
+                                            setValue(value);
                                             inputRef.current.disabled = true;
                                         }}
                                     >

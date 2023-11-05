@@ -11,12 +11,12 @@ import {
     registerSuccess,
 } from './authSlice';
 import {
-    deleteUserFailed,
-    deleteUsersSuccess,
-    deleteUserStart,
-    getUsersFailed,
-    getUsersStart,
-    getUsersSuccess,
+    getProfileFailed,
+    getProfileStart,
+    getProfileSuccess,
+    getUpdateProfileUsersFailed,
+    getUpdateProfileUsersStart,
+    getUpdateProfileUsersSuccess,
 } from './userSlice';
 import {
     deleteAllUserFailed,
@@ -40,6 +40,9 @@ import {
     getCareerStart,
     getCareerSuccess,
     getJobFailed,
+    getJobRecruiterFailed,
+    getJobRecruiterStart,
+    getJobRecruiterSuccess,
     getJobStart,
     getJobSuccess,
     postJobFailed,
@@ -56,6 +59,7 @@ import {
     getAllApplyJobsRecruiterStart,
     getAllApplyJobsRecruiterSuccess,
 } from './recruimentSlice';
+
 //npm install axios
 
 export const loginUser = async (user, dispatch) => {
@@ -84,7 +88,7 @@ export const registerUser = async (user, dispatch, navigate) => {
 };
 
 export const getProfileUser = async (jwt, dispatch) => {
-    dispatch(getUsersStart());
+    dispatch(getProfileStart());
     try {
         const res = await axios.get(
             'http://localhost:8080/api/user/getProfileUser',
@@ -94,9 +98,27 @@ export const getProfileUser = async (jwt, dispatch) => {
                 },
             },
         );
-        dispatch(getUsersSuccess(res.data));
+        dispatch(getProfileSuccess(res.data));
     } catch (err) {
-        dispatch(getUsersFailed());
+        dispatch(getProfileFailed());
+    }
+};
+
+export const editProfile = async (jwt, dispatch, profile) => {
+    dispatch(getUpdateProfileUsersStart());
+    try {
+        await axios.put(
+            'http://localhost:8080/api/user/updateProfile',
+            profile,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+        dispatch(getUpdateProfileUsersSuccess());
+    } catch (err) {
+        dispatch(getUpdateProfileUsersFailed());
     }
 };
 
@@ -132,17 +154,6 @@ export const deleteUser = async (jwt, dispatch, id) => {
         dispatch(deleteAllUsersSuccess(res.data));
     } catch (err) {
         dispatch(deleteAllUserFailed(err.response.data));
-    }
-};
-
-export const logOut = async (dispatch, navigate) => {
-    dispatch(logOutStart());
-    try {
-        window.localStorage.clear();
-        dispatch(logOutSuccess());
-        navigate('/login');
-    } catch (err) {
-        dispatch(logOutFailed());
     }
 };
 
@@ -189,6 +200,23 @@ export const getJob = async (dispatch, id) => {
         dispatch(getJobSuccess(res.data));
     } catch (err) {
         dispatch(getJobFailed(err.response.data));
+    }
+};
+
+export const getJobRecruiter = async (jwt, id , dispatch) => {
+    dispatch(getJobRecruiterStart());
+    try {
+        const res = await axios.get(
+            `http://localhost:8080/api/pm/job/getDataJobById?id=${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+        dispatch(getJobRecruiterSuccess(res.data));
+    } catch (err) {
+        dispatch(getJobRecruiterFailed(err.response.data));
     }
 };
 
@@ -284,4 +312,3 @@ export const getAllApplyJobsCandidate = async (jwt, dispatch) => {
         dispatch(getAllApplyJobsCandidateFailed());
     }
 };
-
