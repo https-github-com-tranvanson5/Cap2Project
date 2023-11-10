@@ -28,7 +28,7 @@ const nganhngheData = [
         name: 'Ngôn ngữ trung',
     },
 ];
-function Search({ data }) {
+function Search({ setQuery }) {
     const [districtID, setDictricID] = useState('');
     const handleChangeDictrictID = (dictrictID) => {
         setDictricID(dictrictID);
@@ -46,6 +46,9 @@ function Search({ data }) {
                                     }
                                     placeholder="Tìm kiếm theo công việc của bạn"
                                     primary
+                                    onChange={(e) =>
+                                        setQuery(e.target.value.toLowerCase())
+                                    }
                                 />
                             </Col>
                         </div>

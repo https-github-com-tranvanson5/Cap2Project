@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 
 import styles from './Header.module.scss';
@@ -9,14 +9,21 @@ import config from '~/config';
 import Button from '~/components/Button';
 import UserOptions from './UserOptions';
 import Navigation from './Navigation';
+import { getProfileUser } from '~/redux/apiRequest';
+import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
 function Header() {
+    const dispatch = useDispatch();
     const [isVisibleUserOptions, serIsVisibleUserOptions] = useState(false);
 
-    const user = useSelector((state) => state.auth.login?.currentUser);
+    const user = useSelector((state) => state.profile.user?.profileUser);
+    const auth = useSelector((state) => state.auth.login?.currentUser);
     // const isAuth = useSelector((state) => state.auth.login?.isFetching);
+    useEffect(() => {
+        getProfileUser(auth.jwt, dispatch);
+    }, []);
     const roleUser = user?.roles[0]?.authority;
 
     const toggleUserOptions = () => {
@@ -45,11 +52,11 @@ function Header() {
                             }}
                             className={cx('avatar')}
                         >
-                            {user.imageUrl ? (
+                            {user.avatar ? (
                                 <img
                                     className={cx('avatar-img')}
-                                    src={user.imageUrl}
-                                    alt={user.imageUrl}
+                                    src={user.avatar}
+                                    alt={user.avatar}
                                 />
                             ) : (
                                 <img

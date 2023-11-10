@@ -17,11 +17,11 @@ function UserOptions({ user }) {
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
                 <div className={cx('header-left')}>
-                    {user.imageUrl ? (
+                    {user.avatar ? (
                         <img
                             className={cx('avatar-img', 'avatar')}
-                            src={user.imageUrl}
-                            alt={user.imageUrl}
+                            src={user.avatar}
+                            alt={user.avatar}
                         />
                     ) : (
                         <img

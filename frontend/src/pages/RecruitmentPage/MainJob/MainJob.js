@@ -10,19 +10,28 @@ import PaginationCOM from '~/pages/Home/BestRecruitment/pagination';
 // import { fetchSavedRecruitments } from '~/pages/Accounts/accountsSlice';
 import { getAllJobs } from '~/redux/apiRequest';
 import { _LIMIT_PAGE } from '~/config/api';
+import Search from '../Search/SearchJob/SearchJob';
+import Carousel from '~/pages/Home/Slider/Slider';
 
 const cx = classNames.bind(styles);
 function MainJob() {
     const dispatch = useDispatch();
+    const [query, setQuery] = useState('');
     const user = useSelector((state) => state.auth.login?.currentUser);
-    const jobListData = useSelector((state) => state.allJob.jobs?.allJobs);
+    const [jobListData, setJobListData] = useState(
+        useSelector((state) => state.allJob.jobs?.allJobs),
+    );
 
     useEffect(() => {
-        getAllJobs(user?.jwt, dispatch);
-    }, []);
+        getAllJobs(user?.jwt, dispatch, query , setJobListData);
+    }, [query]);
+
+    console.log(query)
 
     return (
         <>
+            <Search setQuery={setQuery} />
+            <Carousel />
             <Container>
                 <div className={cx('wrapper')}>
                     <h2 className={cx('heading')}>Việc làm nổi bật</h2>

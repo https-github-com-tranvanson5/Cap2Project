@@ -59,6 +59,11 @@ import {
     getAllApplyJobsRecruiterStart,
     getAllApplyJobsRecruiterSuccess,
 } from './recruimentSlice';
+import {
+    getAllCalwJobsSuccess,
+    getAllCawlJobsFailed,
+    getAllCawlJobsStart,
+} from './calwSlice';
 
 //npm install axios
 
@@ -157,18 +162,18 @@ export const deleteUser = async (jwt, dispatch, id) => {
     }
 };
 
-export const getAllJobs = async (jwt, dispatch) => {
+export const getAllJobs = async (jwt, dispatch , query , setData) => {
     dispatch(getAllJobsStart());
     try {
         const res = await axios.get(
-            'http://localhost:8080/api/user/job/getAllDataListJobBySearch',
+            `http://localhost:8080/api/user/job/getAllDataListJobBySearch?search=${query}&searchAddress=&jobEducation=&jobExperience=&jobPosition=&jobType&career=&salary=`,
             {
                 headers: {
                     Authorization: `Bearer ${jwt}`,
                 },
             },
         );
-        dispatch(getAllJobsSuccess(res.data));
+        dispatch(getAllJobsSuccess(setData(res.data)));
     } catch (err) {
         dispatch(getAllJobsFailed());
     }
@@ -203,7 +208,7 @@ export const getJob = async (dispatch, id) => {
     }
 };
 
-export const getJobRecruiter = async (jwt, id , dispatch) => {
+export const getJobRecruiter = async (jwt, id, dispatch) => {
     dispatch(getJobRecruiterStart());
     try {
         const res = await axios.get(
@@ -310,5 +315,22 @@ export const getAllApplyJobsCandidate = async (jwt, dispatch) => {
         dispatch(getAllApplyJobsCandidateSuccess(res.data));
     } catch (err) {
         dispatch(getAllApplyJobsCandidateFailed());
+    }
+};
+
+export const getAllCalwData = async (
+    dispatch,
+    itemsPerPage,
+    currentPage,
+    setData,
+) => {
+    dispatch(getAllCawlJobsStart());
+    try {
+        const res = await axios.get(
+            `http://localhost:8080/api/user/job/WebCrawler/getData?size=${itemsPerPage}&page=${currentPage}`,
+        );
+        dispatch(getAllCalwJobsSuccess(setData(res.data)));
+    } catch (err) {
+        dispatch(getAllCawlJobsFailed());
     }
 };

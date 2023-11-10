@@ -34,7 +34,7 @@ import Button from '~/components/Button';
 // import { messageRecruiterSelector } from '~/redux/Selectors/recruiterSelector';
 import { toast } from 'react-toastify';
 import config from '~/config';
-import TextEditor from '~/pages/Blogs/EditorContent';
+import TextEditor from '~/pages/Calw/EditorContent';
 const cx = classNames.bind(styles);
 const mucluongData = [
     {

@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAllProvinces } from '~/helper/geomap';
 import DropDown from '~/components/Input/DropDown/DropDown';
-import TextEditor from '~/pages/Blogs/EditorContent';
+import TextEditor from '~/pages/Calw/EditorContent';
 import {
     editJob,
     getCareer,

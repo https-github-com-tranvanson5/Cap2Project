@@ -1,0 +1,61 @@
+.form-group-lable {
+    font-weight: 600;
+    padding-bottom: 10px;
+    display: block;
+}
+
+.input-file-block {
+    --size: 120px;
+    position: relative;
+    margin: auto;
+    width: var(--size);
+    height: var(--size);
+    &:hover {
+        .mark {
+            display: block;
+        }
+    }
+    .preview-img-block {
+        .preview-img {
+            width: var(--size);
+            height: var(--size);
+            border-radius: 50%;
+            object-fit: cover;
+            background-repeat: no-repeat;
+        }
+    }
+    .mark {
+        display: none;
+    }
+    .input-file {
+        position: absolute;
+        bottom: 28px;
+        opacity: 0;
+        width: 0;
+    }
+    .input-mark {
+        position: absolute;
+        display: flex;
+        color: var(--gray-color);
+        background: rgba(0, 0, 0, 0.46);
+        font-size: 28px;
+        height: var(--size);
+        width: var(--size);
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 6;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        &:hover {
+            color: var(--white-color);
+        }
+    }
+}
+
+.controls {
+    margin-top: 30px;
+}

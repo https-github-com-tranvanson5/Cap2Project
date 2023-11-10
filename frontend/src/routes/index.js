@@ -18,6 +18,7 @@ import RecruitmentPage from '~/pages/RecruitmentPage/RecruimentPage';
 import RecruitmentDetail from '~/pages/RecruitmentDetail/RecruitmentDetail';
 import RecruiterPost from '~/pages/Recruiter/RecruiterPost/Component/RecruiterPost';
 import SavedRecruitment from '~/pages/SavePost/SavedRecruitment/SavedRecruitment';
+import CalwContent from '~/pages/Calw/calwContent/CalwContent';
 
 export const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -35,6 +36,7 @@ export const privateRoutes = [
         component: SavedRecruitment,
         layout: SidebarLayout,
     },
+    { path: config.routes.re, component: CalwContent },
 ];
 
 export const userPrivateRoutes = [];

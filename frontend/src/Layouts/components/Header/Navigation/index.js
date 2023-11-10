@@ -24,11 +24,11 @@ const navigationMenu = [
         to: config.routes.cv,
         role: ['ROLE_USER'],
     },
-    // {
-    //     title: 'Blog',
-    //     to: config.routes.blog,
-    //     role: ['ROLE_USER', 'ROLE_PM', 'ROLE_ADMIN'],
-    // },
+    {
+        title: 'Tuyển dụng tự động',
+        to: config.routes.re,
+        role: ['ROLE_USER', 'ROLE_PM', 'ROLE_ADMIN'],
+    },
     {
         title: 'Quản lý',
         to: config.routes.admin,

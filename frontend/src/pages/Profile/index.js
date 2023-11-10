@@ -1,45 +1,52 @@
 import classNames from 'classnames/bind';
 import { Container } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Box from './Box';
 import BoxItem from './Box/BoxItem';
 import styles from './Profile.module.scss';
 import ProfileBanner from './ProfileBanner';
+import { getProfileUser } from '~/redux/apiRequest';
+import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
 function Profile() {
-    const userData = useSelector((state) => state.auth.login?.currentUser);
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.profile.user?.profileUser);
+    const auth = useSelector((state) => state.auth.login?.currentUser);
+    // const isAuth = useSelector((state) => state.auth.login?.isFetching);
+    useEffect(() => {
+        getProfileUser(auth.jwt, dispatch);
+    }, []);
 
-    const { fullname, imageUrl, email, address, phoneNumber, birth } = userData;
 
     return (
         <Container>
             <div className={cx('wrapper')}>
-                <ProfileBanner username={fullname} avatarImg={imageUrl} />
+                <ProfileBanner username={user?.name} avatarImg={user?.avatar} />
 
                 <Box title="Giới thiệu">
                     <BoxItem
                         icon={<ion-icon name="mail-outline"></ion-icon>}
-                        content={email}
+                        content={user?.email}
                     />
-                    {address && (
+                    {user?.address && (
                         <BoxItem
                             icon={<ion-icon name="location-outline"></ion-icon>}
-                            content={address}
+                            content={user?.address}
                         />
                     )}
-                    {phoneNumber && (
+                    {user?.phone && (
                         <BoxItem
                             icon={<ion-icon name="call-outline"></ion-icon>}
-                            content={phoneNumber}
+                            content={user?.phone}
                         />
                     )}
-                    {birth && (
+                    {user?.dob && (
                         <BoxItem
                             icon={<ion-icon name="today-outline"></ion-icon>}
-                            content={birth}
+                            content={user?.dob}
                         />
                     )}
                 </Box>

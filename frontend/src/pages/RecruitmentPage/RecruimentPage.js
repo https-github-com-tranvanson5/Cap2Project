@@ -10,8 +10,6 @@ const cx = classNames.bind(styles);
 export default function RecruitmentPage() {
     return (
         <div className={cx('wrapper')}>
-            <Search />
-            <Carousel />
             <MainJob />
         </div>
     );

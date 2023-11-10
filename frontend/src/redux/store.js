@@ -4,6 +4,7 @@ import userReducer from './userSlice';
 import allUserReducer from './allUserSlice';
 import allJobReducer from './jobSlice'
 import applyJobReducer from './recruimentSlice'
+import calwReducer from './calwSlice'
 import {
     persistStore,
     persistReducer,
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
     allUser: allUserReducer,
     allJob : allJobReducer , 
     recruitment: applyJobReducer,
+    calw : calwReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

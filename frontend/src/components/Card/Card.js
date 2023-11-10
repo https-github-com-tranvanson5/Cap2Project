@@ -40,11 +40,7 @@ export default function Card({
     return (
         <div className={cx('wrapper')}>
             {/* /id */}
-            <Link
-                className={cx('link')}
-                to={to}
-                
-            >
+            <Link className={cx('link')} to={to}>
                 <div className={cx('image-block')}>
                     {data?.imageUrl ? (
                         <img
@@ -64,7 +60,7 @@ export default function Card({
                     <div className={cx('title')}>{data?.title}</div>
                     {data?.description && (
                         <div className={cx('description')}>
-                            {data?.description}
+                            {data?.description || data?.jobDescription}
                         </div>
                     )}
                     {/* {data.recruiter_jobs?.fullname && (
@@ -76,16 +72,18 @@ export default function Card({
                         <div className={cx('subdesc-item subdesc-left')}>
                             <div className={cx('subdesc-text')}>
                                 <ion-icon name="cash-outline"></ion-icon>
-                                <span>{data?.endSalary}</span>
+                                <span>{data?.salary || data?.endSalary}</span>
                             </div>
                             <div className={cx('subdesc-text')}>
                                 <ion-icon name="location-outline"></ion-icon>
-                                <span>{data?.location}</span>
+                                <span>
+                                    {data?.contractAddress || data?.address}
+                                </span>
                             </div>
                             <div className={cx('subdesc-item subdesc-right')}>
                                 <div className={cx('subdesc-text')}>
                                     <ion-icon name="timer-outline"></ion-icon>
-                                    <span>{data?.createAt}</span>
+                                    <span>{data?.createAt || data?.webName}</span>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +119,9 @@ export default function Card({
                         placement={placement}
                         overlay={
                             <Popover id={`popover-positioned-${placement}`}>
-                                <Popover.Header as="h3">{'Đang trong trạng thái'}</Popover.Header>
+                                <Popover.Header as="h3">
+                                    {'Đang trong trạng thái'}
+                                </Popover.Header>
                                 <Popover.Body>
                                     Đang trong trạng thái{' '}
                                     <strong>{status}</strong>

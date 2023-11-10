@@ -3,9 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames/bind';
 import styles from './Settings.module.scss';
 import { Col, Container, Row } from 'react-bootstrap';
+import { ref } from 'firebase/storage';
 import Loading from '~/components/Loading/Loading';
 import { editProfile, getProfileUser } from '~/redux/apiRequest';
 import { useState } from 'react';
+import Button from '~/components/Button';
+import FormUpload from './FormUpload/FormUpload';
+import FirebaseFileUploader from '../Recruiter/RecruiterPost/ImageProcess/Firebase/FirebaseFileUploader';
+import initializeFirebaseStorage from '../Recruiter/RecruiterPost/ImageProcess/Firebase/firebaseConfig';
+import ImagePreview from '../Recruiter/RecruiterPost/ImageProcess/Image/ImagePreview';
 
 const cx = classNames.bind(styles);
 
@@ -14,6 +20,7 @@ export default function Setting() {
     const [userData, setUserData] = useState(
         useSelector((state) => state.profile.user?.profileUser),
     );
+    const [imageUpload, setImageUpload] = useState(null);
     const loading = useSelector((state) => state.profile.users?.isFetching);
     const auth = useSelector((state) => state.auth.login?.currentUser);
 
@@ -24,10 +31,23 @@ export default function Setting() {
     const handleChange = (e) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(userData);
-        editProfile(auth?.jwt, dispatch, userData);
+        const storageRef = ref(
+            initializeFirebaseStorage(),
+            `images/${Date.now()}_${imageUpload?.name}`,
+        );
+        const url = await FirebaseFileUploader(imageUpload, storageRef);
+        const data = {
+            ...userData,
+            avatar: url,
+        };
+        console.log(data);
+        editProfile(auth?.jwt, dispatch, data);
+    };
+    const handleCallback = (data) => {
+        setImageUpload(data);
     };
     return (
         <>
@@ -148,13 +168,13 @@ export default function Setting() {
                                 className={cx('right')}
                             >
                                 <div>
-                                    <div className={cx('input')}>
-                                        {userData?.avatar}
-                                    </div>
+                                    <ImagePreview callback={handleCallback} />
                                 </div>
                             </Col>
                         </Row>
-                        <button type="submit">Submit</button>
+                        <Button primary type="submit">
+                            Submit
+                        </Button>
                     </form>
                 </div>
             </Container>

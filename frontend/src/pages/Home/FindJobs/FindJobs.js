@@ -20,6 +20,7 @@ import {
 } from '~/redux/Selectors/searchSelector';
 import useDebounce from '~/hooks/useDebounce';
 import SearchResults from './SearchResults/SearchResults';
+import { getAllJobs } from '~/redux/apiRequest';
 
 const cx = classNames.bind(styles);
 
@@ -28,20 +29,23 @@ export default function FindJobs() {
     const [searchText, setSearchText] = useState('');
     const debounceSearch = useDebounce(searchText, 500);
     const resultsSearch = useSelector(searchJobListSelector);
+    const user = useSelector((state) => state.auth.login?.currentUser);
+    const jobListData = useSelector((state) => state.allJob.jobs?.allJobs);
+
 
     const { cityCategories, jobCategories, workFrom } = '';
 
     useEffect(() => {
-        dispatch(fetchCategoriesSearch());
+        getAllJobs(user?.jwt, dispatch);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    useEffect(() => {
-        if (searchText.trim()) {
-            dispatch(fetchJobListSearch(searchText));
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [debounceSearch]);
+    // useEffect(() => {
+    //     if (searchText.trim()) {
+    //         dispatch(fetchJobListSearch(searchText));
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [debounceSearch]);
 
     const handleChangeSearchText = (e) => {
         setSearchText(e.target.value);
