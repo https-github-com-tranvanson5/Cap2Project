@@ -12,6 +12,7 @@ import FormUpload from './FormUpload/FormUpload';
 import FirebaseFileUploader from '../Recruiter/RecruiterPost/ImageProcess/Firebase/FirebaseFileUploader';
 import initializeFirebaseStorage from '../Recruiter/RecruiterPost/ImageProcess/Firebase/firebaseConfig';
 import ImagePreview from '../Recruiter/RecruiterPost/ImageProcess/Image/ImagePreview';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -23,14 +24,16 @@ export default function Setting() {
     const [imageUpload, setImageUpload] = useState(null);
     const loading = useSelector((state) => state.profile.users?.isFetching);
     const auth = useSelector((state) => state.auth.login?.currentUser);
+    const history = useNavigate();
 
     useEffect(() => {
-        getProfileUser(auth.jwt, dispatch);
+        getProfileUser(auth?.jwt, dispatch);
     }, []);
 
     const handleChange = (e) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
     };
+    console.log(userData?.avatar);
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(userData);
@@ -45,6 +48,7 @@ export default function Setting() {
         };
         console.log(data);
         editProfile(auth?.jwt, dispatch, data);
+        history(-1);
     };
     const handleCallback = (data) => {
         setImageUpload(data);
@@ -168,7 +172,10 @@ export default function Setting() {
                                 className={cx('right')}
                             >
                                 <div>
-                                    <ImagePreview callback={handleCallback} />
+                                    <ImagePreview
+                                        callback={handleCallback}
+                                        data={userData?.avatar}
+                                    />
                                 </div>
                             </Col>
                         </Row>

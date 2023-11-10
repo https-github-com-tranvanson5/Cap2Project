@@ -15,16 +15,15 @@ import { useEffect } from 'react';
 const cx = classNames.bind(styles);
 
 function Header() {
-    const dispatch = useDispatch();
     const [isVisibleUserOptions, serIsVisibleUserOptions] = useState(false);
-
-    const user = useSelector((state) => state.profile.user?.profileUser);
+    const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth.login?.currentUser);
+    const user = useSelector((state) => state.profile.user?.profileUser);
     // const isAuth = useSelector((state) => state.auth.login?.isFetching);
+    const roleUser = auth?.roles[0]?.authority;
     useEffect(() => {
-        getProfileUser(auth.jwt, dispatch);
+        getProfileUser(auth?.jwt, dispatch);
     }, []);
-    const roleUser = user?.roles[0]?.authority;
 
     const toggleUserOptions = () => {
         serIsVisibleUserOptions(!isVisibleUserOptions);
@@ -52,11 +51,11 @@ function Header() {
                             }}
                             className={cx('avatar')}
                         >
-                            {user.avatar ? (
+                            {user?.avatar ? (
                                 <img
                                     className={cx('avatar-img')}
-                                    src={user.avatar}
-                                    alt={user.avatar}
+                                    src={user?.avatar}
+                                    alt={user?.avatar}
                                 />
                             ) : (
                                 <img

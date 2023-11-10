@@ -10,6 +10,8 @@ import FirebaseFileUploader from '~/pages/Recruiter/RecruiterPost/ImageProcess/F
 import initializeFirebaseStorage from '~/pages/Recruiter/RecruiterPost/ImageProcess/Firebase/firebaseConfig';
 import ImagePreview from '~/pages/Recruiter/RecruiterPost/ImageProcess/Image/ImagePreview';
 import { applyJob } from '~/redux/apiRequest';
+import FilePreview from '~/components/FilePreview/FilePreview';
+import { toast } from 'react-toastify';
 // import { cloudinaryUploadApi } from '~/services/uploadService';
 // import { fetchApplyJobs } from '~/pages/RecruitmentDetail/RecruitmentPageSlice';
 
@@ -45,6 +47,7 @@ function Modal({ setOpenModal, data }) {
         };
         console.log(dataApplyJobs);
         applyJob(dataApplyJobs, isAuth?.jwt, dispatch);
+        toast.success('Nộp CV thành công')
     };
 
     const handleCallback = (data) => {
@@ -82,7 +85,7 @@ function Modal({ setOpenModal, data }) {
                             </Link>
                         </div>
                         <div className={cx('modal-file')}>
-                            <ImagePreview callback={handleCallback} />
+                            <FilePreview callback={handleCallback}  />
                         </div>
                         {/* <div className={cx('modal-letter')}>
                             <h4>Thư giới thiệu:</h4>

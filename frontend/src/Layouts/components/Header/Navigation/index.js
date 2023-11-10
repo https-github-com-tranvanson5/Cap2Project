@@ -23,7 +23,7 @@ const navigationMenu = [
         title: 'Tạo CV',
         to: config.routes.cv,
         role: ['ROLE_USER'],
-    },
+    },  
     {
         title: 'Tuyển dụng tự động',
         to: config.routes.re,

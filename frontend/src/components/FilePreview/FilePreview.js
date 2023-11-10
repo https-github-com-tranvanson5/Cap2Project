@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import './imagePreview.css';
+import './FilePreview.css';
 import { useRef } from 'react';
-import images from '~/assets/images';
-function ImagePreview({ callback, data }) {
+function FilePreview({ callback }) {
     // Sử dụng useState để tạo state cho "data"
-    const [imagePreview, setImagePreview] = useState({ preview: '', data: '' });
+    const [imagePreview, setImagePreview] = useState(null);
     const clearImg = null;
     const inputRef = useRef(null); // import useRef from react
 
@@ -13,13 +12,10 @@ function ImagePreview({ callback, data }) {
         const file = e.target.files[0];
 
         if (file) {
-            const img = {
-                preview: URL.createObjectURL(e.target.files[0]),
-                data: e.target.files[0],
-            };
+            const reader = URL.createObjectURL(file);
 
             // Đọc dữ liệu từ tệp hình ảnh và cập nhật state "data" và "imagePreview"
-            setImagePreview(img);
+            setImagePreview(reader);
 
             console.log(file);
 
@@ -43,30 +39,18 @@ function ImagePreview({ callback, data }) {
                 <h2>Image Preview</h2>
 
                 <label htmlFor="file-input" className="custom-upload-button">
-                    {/* {imagePreview && (
+                    {imagePreview && (
                         <div className="image-preview">
-                            <img src={data} alt="Preview" />
+                            <img src={imagePreview} alt="Preview" />
                         </div>
-                    )} */}
-                    <div className="image-preview">
-                        {
-                            // Buffer.from(data.data.data).toString('base64')
-                            imagePreview?.preview ? (
-                                <img src={imagePreview?.preview} alt="avatar" />
-                            ) : data ? (
-                                <img src={data} alt="avatar" />
-                            ) : (
-                                <img src={images.avatarDefault} alt="avatar" />
-                            )
-                        }
-                    </div>
+                    )}
                     Chọn tệp
                 </label>
                 <input
                     type="file"
                     id="file-input"
                     className="input-file"
-                    accept="image/"
+                    accept="image/ , application/pdf*"
                     onChange={handleImageChange}
                     ref={inputRef}
                 />
@@ -81,4 +65,4 @@ function ImagePreview({ callback, data }) {
     );
 }
 
-export default ImagePreview;
+export default FilePreview;

@@ -17,7 +17,7 @@ function Profile() {
     const auth = useSelector((state) => state.auth.login?.currentUser);
     // const isAuth = useSelector((state) => state.auth.login?.isFetching);
     useEffect(() => {
-        getProfileUser(auth.jwt, dispatch);
+        getProfileUser(auth?.jwt, dispatch);
     }, []);
 
 

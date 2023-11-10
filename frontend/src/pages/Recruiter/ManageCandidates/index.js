@@ -24,6 +24,7 @@ function ManageCandidates() {
     useEffect(() => {
         getAllApplyJobsRecruiter(auth?.jwt, dispatch);
     }, []);
+    console.log( 'applyJobListData',applyJobListData)
 
     useEffect(() => {
         getAllJobsRecruiter(auth?.jwt, dispatch);
@@ -71,8 +72,8 @@ function ManageCandidates() {
                     </tr>
                 </thead>
                 <tbody>
-                    {candidate?.length
-                        ? candidate?.map((candidate, index) => {
+                    {applyJobListData?.content?.length
+                        ? applyJobListData?.content?.map((candidate, index) => {
                             return (
                                 <tr key={candidate.id}>
                                     <td>{index + 1}</td>

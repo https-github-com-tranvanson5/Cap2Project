@@ -10,18 +10,17 @@ const cx = classNames.bind(styles);
 function UserOptions({ user }) {
     const handleLogout = () => {
         localStorage.clear();
-        localStorage.removeItem('profile');
     };
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
                 <div className={cx('header-left')}>
-                    {user.avatar ? (
+                    {user?.avatar ? (
                         <img
                             className={cx('avatar-img', 'avatar')}
-                            src={user.avatar}
-                            alt={user.avatar}
+                            src={user?.avatar}
+                            alt={user?.avatar}
                         />
                     ) : (
                         <img
@@ -32,8 +31,8 @@ function UserOptions({ user }) {
                     )}
                 </div>
                 <div className={cx('header-right')}>
-                    <div className={cx('user-name')}>{user.fullname}</div>
-                    <div className={cx('user-email')}>{user.email}</div>
+                    <div className={cx('user-name')}>{user?.name}</div>
+                    <div className={cx('user-email')}>{user?.email}</div>
                 </div>
             </div>
             <ul className={cx('option')}>

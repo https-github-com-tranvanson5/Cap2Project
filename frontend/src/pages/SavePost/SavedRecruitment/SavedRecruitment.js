@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './SavedRecruitment.module.scss';
 import classNames from 'classnames/bind';
 import { Col, Container, Row } from 'react-bootstrap';
@@ -14,15 +14,17 @@ function SavedRecruitment() {
     const applyJobListData = useSelector(
         (state) => state.recruitment.applyJobsCandidate?.allApllyJobsCandidate,
     );
-
-    const jobListData = useSelector((state) => state.allJob.jobs?.allJobs);
+    const [query, setQuery] = useState('');
+    const [jobListData, setJobListData] = useState(
+        useSelector((state) => state.allJob.jobs?.allJobs),
+    );
 
     useEffect(() => {
         getAllApplyJobsCandidate(auth?.jwt, dispatch);
     }, []);
 
     useEffect(() => {
-        getAllJobs(auth?.jwt, dispatch);
+        getAllJobs(auth?.jwt, dispatch, query , setJobListData);
     }, []);
     console.log('joblistdata', jobListData);
     console.log('applyJobListData', applyJobListData);
