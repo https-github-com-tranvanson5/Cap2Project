@@ -18,6 +18,11 @@ const recruimentSlice = createSlice({
             isFetching: false,
             error: false,
         },
+        changeStatusApplyJob: {
+            changeStatus: null,
+            isFetching: false,
+            error: false,
+        },
         msg: '',
     },
     reducers: {
@@ -47,6 +52,19 @@ const recruimentSlice = createSlice({
             state.applyJobsRecruiter.isFetching = false;
             state.applyJobsRecruiter.error = true;
         },
+        //change status apply job for recruiter
+        getchangeStatusStart: (state)=>{
+            state.changeStatusApplyJob.isFetching = true;
+        },
+        getchangeStatusSuccess: (state,action) =>{
+            state.changeStatusApplyJob.isFetching = false;
+            state.changeStatusApplyJob.changeStatus= action.payload;
+        },
+        getchangeStatusFailed: (state,action) => {
+            state.changeStatusApplyJob.isFetching = false;
+            state.changeStatusApplyJob.error = true;
+            state.msg = action.payload;
+        },
         //user geted apply job
         getAllApplyJobsCandidateStart: (state) => {
             state.applyJobsCandidate.isFetching = true;
@@ -69,6 +87,9 @@ export const {
     getAllApplyJobsRecruiterFailed,
     getAllApplyJobsRecruiterSuccess,
     getAllApplyJobsRecruiterStart,
+    getchangeStatusStart,
+    getchangeStatusSuccess,
+    getchangeStatusFailed,
     getAllApplyJobsCandidateStart,
     getAllApplyJobsCandidateSuccess,
     getAllApplyJobsCandidateFailed,

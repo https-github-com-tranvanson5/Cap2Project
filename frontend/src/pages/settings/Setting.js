@@ -30,10 +30,11 @@ export default function Setting() {
         getProfileUser(auth?.jwt, dispatch);
     }, []);
 
+    console.log(userData)
+
     const handleChange = (e) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
     };
-    console.log(userData?.avatar);
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(userData);
@@ -174,7 +175,7 @@ export default function Setting() {
                                 <div>
                                     <ImagePreview
                                         callback={handleCallback}
-                                        data={userData?.avatar}
+                                        setValue={userData?.avatar}
                                     />
                                 </div>
                             </Col>

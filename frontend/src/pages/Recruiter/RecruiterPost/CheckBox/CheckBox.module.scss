@@ -1,0 +1,62 @@
+
+  // span {
+  //   font-size: 16px;
+  //   color: #333;
+  //   white-space: nowrap; /* Ngăn văn bản xuống dòng */
+  //   overflow: hidden; /* Ẩn nội dung vượt quá kích thước */
+  //   text-overflow: ellipsis; /* Hiển thị dấu ba chấm khi nội dung bị ẩn */
+  //   vertical-align: middle; /* Đảm bảo văn bản nằm ngang hàng với hộp kiểm */
+  // }
+
+  .checkbox-container {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px;
+    padding-right: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: scroll; /* Thêm thanh cuộn theo chiều dọc khi cần thiết */
+    max-height: 200px; /* Đặt chiều cao tối đa để kích thước nó không vượt quá màn hình */
+  }
+
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: calc(33.33% - 20px);
+    margin-right: 20px;
+    position: relative;
+
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .hover-content {
+      position: absolute;
+      display: none;
+      background-color: #fff;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      top: 100%;
+      left: 0;
+      z-index: 1;
+      max-width: 300px;
+    }
+
+    &:hover .hover-content {
+      display: block;
+    }
+  }

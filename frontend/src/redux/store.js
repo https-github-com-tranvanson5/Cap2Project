@@ -22,7 +22,7 @@ const persistConfig = {
     key: 'root',
     version: 1,
     storage,
-    blacklist: ['cv' , 'allUser' , 'allJob' , 'recruitment'],
+    blacklist: ['cv' , 'allUser' , 'allJob' , 'recruitment' , ' calw'],
 };
 const rootReducer = combineReducers({
     auth: authReducer,

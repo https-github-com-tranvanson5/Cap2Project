@@ -160,6 +160,17 @@
         background-color: white;
         border-radius: 5px;
     }
+    .scroll-box{
+        padding: 20px;
+        margin: 10px;
+        width: 97%;
+        height: 150px;
+        overflow-x: hidden;
+        overflow-y: scroll; 
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
 }
 
 @media all and (max-width: 1205px) {

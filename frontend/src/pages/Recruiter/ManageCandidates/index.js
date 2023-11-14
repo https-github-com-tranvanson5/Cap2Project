@@ -1,13 +1,17 @@
 import classNames from 'classnames/bind';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Table } from 'react-bootstrap';
 import styles from './ManageCandidates.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    changeStatus,
     getAllApplyJobsRecruiter,
-    getAllJobsRecruiter,
 } from '~/redux/apiRequest';
 import { Link } from 'react-router-dom';
+import { categoryStatus } from './dataEntry';
+import { useState } from 'react';
+import DropDown from '~/components/Input/DropDown/DropDown';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
@@ -17,45 +21,24 @@ function ManageCandidates() {
     const applyJobListData = useSelector(
         (state) => state.recruitment.applyJobsRecruiter?.allApllyJobsRecruiter,
     );
-    const jobListData = useSelector(
-        (state) => state.allJob.jobsRecruiter?.allJobsRecruiter,
-    );
+    const [status, setStatus] = useState('');
+
+    function getNameByValueStatus(value) {
+        const option = categoryStatus.find((option) => option.value === value);
+        return option ? option.name : '';
+    }
 
     useEffect(() => {
         getAllApplyJobsRecruiter(auth?.jwt, dispatch);
     }, []);
-    console.log( 'applyJobListData',applyJobListData)
+    console.log('applyJobListData', applyJobListData);
 
-    useEffect(() => {
-        getAllJobsRecruiter(auth?.jwt, dispatch);
-    }, []);
+    const onChangeValue = (field, value , id) => {
+        setStatus({ ...status, [field]: value , id });
+        changeStatus(auth?.jwt , dispatch , value , id , applyJobListData) 
+        toast.success('Thay đổi trạng thái thành công') 
+    };
 
-    const filteredArrayJobTitle = jobListData?.content.filter((obj1) => {
-        return applyJobListData?.content.some((obj2) => obj2.job === obj1.id);
-    });
-
-    const applyJob = applyJobListData?.content;
-
-    const candidate = [];
-
-    // Duyệt qua mảng 1
-    filteredArrayJobTitle?.forEach((item1) => {
-        // Tìm kiếm item1 trong mảng 2
-        const item2 = applyJob.find((item2) => item2.job === item1.id);
-
-        // Nếu tìm thấy item2, thì gộp item1 và item2 lại với nhau
-        if (item2) {
-            candidate.push({
-                ...item1,
-                ...item2,
-            });
-        } else {
-            // Nếu không tìm thấy item2, thì thêm item1 vào kết quả
-            candidate.push(item1);
-        }
-    });
-
-    console.log('merge', candidate);
     return (
         <div className={cx('wrapper')}>
             <h2 className={cx('title')}>Ứng viên đang chờ</h2>
@@ -68,7 +51,7 @@ function ManageCandidates() {
                         <th>CV</th>
                         <th>Công việc ứng tuyển</th>
                         <th>Thời gian</th>
-                        <th></th>
+                        <th>Trạng thái</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -90,7 +73,17 @@ function ManageCandidates() {
                                     <td>{candidate.createAt}</td>
 
                                     <td>
-                                        <ion-icon name="trash-sharp"></ion-icon>
+                                        <div
+                                            className={cx('dropdown')}
+                                            value={candidate?.status}
+                                            onChange={(onChange) => onChangeValue("status", onChange.target.value , candidate?.id)}
+                                        >
+                                            <DropDown
+                                                title="Thành phố"
+                                                data={categoryStatus}
+                                                defaultValueProps={getNameByValueStatus(candidate?.status)}
+                                            />
+                                        </div>
                                     </td>
                                 </tr>
                             );

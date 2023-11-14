@@ -3,9 +3,6 @@ import {
     loginFailed,
     loginStart,
     loginSuccess,
-    logOutFailed,
-    logOutStart,
-    logOutSuccess,
     registerFailed,
     registerStart,
     registerSuccess,
@@ -58,6 +55,9 @@ import {
     getAllApplyJobsRecruiterFailed,
     getAllApplyJobsRecruiterStart,
     getAllApplyJobsRecruiterSuccess,
+    getchangeStatusFailed,
+    getchangeStatusStart,
+    getchangeStatusSuccess,
 } from './recruimentSlice';
 import {
     getAllCalwJobsSuccess,
@@ -315,6 +315,24 @@ export const getAllApplyJobsCandidate = async (jwt, dispatch) => {
         dispatch(getAllApplyJobsCandidateSuccess(res.data));
     } catch (err) {
         dispatch(getAllApplyJobsCandidateFailed());
+    }
+};
+
+export const changeStatus = async (jwt, dispatch, status ,id , data) => {
+    dispatch(getchangeStatusStart());
+    try {
+        await axios.put(
+            `http://localhost:8080/api/pm/applyjob/changeStatus?id=${id}&status=${status}`,
+            data,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+        dispatch(getchangeStatusSuccess());
+    } catch (err) {
+        dispatch(getchangeStatusFailed());
     }
 };
 

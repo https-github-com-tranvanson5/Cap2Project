@@ -1,84 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './imagePreview.css';
 import { useRef } from 'react';
-import images from '~/assets/images';
-function ImagePreview({ callback, data }) {
-    // Sử dụng useState để tạo state cho "data"
-    const [imagePreview, setImagePreview] = useState({ preview: '', data: '' });
-    const clearImg = null;
-    const inputRef = useRef(null); // import useRef from react
+import { getValue } from '@testing-library/user-event/dist/utils';
 
-    // Hàm này được gọi khi người dùng chọn một tệp hình ảnh
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
+function ImagePreview({ callback, setValue, title, value }) {
+  const [imagePreview, setImagePreview] = useState(setValue || null);
+  const inputRef = useRef(null);
 
-        if (file) {
-            const img = {
-                preview: URL.createObjectURL(e.target.files[0]),
-                data: e.target.files[0],
-            };
+  useEffect(() => {
+    // If a URL is provided, set the image preview
+    setImagePreview(setValue || null);
+  }, [setValue]);
 
-            // Đọc dữ liệu từ tệp hình ảnh và cập nhật state "data" và "imagePreview"
-            setImagePreview(img);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
 
-            console.log(file);
+    if (file) {
+      const reader = new FileReader();
 
-            // Gọi callback function với dữ liệu hình ảnh
-            callback(file);
+      reader.onload = (e) => {
+        // Check if the image file exists
+        if (e.target.result) {
+          setImagePreview(e.target.result);
+          callback(file);
+        } else {
+          console.error('Error reading image file.');
         }
-    };
-    const clear = () => {
-        // Xóa hình ảnh bằng cách đặt giá trị trạng thái của nó thành null
-        setImagePreview(clearImg);
-        inputRef.current.value = '';
-        console.log(setImagePreview(clearImg));
+      };
 
-        // Call the callback function to notify that the image has been cleared
-        callback(setImagePreview(clearImg));
-    };
+      reader.readAsDataURL(file);
+    }
+  };
 
-    return (
-        <div>
-            <div className="image-preview-container">
-                <h2>Image Preview</h2>
+  const clear = () => {
+    setImagePreview(null);
+    setValue=null;
+    value(setValue);
+    inputRef.current.value = '';
+    callback(null);
+  };
 
-                <label htmlFor="file-input" className="custom-upload-button">
-                    {/* {imagePreview && (
-                        <div className="image-preview">
-                            <img src={data} alt="Preview" />
-                        </div>
-                    )} */}
-                    <div className="image-preview">
-                        {
-                            // Buffer.from(data.data.data).toString('base64')
-                            imagePreview?.preview ? (
-                                <img src={imagePreview?.preview} alt="avatar" />
-                            ) : data ? (
-                                <img src={data} alt="avatar" />
-                            ) : (
-                                <img src={images.avatarDefault} alt="avatar" />
-                            )
-                        }
-                    </div>
-                    Chọn tệp
-                </label>
-                <input
-                    type="file"
-                    id="file-input"
-                    className="input-file"
-                    accept="image/"
-                    onChange={handleImageChange}
-                    ref={inputRef}
-                />
-                <br></br>
-                {imagePreview && (
-                    <button onClick={clear} className="clear-button">
-                        Xóa tệp
-                    </button>
-                )}
-            </div>
+  return (
+      <div>
+        <div className="image-preview-container">
+          {title && (
+              <h2>{title}</h2>
+          )}
+
+          <label htmlFor="file-input" className="custom-upload-button">
+            {imagePreview && (
+                <div className="image-preview">
+                  <img src={imagePreview} alt="Preview" />
+                </div>
+            )}
+            Chọn tệp
+          </label>
+          <input
+              type="file"
+              id="file-input"
+              className="input-file"
+              accept="image/*, application/pdf"
+              onChange={handleImageChange}
+              ref={inputRef}
+          />
+          <br />
+          {imagePreview && (
+              <button onClick={clear} className="clear-button">
+                Xóa tệp
+              </button>
+          )}
         </div>
-    );
+      </div>
+  );
 }
 
 export default ImagePreview;
