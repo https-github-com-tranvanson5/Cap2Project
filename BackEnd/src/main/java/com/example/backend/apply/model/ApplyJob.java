@@ -22,6 +22,11 @@ public class ApplyJob {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
+    private String name;
+    private String phone;
+    private String email;
+
     private String userIdApply;
 
     @ManyToOne(fetch = FetchType.EAGER) // Set optional to false if it's mandatory

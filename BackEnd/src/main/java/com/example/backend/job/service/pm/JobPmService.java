@@ -22,4 +22,6 @@ public interface JobPmService {
     ResponseEntity<?> changeStatusJob(String id, JobStatus jobStatus);
 
     ResponseEntity<?> getCareerJob();
+
+    ResponseEntity<?> getDataJobById(String id);
 }

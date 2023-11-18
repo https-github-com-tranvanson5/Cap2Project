@@ -1,7 +1,7 @@
 package com.example.backend.user.controller.user;
 
 import com.example.backend.user.payload.request.ChangePasswordForm;
-import com.example.backend.user.payload.request.UserFormCreate;
+import com.example.backend.user.payload.request.ProfileForm;
 import com.example.backend.user.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class UserController {
         return userService.changePassword(changePasswordForm);
     }
     @PutMapping("/updateProfile")
-    public ResponseEntity<?> updateProfile(@RequestBody @Valid UserFormCreate userFormAdmin) {
-        return userService.updateProfile(userFormAdmin);
+    public ResponseEntity<?> updateProfile(@RequestBody @Valid ProfileForm profileForm) {
+        return userService.updateProfile(profileForm);
     }
 }

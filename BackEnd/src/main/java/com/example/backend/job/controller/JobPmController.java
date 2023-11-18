@@ -42,6 +42,10 @@ public class JobPmController {
     public ResponseEntity<?> changeStatusJob(@RequestParam String id, @RequestParam JobStatus jobStatus) {
         return jobPmService.changeStatusJob(id,jobStatus);
     }
+    @GetMapping("/getDataJobById")
+    public ResponseEntity<?> getDataJobById(@RequestParam String id){
+        return jobPmService.getDataJobById(id);
+    }
     @GetMapping("/getCareerJob")
     public ResponseEntity<?> getCareerJob(){
         return jobPmService.getCareerJob();

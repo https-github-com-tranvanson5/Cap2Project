@@ -3,6 +3,7 @@ package com.example.backend.user.service.user;
 import com.example.backend.authen.service.userdetail.UserPrinciple;
 import com.example.backend.user.model.User;
 import com.example.backend.user.payload.request.ChangePasswordForm;
+import com.example.backend.user.payload.request.ProfileForm;
 import com.example.backend.user.payload.request.UserFormCreate;
 import com.example.backend.user.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
@@ -61,7 +62,7 @@ public class UserServiceimp implements UserService{
     }
 
     @Override
-    public ResponseEntity<?> updateProfile(UserFormCreate profileForm) {
+    public ResponseEntity<?> updateProfile(ProfileForm profileForm) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
         String userId = userPrinciple.getId();

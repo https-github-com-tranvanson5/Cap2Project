@@ -11,8 +11,6 @@ public class ProfileForm {
     private LocalDate dob;
     private EGender gender;
     private String idCard;
-    private String username;
-    private String email;
     private String phone;
     private String address;
     private String avatar;

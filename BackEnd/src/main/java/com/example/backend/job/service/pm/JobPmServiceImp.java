@@ -63,6 +63,24 @@ public class JobPmServiceImp implements JobPmService{
     }
 
     @Override
+    public ResponseEntity<?> getDataJobById(String id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String idUser = ((UserPrinciple) authentication.getPrincipal()).getId();
+        Optional<User> user= userRepository.findById(idUser);
+        if (user.isEmpty()){
+            return new ResponseEntity<>("User không tồn tại", HttpStatus.BAD_REQUEST);
+        }
+        Optional<Job> job= jobRepository.findByIdAndUser(id, user.get());
+        if(job.isEmpty()){
+            return new ResponseEntity<>("Job không tồn tại", HttpStatus.NO_CONTENT);
+        }
+        if(job.get().getJobStatus()== JobStatus.DELETE){
+            return new ResponseEntity<>("Job không tồn tại", HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(job,HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<?> updateJob(JobForm jobForm) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String idUser = ((UserPrinciple) authentication.getPrincipal()).getId();

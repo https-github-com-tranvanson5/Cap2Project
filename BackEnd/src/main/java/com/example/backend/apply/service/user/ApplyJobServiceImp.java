@@ -43,18 +43,21 @@ public class ApplyJobServiceImp implements ApplyJobService {
 
     @Override
     @Transactional
-    public ResponseEntity<?> applyJob(ApplyJobForm applyJob) {
+    public ResponseEntity<?> applyJob(ApplyJobForm applyJobForm) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String idUser = ((UserPrinciple) authentication.getPrincipal()).getId();
 
         ApplyJob apply = new ApplyJob();
-        String jobId = applyJob.getJobId();
+        String jobId = applyJobForm.getJobId();
         Optional<Job> jobOptional = jobRepository.findById(jobId);
-        List<ApplyJob> existingApplication = applyJobRepository.findByUserIdApplyAndJobId(idUser, applyJob.getJobId());
-
-        if (!existingApplication.isEmpty()) {
-            return new ResponseEntity<>("Bạn đã apply job này",HttpStatus.BAD_REQUEST);
-        }
+        List<ApplyJob> existingApplication = applyJobRepository.findByUserIdApplyAndJobId(idUser, applyJobForm.getJobId());
+        apply.setTitle(applyJobForm.getTitle());
+        apply.setName(applyJobForm.getName());
+        apply.setPhone(applyJobForm.getPhone());
+        apply.setEmail(applyJobForm.getEmail());
+//        if (!existingApplication.isEmpty()) {
+//            return new ResponseEntity<>("Bạn đã apply job này",HttpStatus.BAD_REQUEST);
+//        }
         if (jobOptional.isEmpty()){
             return new ResponseEntity<>("Lỗi job không tồn tại",HttpStatus.BAD_REQUEST);
         }
@@ -68,9 +71,9 @@ public class ApplyJobServiceImp implements ApplyJobService {
         }
         apply.setJob(job);
 
-        apply.setUrlCv(applyJob.getUrlCv());
-        if (applyJob.getCvId() != null && !applyJob.getCvId().isEmpty()) {
-            Optional<Cv> optionalCv = cvRepository.findById(applyJob.getCvId());
+        apply.setUrlCv(applyJobForm.getUrlCv());
+        if (applyJobForm.getCvId() != null && !applyJobForm.getCvId().isEmpty()) {
+            Optional<Cv> optionalCv = cvRepository.findById(applyJobForm.getCvId());
             if (optionalCv.isEmpty()) {
                 return new ResponseEntity<>("Lỗi cv không tồn tại", HttpStatus.BAD_REQUEST);
             }

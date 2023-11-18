@@ -30,6 +30,7 @@ public interface ApplyJobRepository extends JpaRepository<ApplyJob,Long> {
                     "AND (:status IS NULL OR apply_job.status= :status)",
             nativeQuery = true)
     Page<ApplyJob> findByUserIdAndSearch(@Param("idUser") String idUser, @Param("search") String search,@Param("status") String status, Pageable pageable);
+
     @Query(value = "SELECT * FROM apply_job " +
             "JOIN job on apply_job.job_id = job.id " +
             "WHERE job.user_id = :idUser " +  // Added space after :userId
@@ -43,7 +44,6 @@ public interface ApplyJobRepository extends JpaRepository<ApplyJob,Long> {
                     "AND (:status IS NULL OR apply_job.status = :status)",  // Added spaces after :status
             nativeQuery = true)
     Page<ApplyJob> findByUserIdAndSearchByPm(@Param("idUser") String idUser, @Param("search") String search, @Param("status") String status, Pageable pageable);
-
     @Query(value = "SELECT * FROM apply_job " +
             "JOIN job on apply_job.job_id = job.id " +
             "WHERE job.user_id = :idUser " +  // Added space after :userId
