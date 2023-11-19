@@ -4,20 +4,6 @@ import com.example.backend.authen.service.userdetail.UserPrinciple;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-<<<<<<< Updated upstream
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
-
-import java.util.Date;
-
-@Component
-public class JwtProvider {
-    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
-
-
-    private String jwtSecret="jwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKey";
-    private String jwtSecret1="jwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKeyjwtGrokonezSecretKeysdfsdsdsff";
-=======
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -40,34 +26,10 @@ public class JwtProvider {
 
     @Value("${jwt.secret2}")
     private String passwordResetJwtSecret ;
->>>>>>> Stashed changes
 
 
     private int jwtExpiration = 86400;
 
-<<<<<<< Updated upstream
-    public String generateJwtToken(Authentication authentication,String action) {
-        UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
-        if(action== "LOGIN"){
-
-            return Jwts.builder()
-                    .setSubject((userPrincipal.getUsername()))
-                    .setIssuedAt(new Date())
-                    .setExpiration(new Date((new Date()).getTime() + jwtExpiration * 1000))
-                    .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                    .compact();
-        }else {
-            return Jwts.builder()
-                    .setSubject((userPrincipal.getUsername()))
-                    .setIssuedAt(new Date())
-                    .setExpiration(new Date((new Date()).getTime() + 180000))
-                    .signWith(SignatureAlgorithm.HS512, jwtSecret1)
-                    .compact();
-        }
-
-    }
-
-=======
     public String generateJwtToken(Authentication authentication) {
         UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
 
@@ -79,16 +41,10 @@ public class JwtProvider {
                 .compact();
 
     }
->>>>>>> Stashed changes
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
-<<<<<<< Updated upstream
-        } catch (SignatureException e) {
-            logger.error("Invalid JWT signature -> Message: {} ", e);
-=======
->>>>>>> Stashed changes
         } catch (MalformedJwtException e) {
             logger.error("Invalid JWT token -> Message: {}", e);
         } catch (ExpiredJwtException e) {
@@ -101,10 +57,6 @@ public class JwtProvider {
 
         return false;
     }
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
     public String getUserNameFromJwtToken(String token) {
 
         String userName = Jwts.parser()
@@ -113,9 +65,6 @@ public class JwtProvider {
                 .getBody().getSubject();
         return userName;
     }
-<<<<<<< Updated upstream
-}
-=======
 
 
     public String generatePasswordResetToken(String username) {
@@ -152,4 +101,3 @@ public class JwtProvider {
     }
 
 }
->>>>>>> Stashed changes

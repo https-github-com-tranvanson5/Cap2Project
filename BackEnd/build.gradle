@@ -1,15 +1,9 @@
 plugins {
 	id 'java'
-<<<<<<< Updated upstream
-	id 'org.springframework.boot' version '2.7.11'
-	id 'io.spring.dependency-management' version '1.1.2'
-}
-=======
 	id 'org.springframework.boot' version '2.7.16'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
->>>>>>> Stashed changes
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
@@ -17,34 +11,18 @@ java {
 	sourceCompatibility = '17'
 }
 
-<<<<<<< Updated upstream
-=======
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
 }
 
->>>>>>> Stashed changes
 repositories {
 	mavenCentral()
 }
 
 dependencies {
 
-<<<<<<< Updated upstream
-	implementation 'org.jsoup:jsoup:1.14.3'
-
-
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	// https://mvnrepository.com/artifact/com.eaio.uuid/uuid
-	implementation group: 'com.eaio.uuid', name: 'uuid', version: '3.2'
-	implementation 'com.google.guava:guava:30.1.1-jre'
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
-	implementation 'org.expath.http.client:http-client:1.4.1'
-	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
-	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
-=======
 	// https://mvnrepository.com/artifact/org.jsoup/jsoup
 	implementation group: 'org.jsoup', name: 'jsoup', version: '1.16.1'
 
@@ -54,21 +32,14 @@ dependencies {
 	implementation group: 'com.nexmo', name: 'jwt', version: '1.0.1'
 
 	implementation group: 'com.eaio.uuid', name: 'uuid', version: '3.2'
->>>>>>> Stashed changes
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-<<<<<<< Updated upstream
-	compileOnly 'org.projectlombok:lombok'
-// https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
-	implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.1.0'
-=======
 	implementation 'org.springframework.session:spring-session-core'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
->>>>>>> Stashed changes
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'

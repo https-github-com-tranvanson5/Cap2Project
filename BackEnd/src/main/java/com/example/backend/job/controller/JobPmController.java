@@ -1,17 +1,11 @@
 package com.example.backend.job.controller;
 
-<<<<<<< Updated upstream
-import com.example.backend.job.payload.request.CreateJobForm;
-import com.example.backend.job.service.job.JobService;
-import org.springframework.beans.factory.annotation.Autowired;
-=======
 import com.example.backend.job.constain.*;
 import com.example.backend.job.payload.request.JobForm;
 import com.example.backend.job.service.pm.JobPmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
->>>>>>> Stashed changes
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,16 +16,6 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "*")
 public class JobPmController {
     @Autowired
-<<<<<<< Updated upstream
-    private JobService jobService;
-    @GetMapping("getJob")
-    public ResponseEntity<?> getAllDataListJobPm(){
-        return jobService.getAllDataListJobPm();
-    }
-    @PostMapping("createJob")
-    public ResponseEntity<?> createJob(@Valid @RequestBody CreateJobForm createJobForm){
-        return jobService.createJob(createJobForm);
-=======
     private JobPmService jobPmService;
     @GetMapping("/getDataJob")
     public ResponseEntity<?> getDataJob(@RequestParam(required = false) String search,
@@ -78,6 +62,5 @@ public class JobPmController {
     @GetMapping("/getqualityJobByStatus")
     public ResponseEntity<?> getqualityJobByStatus(@RequestParam JobStatus status) {
         return jobPmService.getqualityJobByStatus(status);
->>>>>>> Stashed changes
     }
 }

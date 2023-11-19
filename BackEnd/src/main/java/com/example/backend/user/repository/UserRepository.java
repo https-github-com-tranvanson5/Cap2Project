@@ -1,18 +1,11 @@
 package com.example.backend.user.repository;
 
-<<<<<<< Updated upstream
-
-import com.example.backend.user.contains.UserStatus;
-import com.example.backend.user.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-=======
 import com.example.backend.user.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
->>>>>>> Stashed changes
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,14 +19,6 @@ public interface UserRepository extends JpaRepository<User,String> {
 
     boolean existsByUsername(String username);
 
-<<<<<<< Updated upstream
-    User findByEmail(String email);
-    List<User> getUserByStatus(UserStatus status);
-    User getUserById(String id);
-
-    @Override
-    boolean existsById(String id);
-=======
     @Query(value = "SELECT * FROM user WHERE " +
             "(:search IS NULL or(user.id like CONCAT(:search,'%') " +
             "or user.name like CONCAT('%',:search,'%') " +
@@ -69,5 +54,4 @@ public interface UserRepository extends JpaRepository<User,String> {
     User getByEmail(String email);
 
     Optional<User> findByEmail(String email);
->>>>>>> Stashed changes
 }

@@ -1,13 +1,5 @@
 package com.example.backend.job.repository;
 
-<<<<<<< Updated upstream
-import com.example.backend.job.contains.JobStatus;
-import com.example.backend.job.model.Job;
-import com.example.backend.user.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-=======
 import com.example.backend.job.model.Job;
 import com.example.backend.user.model.User;
 import org.springframework.data.domain.Page;
@@ -20,17 +12,10 @@ import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
->>>>>>> Stashed changes
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-<<<<<<< Updated upstream
-public interface JobRepository extends JpaRepository<Job,Long> {
-    Boolean existsByStatus(JobStatus status);
-    List<Job> findByStatus(JobStatus status);
-    List<Job> findAllByUser(User user);
-=======
 public interface JobRepository extends JpaRepository<Job,String> {
 //    @Query(
 //            value = "SELECT * FROM job " +
@@ -208,5 +193,4 @@ public interface JobRepository extends JpaRepository<Job,String> {
             Pageable pageable
     );
 
->>>>>>> Stashed changes
 }
