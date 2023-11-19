@@ -1,5 +1,6 @@
 package com.example.backend.authen.payload.request;
 
+<<<<<<< Updated upstream
 
 import lombok.Data;
 
@@ -22,5 +23,12 @@ public class SignInForm {
     @Size(min = 8, max = 50, message = "Password must be between 8 and 20 characters")
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).{8,50}$",
             message = "Password must have at least 8 characters, including at least one uppercase letter, one digit, and one special character.")
+=======
+import lombok.Data;
+
+@Data
+public class SignInForm {
+    private String username;
+>>>>>>> Stashed changes
     private String password;
 }

@@ -2,6 +2,7 @@ package com.example.backend.user.model;
 
 
 import com.example.backend.authen.model.Role;
+<<<<<<< Updated upstream
 import com.example.backend.cv.model.CurriculumVitae;
 import com.example.backend.job.model.Job;
 import com.example.backend.user.contains.EGender;
@@ -9,6 +10,13 @@ import com.example.backend.user.contains.UserStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+=======
+import com.example.backend.cv.model.Cv;
+import com.example.backend.job.model.Job;
+import com.example.backend.user.constain.EGender;
+import com.example.backend.user.constain.UserStatus;
+import com.fasterxml.jackson.annotation.*;
+>>>>>>> Stashed changes
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -18,10 +26,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+<<<<<<< Updated upstream
 import java.util.UUID;
 
 @Data
 @Entity
+=======
+
+@Data
+@Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Long.class)
+>>>>>>> Stashed changes
 public class User {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -58,6 +73,7 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
+<<<<<<< Updated upstream
     @OneToMany(mappedBy = "user")
     @JsonBackReference
     private Set<Job> jobs= new HashSet<>();
@@ -65,8 +81,21 @@ public class User {
     @OneToMany(mappedBy = "user")
     @JsonBackReference
     private Set<CurriculumVitae> curriculumVitaes = new HashSet<>();
+=======
+>>>>>>> Stashed changes
 
     private LocalDateTime createAt;
     @Enumerated(EnumType.STRING)
     private UserStatus status;
+<<<<<<< Updated upstream
+=======
+
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<Job> jobs;
+
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<Cv> cvs= new HashSet<>();
+>>>>>>> Stashed changes
 }

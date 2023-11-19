@@ -1,5 +1,6 @@
 package com.example.backend.user.payload.request;
 
+<<<<<<< Updated upstream
 import lombok.Data;
 
 import javax.validation.constraints.*;
@@ -26,4 +27,20 @@ public class ProfileForm {
     private String avatar;
 
 
+=======
+import com.example.backend.user.constain.EGender;
+import lombok.Data;
+
+import java.time.LocalDate;
+
+@Data
+public class ProfileForm {
+    private String name;
+    private LocalDate dob;
+    private EGender gender;
+    private String idCard;
+    private String phone;
+    private String address;
+    private String avatar;
+>>>>>>> Stashed changes
 }

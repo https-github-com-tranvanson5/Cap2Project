@@ -2,6 +2,7 @@ package com.example.backend.authen.payload.request;
 
 import lombok.Data;
 
+<<<<<<< Updated upstream
 import javax.validation.constraints.*;
 
 
@@ -31,4 +32,12 @@ public class SignUpForm {
     @Email(message = "Invalid email format")
     private String email;
 
+=======
+@Data
+public class SignUpForm {
+    private String name;
+    private String email;
+    private String username;
+    private String password;
+>>>>>>> Stashed changes
 }

@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+<<<<<<< Updated upstream
 public class Certification{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,4 +16,16 @@ public class Certification{
     private String end;
     @Column(columnDefinition = "longtext")
     private String description;
+=======
+public class Certification {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String title;
+    private String time;
+    @Column(columnDefinition = "longtext")
+    private String name;
+    @Column(columnDefinition = "longtext")
+    private String descripton;
+>>>>>>> Stashed changes
 }
