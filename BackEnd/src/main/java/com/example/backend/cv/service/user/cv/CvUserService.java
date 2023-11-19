@@ -7,4 +7,8 @@ public interface CvUserService {
     ResponseEntity<?> createCv(CreateCvForm createCvForm);
 
     ResponseEntity<?> updateCv(CreateCvForm createCvForm);
+
+    ResponseEntity<?> getData();
+
+    ResponseEntity<?> getDataById(String id);
 }

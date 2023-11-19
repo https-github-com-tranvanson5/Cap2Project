@@ -14,9 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.lang.reflect.Method;
+import java.nio.file.attribute.UserPrincipal;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -354,5 +356,53 @@ public class CvUserServiceImp implements CvUserService{
         cv.setUser(user);
         cvRepository.save(cv);
         return new ResponseEntity < > (cv, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> getData() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(authentication.getPrincipal() instanceof UserPrinciple)) {
+            return new ResponseEntity<>("Không thể xác định người dùng", HttpStatus.UNAUTHORIZED);
+        }
+
+        String idUser = ((UserPrinciple) authentication.getPrincipal()).getId();
+
+        Optional<User> optionalUser = userRepository.findById(idUser);
+
+        User user = optionalUser.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Người dùng không tồn tại"));
+
+        Optional<Cv> optionalCv = cvRepository.findByUserAndStatus(user, CvStatus.ACTIVE);
+
+        Cv cv = optionalCv.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy CV hoặc CV không hoạt động"));
+
+        return new ResponseEntity<>(cv, HttpStatus.OK);
+    }
+
+
+
+    @Override
+    public ResponseEntity<?> getDataById(String id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(authentication.getPrincipal() instanceof UserPrinciple)) {
+            return new ResponseEntity<>("Không thể xác định người dùng", HttpStatus.UNAUTHORIZED);
+        }
+
+        String idUser = ((UserPrinciple) authentication.getPrincipal()).getId();
+
+        Optional<User> optionalUser = userRepository.findById(idUser);
+
+        User user = optionalUser.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Người dùng không tồn tại"));
+
+        Optional<Cv> optionalCv = cvRepository.findByIdAndUser(id, user);
+
+        Cv cv = optionalCv.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy CV"));
+
+        if (cv.getStatus() == CvStatus.DELETE) {
+            return new ResponseEntity<>("CV đã bị xóa", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(cv, HttpStatus.OK);
     }
 }

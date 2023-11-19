@@ -1,7 +1,6 @@
 package com.example.backend.crawl.controller;
 
-import com.example.backend.crawl.service.admin.WebCrawlerService;
-import com.example.backend.cv.payload.request.CreateCvForm;
+import com.example.backend.crawl.service.WebCrawlerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -17,5 +16,9 @@ public class WebCrawlerUserController {
     @GetMapping("/getData")
     public ResponseEntity<?> getData(@PageableDefault Pageable pageable){
         return webCrawlerService.getData(pageable);
+    }
+    @GetMapping("/getDataById")
+    public ResponseEntity<?> getDataById(@RequestParam String id){
+        return webCrawlerService.getDataById(id);
     }
 }

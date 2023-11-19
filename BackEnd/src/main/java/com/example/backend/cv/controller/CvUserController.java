@@ -20,4 +20,12 @@ public class CvUserController {
     public ResponseEntity<?> updateCv(@RequestBody CreateCvForm createCvForm){
         return cvUserService.updateCv(createCvForm);
     }
+    @GetMapping("/getData")
+    public ResponseEntity<?> getData(){
+        return cvUserService.getData();
+    }
+    @GetMapping("/getDataById")
+    public ResponseEntity<?> getDataById(@RequestParam String id){
+        return cvUserService.getDataById(id);
+    }
 }
