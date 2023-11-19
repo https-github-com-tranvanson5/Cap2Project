@@ -1,0 +1,195 @@
+.wrapper {
+    max-width: 1060px;
+    margin: 0 auto;
+    // border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    .title-header {
+        font-size: 30px;
+        display: flex;
+        justify-content: center;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-top: 15px;
+    }
+    .post-title {
+        text-transform: uppercase;
+        background-color: var(--white-color);
+        font-weight: 600;
+        font-size: 22px;
+        display: inline-block;
+        position: relative;
+        top: 23px;
+        left: 15px;
+        padding: 5px;
+    }
+    .title-post {
+        border: 1px solid #ccc;
+        padding: 15px;
+        border-radius: 2px;
+
+        .content-detail {
+            margin-top: 20px;
+            .message {
+                display: flex;
+                justify-content: flex-end;
+                font-size: 12px;
+                line-height: 16px;
+                font-weight: 400;
+                color: rgb(224, 60, 49);
+            }
+            .content-input {
+                .detail-content {
+                    border: 1px solid #ccc;
+                    // height: 200px;
+                }
+                .input-input {
+                    width: 100%;
+                    border: 1px solid #ccc;
+                    height: 200px;
+                }
+                .content-salary {
+                    width: 47%;
+                }
+                .form-choice {
+                    width: 100%;
+                    min-height: 100px;
+                    border: 1px solid #000;
+                    padding: 10px;
+                    .type-name {
+                        display: flex;
+                        font-size: 18px;
+                        font-weight: 700;
+                        color: #f47425;
+                        .checkbox {
+                            width: 3%;
+                        }
+                    }
+                }
+
+                .input-text {
+                    width: 100%;
+                    border: 1px solid #ccc;
+                    border-radius: 10px;
+                    padding: 10px;
+                    &:focus {
+                        border: 1px solid var(--black-color);
+                    }
+                }
+                .detail-name {
+                    font-size: 18px;
+                    font-weight: 500;
+                    min-width: 170px;
+                    max-height: 48px;
+                }
+                .salary-detail {
+                    display: flex;
+                }
+
+                .overlay {
+                    background-color: #ccc;
+                    // width: 100%;
+                    z-index: 999;
+                    // pointer-events: none;
+                }
+                .type-vip {
+                    width: 55% !important;
+                    display: flex;
+                    z-index: -1;
+                    .multip,
+                    .cost {
+                        margin: 8px;
+                        .cost-total {
+                            margin-left: 2px;
+                            color: var(--secondary-color);
+                        }
+                    }
+                }
+
+                .type-vip-special {
+                    width: 24%;
+                    z-index: -1;
+                }
+                textarea {
+                    width: 100%;
+                    border: 1px solid black;
+                    height: 150px;
+                    display: block;
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
+
+    .input-salary {
+        width: 60%;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 10px;
+        height: 47px;
+    }
+    .input-salary.disable {
+        pointer-events: none;
+        background-color: #ccc;
+        color: #ccc;
+    }
+    .content-rule {
+        margin: 20px 0 20px 0;
+        width: 100%;
+        display: flex;
+        .rule {
+            margin-left: 5px;
+            display: flex;
+        }
+        .checkbox-rule {
+            width: 3%;
+        }
+        .checkbox{
+            background-color: red($color: #000000);
+            margin-right: 10px;
+        }
+    }
+    .submit-btn {
+        .btn-right {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+    .text-editor{
+        background-color: white;
+        border-radius: 5px;
+    }
+    .scroll-box{
+        padding: 20px;
+        margin: 10px;
+        width: 97%;
+        height: 150px;
+        overflow-x: hidden;
+        overflow-y: scroll; 
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+}
+
+@media all and (max-width: 1205px) {
+    .wrapper {
+        .content-detail {
+            .content-input {
+                .type-vip {
+                    width: 100% !important;
+                    display: flex;
+                }
+                .checkbox {
+                    width: 7%;
+                }
+                .type-normal {
+                    .checkbox {
+                        width: 7%;
+                    }
+                }
+            }
+        }
+    }
+}

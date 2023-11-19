@@ -1,0 +1,72 @@
+.wrapper {
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+    padding: 10px 0 10px 16px;
+    position: relative;
+    min-height: 100px;
+    &:hover .controls {
+        display: block;
+        background: hsla(0deg, 0%, 95%, 0.7);
+    }
+    .input {
+        opacity: 0;
+        position: absolute;
+    }
+}
+
+.wrapper,
+.controls {
+    &:hover {
+        background: hsla(0deg, 0%, 95%, 0.7);
+    }
+}
+
+.avatar-block {
+    position: relative;
+    max-width: 180px;
+    &:hover .upload-avatar {
+        display: flex;
+    }
+    .avatar-img {
+        max-height: 180px;
+        width: 100%;
+        object-fit: cover;
+        background-repeat: no-repeat;
+    }
+    .upload-avatar {
+        display: none;
+        position: absolute;
+        inset: 0;
+        color: var(--gray-color);
+        font-size: 32px;
+        align-items: center;
+        justify-content: center;
+        &:hover {
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+    }
+}
+
+.controls {
+    display: none;
+    position: absolute;
+    padding: 2px 8px 10px 20px;
+    font-size: 24px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    left: 100%;
+    top: 0;
+    bottom: 0;
+
+    .control-icon {
+        padding: 8px;
+        width: 40px;
+        height: 40px;
+        margin-bottom: 4px;
+        &:hover {
+            color: var(--fb-color);
+            cursor: pointer;
+        }
+    }
+}
