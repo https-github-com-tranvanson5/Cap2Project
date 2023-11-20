@@ -42,6 +42,10 @@ export default function DetailInfor({ data }) {
             value: 'MORE_THAN_TEN_YEARS',
             name: 'Trên 10 năm',
         },
+        {
+            value: 'NONE',
+            name: 'Không yêu cầu',
+        },
     ];
 
     //Category of Education
@@ -73,6 +77,10 @@ export default function DetailInfor({ data }) {
         {
             value: 'DOCTORAL',
             name: 'Tiến sĩ',
+        },
+        {
+            value: 'NONE',
+            name: 'Không yêu cầu',
         },
     ];
 
@@ -108,6 +116,8 @@ export default function DetailInfor({ data }) {
         (career) => career?.name,
     );
 
+    console.log(jobDetailData);
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [id]);
@@ -127,6 +137,9 @@ export default function DetailInfor({ data }) {
                             <h3 className={cx('company-name')}>
                                 {jobDetailData?.company}
                             </h3>
+                            <Link to={`${jobDetailData?.companyLink}`}>
+                                Website doanh nghiệp
+                            </Link>
                             <div className={cx('time')}>
                                 <span className={cx('type-work-icons')}>
                                     <ion-icon
@@ -153,14 +166,20 @@ export default function DetailInfor({ data }) {
                             </div>
                         </div>
                         <div className={cx('box-logo')}>
-                            <img
+                            <Link
+                                className={cx('link')}
+                                to={`${jobDetailData?.companyLink}`}
+                            >
+                                <img src={jobDetailData?.imageUrl} alt="" />
+                            </Link>
+                            {/* <img
                                 src={
                                     jobDetailData?.recruiter_jobs?.imageUrl
                                         ? jobDetailData?.imageUrl
                                         : images.avatarDefault
                                 }
                                 alt={jobDetailData?.company}
-                            />
+                            /> */}
                             <div className={cx('time')}>
                                 <span className={cx('end-day')}>
                                     {jobDetailData?.contactEmail}
@@ -324,10 +343,7 @@ export default function DetailInfor({ data }) {
                                     Địa điểm làm việc
                                 </h2>
                                 <span className={cx('address-detail')}>
-                                    -{' '}
-                                    {getNameByValueCity(
-                                        jobDetailData?.contactAddress,
-                                    )}
+                                    -{jobDetailData?.contactAddress}
                                 </span>
                                 <h2 className={cx('adress')}>
                                     Địa điểm chi tiết
@@ -407,11 +423,6 @@ export default function DetailInfor({ data }) {
                                     )}
                                 </div>
                             </div>
-                        </div>
-                        <div className={cx('detail-ads')}>
-                            <Link className={cx('link')} to={config.routes.cv}>
-                                <img src={images.CV} alt="" />
-                            </Link>
                         </div>
                     </div>
                 </div>

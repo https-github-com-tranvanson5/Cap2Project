@@ -162,11 +162,22 @@ export const deleteUser = async (jwt, dispatch, id) => {
     }
 };
 
-export const getAllJobs = async (jwt, dispatch , query , setData) => {
+export const getAllJobs = async (
+    jwt,
+    dispatch,
+    query,
+    searchAddress,
+    jobEducation,
+    jobExperience,
+    jobPosition,  
+    jobType,
+    setData,
+    
+) => {
     dispatch(getAllJobsStart());
     try {
         const res = await axios.get(
-            `http://localhost:8080/api/user/job/getAllDataListJobBySearch?search=${query}&searchAddress=&jobEducation=&jobExperience=&jobPosition=&jobType&career=&salary=`,
+            `http://localhost:8080/api/user/job/getAllDataListJobBySearch?search=${query}&searchAddress=${searchAddress}&jobEducation=${jobEducation}&jobExperience=${jobExperience}&jobPosition=${jobPosition}&jobType=${jobType}&career=&salary=`,
             {
                 headers: {
                     Authorization: `Bearer ${jwt}`,
@@ -318,7 +329,7 @@ export const getAllApplyJobsCandidate = async (jwt, dispatch) => {
     }
 };
 
-export const changeStatus = async (jwt, dispatch, status ,id , data) => {
+export const changeStatus = async (jwt, dispatch, status, id, data) => {
     dispatch(getchangeStatusStart());
     try {
         await axios.put(

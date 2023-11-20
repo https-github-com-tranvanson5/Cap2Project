@@ -149,20 +149,20 @@ function RecruiterPost() {
             if (id){
                 newFormData.id=id;
                 console.log(newFormData);
-                editJob(newFormData, isAuth, dispatch);
+                editJob(newFormData, isAuth?.jwt, dispatch);
             }else{
                 console.log(newFormData);
-                postJob(newFormData, isAuth, dispatch);
+                postJob(newFormData, isAuth?.jwt, dispatch);
             }
 
         }else{
             if (id){
                 newFormData.id=id;
                 console.log(newFormData);
-                editJob(newFormData, isAuth, dispatch);
+                editJob(newFormData, isAuth?.jwt, dispatch);
             }else{
                 console.log(newFormData);
-                postJob(newFormData, isAuth, dispatch);
+                postJob(newFormData, isAuth?.jwt, dispatch);
             }
         }
     };

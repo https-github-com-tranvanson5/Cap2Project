@@ -33,6 +33,7 @@ function InputEditor({ defaultValue }) {
     const onEditorStateChange = (editorState) => {
         setEditorState(editorState);
         convertToRaw(editorState.getCurrentContent(editorState))
+        console.log(editorState)
         // console.log(
         //     'onEditorStateChange:::',
         //     editorState.getCurrentContent().getPlainText(''),

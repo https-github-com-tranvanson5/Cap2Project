@@ -20,6 +20,8 @@ function BoxEditorItem({
 }) {
     const dispatch = useDispatch();
 
+    console.log(editorValue)
+
     const handleAddNewEditor = () => {
         dispatch(
             cvSlice.actions.addIconicContainerItem({

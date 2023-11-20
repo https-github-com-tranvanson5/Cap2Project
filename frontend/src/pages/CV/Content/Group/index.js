@@ -27,7 +27,7 @@ function EditorGroup({ editorData, groupId, index, length }) {
                                     editorValue={editor.value}
                                     length={length}
                                 />
-                                {console.log()}
+                                {console.log(editor.value)}
                             </div>
                         );
                     })}

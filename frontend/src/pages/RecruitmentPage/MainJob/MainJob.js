@@ -12,6 +12,7 @@ import { getAllJobs } from '~/redux/apiRequest';
 import { _LIMIT_PAGE } from '~/config/api';
 import Search from '../Search/SearchJob/SearchJob';
 import Carousel from '~/pages/Home/Slider/Slider';
+import { useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 function MainJob() {
@@ -21,12 +22,27 @@ function MainJob() {
     const [jobListData, setJobListData] = useState(
         useSelector((state) => state.allJob.jobs?.allJobs),
     );
+    const location = useLocation();
+
+    const searchItem = location.state;
+
+    console.log('searchItem', searchItem?.query);
 
     useEffect(() => {
-        getAllJobs(user?.jwt, dispatch, query , setJobListData);
+        getAllJobs(
+            user?.jwt,
+            dispatch,
+            query || searchItem?.query || '',
+            '',
+            searchItem?.jobEducation || '',
+            searchItem?.jobExperience  || '',
+            searchItem?.jobPosition || '',
+            searchItem?.jobType || '',
+            setJobListData,
+        );
     }, [query]);
 
-    console.log(query)
+    console.log('query', searchItem?.career);
 
     return (
         <>

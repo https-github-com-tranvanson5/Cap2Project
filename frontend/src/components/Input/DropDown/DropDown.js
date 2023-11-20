@@ -26,7 +26,7 @@ export default function DropDown({
 
     const renderDropDownData = () => {
         return (
-            data.length > 0 &&
+            data?.length > 0 &&
             data?.map((dropdown, index) => {
                 return (
                     <option key={index} value={dropdown.value}>

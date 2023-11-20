@@ -9,9 +9,10 @@ import Button from '~/components/Button';
 import FirebaseFileUploader from '~/pages/Recruiter/RecruiterPost/ImageProcess/Firebase/FirebaseFileUploader';
 import initializeFirebaseStorage from '~/pages/Recruiter/RecruiterPost/ImageProcess/Firebase/firebaseConfig';
 import ImagePreview from '~/pages/Recruiter/RecruiterPost/ImageProcess/Image/ImagePreview';
-import { applyJob } from '~/redux/apiRequest';
+import { applyJob, getProfileUser } from '~/redux/apiRequest';
 import FilePreview from '~/components/FilePreview/FilePreview';
 import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 // import { cloudinaryUploadApi } from '~/services/uploadService';
 // import { fetchApplyJobs } from '~/pages/RecruitmentDetail/RecruitmentPageSlice';
 
@@ -21,13 +22,13 @@ function Modal({ setOpenModal, data }) {
     const dispatch = useDispatch();
     const [file, setFile] = useState(null);
     const [coverLetter, setCoverLetter] = useState('');
+    const [imagePreview, setImagePreview] = useState('');
     const isAuth = useSelector((state) => state.auth.login?.currentUser);
+    const user = useSelector((state) => state.profile.user?.profileUser);
 
-    const handleChangeFile = async (e) => {
-        const file = e.target.files[0];
-        setFile(file);
-    };
-
+    useEffect(() => {
+        getProfileUser(isAuth?.jwt, dispatch);
+    }, []);
     // console.log('job-data:', data);
 
     const handleSubmit = async (e) => {
@@ -42,13 +43,19 @@ function Modal({ setOpenModal, data }) {
         const dataApplyJobs = {
             urlCv: url,
             jobId: data.id,
+            title: coverLetter,
+            email: user?.email,
+            phone : user?.phone,
+            name : user?.name
             // coverLetter,
             // recruiterId: data.recruiter_jobs.id,
         };
         console.log(dataApplyJobs);
         applyJob(dataApplyJobs, isAuth?.jwt, dispatch);
-        toast.success('Nộp CV thành công')
+        toast.success('Nộp CV thành công');
     };
+
+    console.log(user)
 
     const handleCallback = (data) => {
         setFile(data);
@@ -85,9 +92,13 @@ function Modal({ setOpenModal, data }) {
                             </Link>
                         </div>
                         <div className={cx('modal-file')}>
-                            <FilePreview callback={handleCallback}  />
+                            <FilePreview
+                                callback={handleCallback}
+                                imagePreview={imagePreview}
+                                setImagePreview={setImagePreview}
+                            />
                         </div>
-                        {/* <div className={cx('modal-letter')}>
+                        <div className={cx('modal-letter')}>
                             <h4>Thư giới thiệu:</h4>
                             <textarea
                                 value={coverLetter}
@@ -98,7 +109,7 @@ function Modal({ setOpenModal, data }) {
                                 placeholder="Viết giới thiệu ngắn gọn về bản thân (điểm mạnh, điểm yếu) và nêu rõ mong muốn, lý do làm việc tại công ty này. Đây là cách gây ấn tượng với nhà tuyển dụng nếu bạn có chưa có kinh nghiệm làm việc (hoặc CV không tốt)."
                                 className={cx('form-control')}
                             ></textarea>
-                        </div> */}
+                        </div>
                         <div className={cx('modal-btn')}>
                             <Button
                                 onClick={() => {

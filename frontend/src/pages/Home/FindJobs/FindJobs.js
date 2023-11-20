@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './FindJobs.module.scss';
 import DropDown from '~/components/Input/DropDown/DropDown';
 import Input from '~/components/Input/Input/Input';
-import findjob from '../../../assets/images/findjob.svg'
+import findjob from '../../../assets/images/findjob.svg';
 import images from '~/assets/images';
 import Button from '~/components/Button';
 import {
@@ -20,40 +20,64 @@ import {
 } from '~/redux/Selectors/searchSelector';
 import useDebounce from '~/hooks/useDebounce';
 import SearchResults from './SearchResults/SearchResults';
-import { getAllJobs } from '~/redux/apiRequest';
+import { getAllJobs, getCareer } from '~/redux/apiRequest';
+import { useNavigate } from 'react-router-dom';
+import {
+    categoryEducationOption,
+    categoryExperienceOption,
+    categoryPositionOption,
+    categoryTypeOption,
+} from '~/pages/Recruiter/RecruiterPost/Data/DataEntry';
 
 const cx = classNames.bind(styles);
 
 export default function FindJobs() {
     const dispatch = useDispatch();
     const [searchText, setSearchText] = useState('');
+    const [query, setQuery] = useState('');
     const debounceSearch = useDebounce(searchText, 500);
     const resultsSearch = useSelector(searchJobListSelector);
     const user = useSelector((state) => state.auth.login?.currentUser);
-    const jobListData = useSelector((state) => state.allJob.jobs?.allJobs);
+    const [formData, setFormData] = useState('');
+    const careers = useSelector((state) => state.allJob.career?.careerCurrent);
+    const [listCareerId, setListCareerId] = useState([]);
 
+    const handleCheckboxChange = (id) => {
+        if (listCareerId.includes(id)) {
+            // Nếu đã có, loại bỏ id khỏi listCareerId
+            setListCareerId(listCareerId.filter((item) => item !== id));
+        } else {
+            // Nếu chưa có, thêm id vào danh sách listCareerId
+            setListCareerId([...listCareerId, id]);
+        }
+    };
 
-    const { cityCategories, jobCategories, workFrom } = '';
+    const navigate = useNavigate();
+
+    console.log('categoryTypeOption', categoryTypeOption);
 
     useEffect(() => {
-        getAllJobs(user?.jwt, dispatch);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        getCareer(user?.jwt, dispatch);
     }, []);
 
-    // useEffect(() => {
-    //     if (searchText.trim()) {
-    //         dispatch(fetchJobListSearch(searchText));
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [debounceSearch]);
+    console.log(formData);
 
-    const handleChangeSearchText = (e) => {
-        setSearchText(e.target.value);
+    const onChangeValue = (field, value) => {
+        setFormData({ ...formData, [field]: value });
     };
+
+    console.log('formData', formData);
+
+    // console.log('jobListData' ,jobListData)
+    // console.log('careers' , careers)
 
     const handleClickFindJobsBtn = (e) => {
         e.preventDefault();
-        console.log('handleClickFindJobsBtn', searchText);
+        let newFormData = { ...formData, query: query , careers : listCareerId };
+
+        navigate('/recruitmentpage/user', { state: newFormData });
+
+        console.log('newFormData', newFormData);
     };
 
     return (
@@ -71,9 +95,11 @@ export default function FindJobs() {
                                                 leftIcon={
                                                     <ion-icon name="search-outline"></ion-icon>
                                                 }
-                                                value={searchText}
-                                                onChange={
-                                                    handleChangeSearchText
+                                                value={query}
+                                                onChange={(e) =>
+                                                    setQuery(
+                                                        e.target.value.toLowerCase(),
+                                                    )
                                                 }
                                                 placeholder="Tên công việc, vị trí bạn muốn ứng tuyển..."
                                             />
@@ -92,40 +118,103 @@ export default function FindJobs() {
                                             </h5>
                                             <Row>
                                                 <Col lg={6}>
-                                                    <DropDown
-                                                        title="Nghành nghề"
-                                                        data={jobCategories}
-                                                    />
+                                                    {careers?.map((career) => (
+                                                        <div key={career.id}>
+                                                            <div
+                                                                value={listCareerId.includes(
+                                                                    career.id,
+                                                                )}
+                                                                onChange={() =>
+                                                                    handleCheckboxChange(
+                                                                        career.id,
+                                                                    )
+                                                                }
+                                                            >
+                                                                <DropDown
+                                                                    title="Công việc"
+                                                                    data={
+                                                                        careers
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    ))}
                                                 </Col>
                                                 <Col lg={6}>
-                                                    <DropDown
-                                                        title="Vị trí"
-                                                        data={jobCategories}
-                                                    />
+                                                    <div
+                                                        value={formData}
+                                                        onChange={(onChange) =>
+                                                            onChangeValue(
+                                                                'jobPosition',
+                                                                onChange.target
+                                                                    .value,
+                                                            )
+                                                        }
+                                                    >
+                                                        <DropDown
+                                                            title="Vị trí"
+                                                            data={
+                                                                categoryPositionOption
+                                                            }
+                                                        />
+                                                    </div>
                                                 </Col>
                                                 <Col lg={6}>
-                                                    <DropDown
-                                                        title="Thành phố"
-                                                        data={cityCategories}
-                                                    />
+                                                    <div
+                                                        value={formData}
+                                                        onChange={(onChange) =>
+                                                            onChangeValue(
+                                                                'jobEducation',
+                                                                onChange.target
+                                                                    .value,
+                                                            )
+                                                        }
+                                                    >
+                                                        <DropDown
+                                                            title="Học vấn"
+                                                            data={
+                                                                categoryEducationOption
+                                                            }
+                                                        />
+                                                    </div>
                                                 </Col>
                                                 <Col lg={6}>
-                                                    <DropDown
-                                                        title="Mức lương"
-                                                        data={jobCategories}
-                                                    />
+                                                    <div
+                                                        value={formData}
+                                                        onChange={(onChange) =>
+                                                            onChangeValue(
+                                                                'jobExperience',
+                                                                onChange.target
+                                                                    .value,
+                                                            )
+                                                        }
+                                                    >
+                                                        <DropDown
+                                                            title="Kinh nghiệm"
+                                                            data={
+                                                                categoryExperienceOption
+                                                            }
+                                                        />
+                                                    </div>
                                                 </Col>
                                                 <Col lg={6}>
-                                                    <DropDown
-                                                        title="Hình thức làm việc"
-                                                        data={workFrom}
-                                                    />
-                                                </Col>
-                                                <Col lg={6}>
-                                                    <DropDown
-                                                        title="Cấp bậc"
-                                                        data={jobCategories}
-                                                    />
+                                                    <div
+                                                        value={formData}
+                                                        onChange={(onChange) =>
+                                                            onChangeValue(
+                                                                'jobType',
+                                                                onChange.target
+                                                                    .value,
+                                                            )
+                                                        }
+                                                    >
+                                                        <DropDown
+                                                            title="Hình thức làm việc"
+                                                            data={
+                                                                categoryTypeOption
+                                                            }
+                                                        />
+                                                    </div>
                                                 </Col>
                                             </Row>
                                         </div>

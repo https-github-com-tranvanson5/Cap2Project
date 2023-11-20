@@ -14,7 +14,7 @@ import { cvSlice } from '../cvSlice';
 
 const cx = classNames.bind(styles);
 
-function BoxEditor({ icon, heading, groupId, children, index, length }) {
+function BoxEditor({ icon, heading, groupId, children, index, length , onChange }) {
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false);
 
@@ -132,7 +132,7 @@ function BoxEditor({ icon, heading, groupId, children, index, length }) {
                         )}
                         <div className={cx('heading')}>
                             <Title>
-                                <InputEditor defaultValue={heading} />
+                                <InputEditor defaultValue={heading} setContentBlog={onChange} />
                             </Title>
                         </div>
                     </div>

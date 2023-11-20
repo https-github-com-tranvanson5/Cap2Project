@@ -39,11 +39,9 @@ function FilePreview({ callback }) {
                 <h2>Image Preview</h2>
 
                 <label htmlFor="file-input" className="custom-upload-button">
-                    {imagePreview && (
-                        <div className="image-preview">
-                            <img src={imagePreview} alt="Preview" />
-                        </div>
-                    )}
+                    <div>
+                        {imagePreview}
+                    </div>
                     Chọn tệp
                 </label>
                 <input

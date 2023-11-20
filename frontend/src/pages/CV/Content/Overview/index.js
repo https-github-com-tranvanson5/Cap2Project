@@ -11,7 +11,7 @@ import styles from './Overview.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Overview() {
+function Overview(onChange) {
     const overviewData = useSelector(overviewSelector);
 
     return (
@@ -22,10 +22,12 @@ function Overview() {
                         <TitleLarge>
                             <InputEditor
                                 defaultValue={overviewData.iconic.name}
+                                setContentBlog={onChange}
                             />
                         </TitleLarge>
                         <InputEditor
                             defaultValue={overviewData.iconic.position}
+                            setContentBlog={onChange}
                         />
                     </div>
                     <Row>
@@ -40,6 +42,7 @@ function Overview() {
                                         boxId={overviewItem.id}
                                         title={overviewItem.title}
                                         editorValue={overviewItem.value}
+                                        onChange={onChange}
                                     />
                                 </Col>
                             );

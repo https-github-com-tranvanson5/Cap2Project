@@ -60,8 +60,8 @@ function ManageCandidates() {
                             return (
                                 <tr key={candidate.id}>
                                     <td>{index + 1}</td>
-                                    <td>ho ten</td>
-                                    <td>email</td>
+                                    <td>{candidate?.name}</td>
+                                    <td>{candidate?.email}</td>
                                     <td>
                                         <Link to={`${candidate.urlCv}`}>
                                             {' '}
