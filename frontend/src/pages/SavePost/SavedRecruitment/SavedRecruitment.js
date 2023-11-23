@@ -24,7 +24,17 @@ function SavedRecruitment() {
     }, []);
 
     useEffect(() => {
-        getAllJobs(auth?.jwt, dispatch, query , setJobListData);
+        getAllJobs(
+            auth?.jwt,
+            dispatch,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            setJobListData,
+        );
     }, []);
     console.log('joblistdata', jobListData);
     console.log('applyJobListData', applyJobListData);

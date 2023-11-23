@@ -35,7 +35,7 @@ function MainJob() {
             query || searchItem?.query || '',
             '',
             searchItem?.jobEducation || '',
-            searchItem?.jobExperience  || '',
+            searchItem?.jobExperience || '',
             searchItem?.jobPosition || '',
             searchItem?.jobType || '',
             setJobListData,

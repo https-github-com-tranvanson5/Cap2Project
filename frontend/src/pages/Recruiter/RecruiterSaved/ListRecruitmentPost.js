@@ -20,7 +20,11 @@ function MainJob() {
         getAllJobsRecruiter(user?.jwt, dispatch);
     }, []);
 
-    console.log(jobListData)
+    const filteredApplyJob = jobListData?.content.filter((obj1) => {
+        return obj1.jobStatus === 'ACTIVE';
+    });
+
+    console.log('filter' ,filteredApplyJob)
 
     return (
         <>
@@ -29,8 +33,8 @@ function MainJob() {
                     <h2 className={cx('heading')}>Những bài tuyển dụng bạn đã đăng</h2>
                     <div className={cx('wrapper')}>
                         <Row>
-                            {jobListData &&
-                                jobListData?.content.map((recruitment) => {
+                            {filteredApplyJob &&
+                                filteredApplyJob?.map((recruitment) => {
                                     return (
                                         <Col
                                             key={recruitment.id}

@@ -8,7 +8,7 @@ function ListPostRecruiter() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('heading')}>
-                <h3>Bảng tin</h3>
+                <h3>Thống kê</h3>
             </div>
             <div className={cx('slider')}>
                 <Carousel />

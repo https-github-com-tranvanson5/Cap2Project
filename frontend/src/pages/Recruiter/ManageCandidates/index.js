@@ -79,7 +79,6 @@ function ManageCandidates() {
                                             onChange={(onChange) => onChangeValue("status", onChange.target.value , candidate?.id)}
                                         >
                                             <DropDown
-                                                title="Thành phố"
                                                 data={categoryStatus}
                                                 defaultValueProps={getNameByValueStatus(candidate?.status)}
                                             />

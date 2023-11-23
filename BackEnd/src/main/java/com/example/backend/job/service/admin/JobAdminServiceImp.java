@@ -43,8 +43,6 @@ public class JobAdminServiceImp implements JobAdminService{
     private UserRepository userRepository;
     @Autowired
     private CareerRepository careerRepository;
-    @Autowired
-    private JobUserSerivceImp jobUserSerivceImp;
 
 
     @Override

@@ -73,7 +73,7 @@ export default function FindJobs() {
 
     const handleClickFindJobsBtn = (e) => {
         e.preventDefault();
-        let newFormData = { ...formData, query: query , careers : listCareerId };
+        let newFormData = { ...formData, query: query, careers: listCareerId };
 
         navigate('/recruitmentpage/user', { state: newFormData });
 

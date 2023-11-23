@@ -26,7 +26,7 @@ const sidebarMenu = [
     //     icon: <ion-icon name="add-circle"></ion-icon>,
     // },
     {
-        title: 'Bảng tin',
+        title: 'Thống kê',
         to: config.routes.recruiter,
         role: ['ROLE_PM'],
         icon: <ion-icon name="today"></ion-icon>,
