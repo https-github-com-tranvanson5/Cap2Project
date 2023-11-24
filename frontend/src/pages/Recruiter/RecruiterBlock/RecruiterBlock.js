@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import classNames from 'classnames/bind';
-import styles from './ListRecruitmentPost.module.scss';
+import styles from '../RecruiterSaved/ListRecruitmentPost.module.scss';
 
 import { Col, Container, Row } from 'react-bootstrap';
 import Card from '~/components/Card/Card';
@@ -11,7 +11,7 @@ import {deleteJobRecruiter, getAllJobsRecruiter } from '~/redux/apiRequest';
 import { _LIMIT_PAGE } from '~/config/api';
 import { toast } from 'react-toastify';
 const cx = classNames.bind(styles);
-function MainJob() {
+function RecruiterBlock() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.login?.currentUser);
     const jobListData = useSelector((state) => state.allJob.jobsRecruiter?.allJobsRecruiter);
@@ -19,9 +19,9 @@ function MainJob() {
     useEffect(() => {
         getAllJobsRecruiter(user?.jwt, dispatch);
     }, []);
-
+    console.log('jobListData' , jobListData)
     const filteredApplyJob = jobListData?.content.filter((obj1) => {
-        return obj1.jobStatus === 'ACTIVE';
+        return obj1.jobStatus === 'BLOCK';
     });
 
     console.log('filter id' ,filteredApplyJob)
@@ -37,22 +37,11 @@ function MainJob() {
         }
     };
 
-    const handleBlock = async (id) => {
-        if (window.confirm('Bạn có muốn ẩn bài tuyển dụng này ?')) {
-            try {
-                await deleteJobRecruiter(user?.jwt , dispatch , id , 'BLOCK')
-                toast.success('Bài tuyển dụng đã được ẩn');
-            } catch (err) {
-                console.log(err);
-            }
-        }
-    };
-
     return (
         <>
             <Container>
                 <div className={cx('wrapper')}>
-                    <h2 className={cx('heading')}>Những bài tuyển dụng bạn đã đăng</h2>
+                    <h2 className={cx('heading')}>Những bài tuyển dụng bạn đã ẩn</h2>
                     <div className={cx('wrapper')}>
                         <Row>
                             {filteredApplyJob &&
@@ -72,11 +61,6 @@ function MainJob() {
                                                 }
                                                 titleDeleted="Xóa tin"
                                                 handleDelete={handleDelete}
-                                                titleBlock="Ẩn tin"
-                                                handleBlock={handleBlock}
-                                                block={
-                                                    <ion-icon name="eye-off-outline"></ion-icon>
-                                                }
                                                 repair={
                                                     <ion-icon name="pencil-outline"></ion-icon>
                                                 }
@@ -93,4 +77,5 @@ function MainJob() {
     );
 }
 
-export default MainJob;
+export default RecruiterBlock;
+

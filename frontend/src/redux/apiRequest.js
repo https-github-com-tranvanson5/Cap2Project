@@ -24,6 +24,9 @@ import {
     getAllUsersSuccess,
 } from './allUserSlice';
 import {
+    deleteJobRecruiterFailed,
+    deleteJobRecruiterStart,
+    deleteJobRecruiterSuccess,
     editJobFailed,
     editJobStart,
     editJobSuccess,
@@ -144,11 +147,11 @@ export const getAllUsers = async (jwt, dispatch) => {
     }
 };
 
-export const deleteUser = async (jwt, dispatch, id) => {
+export const deleteUser = async (jwt, dispatch, id , status) => {
     dispatch(deleteAllUserStart());
     try {
         const res = await axios.get(
-            `http://localhost:8080/api/admin/changeStatus?id=${id}&status=DELETE`,
+            `http://localhost:8080/api/admin/changeStatus?id=${id}&status=${status}`,
             {
                 headers: {
                     Authorization: `Bearer ${jwt}`,
@@ -236,6 +239,7 @@ export const getJobRecruiter = async (jwt, id, dispatch) => {
     }
 };
 
+
 export const postJob = async (job, jwt, dispatch) => {
     dispatch(postJobStart());
     try {
@@ -261,6 +265,24 @@ export const editJob = async (job, jwt, dispatch) => {
         dispatch(editJobSuccess());
     } catch (err) {
         dispatch(editJobFailed());
+    }
+};
+
+export const deleteJobRecruiter = async (jwt, dispatch, id , status) => {
+    dispatch(deleteJobRecruiterStart());
+    try {
+        const res = await axios.get(
+            `http://localhost:8080/api/pm/job/changeStatusJob?id=${id}&jobStatus=${status}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+        console.log(res);
+        dispatch(deleteJobRecruiterSuccess(res.data));
+    } catch (err) {
+        dispatch(deleteJobRecruiterFailed(err.response.data));
     }
 };
 

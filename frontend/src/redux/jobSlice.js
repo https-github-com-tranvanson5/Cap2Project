@@ -121,17 +121,17 @@ const allJobSlice = createSlice({
             state.editJob.error = true;
             state.editJob.success = false;
         },
-        //deletejob
-        deleteAllJobStart: (state) => {
-            state.jobs.isFetching = true;
+        //Recruiter delete job
+        deleteJobRecruiterStart: (state) => {
+            state.jobsRecruiter.isFetching = true;
         },
-        deleteAllJobsSuccess: (state, action) => {
-            state.jobs.isFetching = false;
+        deleteJobRecruiterSuccess: (state, action) => {
+            state.jobsRecruiter.isFetching = false;
             state.msg = action.payload;
         },
-        deleteAllJobFailed: (state, action) => {
-            state.jobs.isFetching = false;
-            state.jobs.error = true;
+        deleteJobRecruiterFailed: (state, action) => {
+            state.jobsRecruiter.isFetching = false;
+            state.jobsRecruiter.error = true;
             state.msg = action.payload;
         },
     },
@@ -162,10 +162,10 @@ export const {
     editJobStart,
     editJobSuccess,
     editJobFailed,
-    //delete job
-    deleteAllJobStart,
-    deleteAllJobsSuccess,
-    deleteAllJobFailed,
+    //delete job recruiter
+    deleteJobRecruiterStart,
+    deleteJobRecruiterSuccess,
+    deleteJobRecruiterFailed,
     //
     getCareerStart,
     getCareerSuccess,

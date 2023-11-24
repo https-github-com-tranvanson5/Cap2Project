@@ -19,6 +19,7 @@ import RecruitmentDetail from '~/pages/RecruitmentDetail/RecruitmentDetail';
 import RecruiterPost from '~/pages/Recruiter/RecruiterPost/Component/RecruiterPost';
 import SavedRecruitment from '~/pages/SavePost/SavedRecruitment/SavedRecruitment';
 import CalwContent from '~/pages/Calw/calwContent/CalwContent';
+import RecruiterBlock from '~/pages/Recruiter/RecruiterBlock/RecruiterBlock';
 
 export const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -75,6 +76,11 @@ export const recruiterPrivateRoutes = [
     {
         path: config.routes.ListRecruitmentPost,
         component: ListPostOfRecruiter,
+        layout: SidebarLayout,
+    },
+    {
+        path: config.routes.ListRecruitmentPostBlock,
+        component: RecruiterBlock,
         layout: SidebarLayout,
     },
 ];

@@ -6,6 +6,7 @@ const routes = {
     recruiterPostManageSidebar: '/recruiter/managelistpost',
     ListPostOfRecruiter: '/recruiter/ListPostOfRecruiter',
     ListRecruitmentPost: '/recruiter/listpost',
+    ListRecruitmentPostBlock: '/recruiter/listpostblock',
     profile: '/profile',
     settings: '/settings',
     accounts: '/accounts',

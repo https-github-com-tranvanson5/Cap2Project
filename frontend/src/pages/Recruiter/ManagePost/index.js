@@ -24,6 +24,18 @@ function ManagePost() {
                             </div>
                         </Link>
                     </Col>
+                    <Col md={6} className={'mb-5'}>
+                        <Link to={config.routes.ListRecruitmentPostBlock}>
+                            <div className={cx('control-block')}>
+                                <span className={cx('icon')}>
+                                    <ion-icon name="save-outline"></ion-icon>
+                                </span>
+                                <h3 className={cx('heading')}>
+                                    Tin tuyển dụng của bạn đã ẩn
+                                </h3>
+                            </div>
+                        </Link>
+                    </Col>
                 </Row>
             </Container>
         </div>

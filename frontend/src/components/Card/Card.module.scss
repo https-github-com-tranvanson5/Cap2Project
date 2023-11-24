@@ -101,19 +101,21 @@
                 color: var(--primary-color);
             }
         }
-        .subdesc-text-repair {
-            margin-top: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            margin: 0;
-            position: relative;
-            top: 10px;
-            left: 40px;
-            &:hover {
-                color: var(--primary-color);
+        .subdesc-repair {
+            margin-top: 10px;
+            .subdesc-text-repair {
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                position: relative;
+                // top: 10px;
+                // left: 40px;
+                &:hover {
+                    color: var(--primary-color);
+                }
             }
         }
+
         .subdesc-text-save {
             display: flex;
             position: relative;

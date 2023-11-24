@@ -23,16 +23,13 @@ export default function Card({
     titleSaved = '',
     handleClick,
     status,
+    handleDelete,
+    block,
+    titleBlock,
+    handleBlock,
     onDelete,
     id,
 }) {
-    const [show, setShow] = useState(false);
-    const userData = useSelector((state) => state.auth.login?.currentUser);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const dispatch = useDispatch();
-
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -83,7 +80,9 @@ export default function Card({
                             <div className={cx('subdesc-item subdesc-right')}>
                                 <div className={cx('subdesc-text')}>
                                     <ion-icon name="timer-outline"></ion-icon>
-                                    <span>{data?.createAt || data?.webName}</span>
+                                    <span>
+                                        {data?.createAt || data?.webName}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -98,13 +97,28 @@ export default function Card({
             /> */}
 
             <div className={cx('subdesc-control')}>
-                <div onClick={handleShow} className={cx('subdesc-text')}>
+                <div
+                    onClick={() => handleDelete(data.id)}
+                    className={cx('subdesc-text')}
+                >
                     {deleted && (
                         <span className={cx('subdesc-text')}>{deleted}</span>
                     )}
                     <span>{titleDeleted}</span>
                 </div>
-                <Link to={`/recruiter/recruiterpostjob/${data.id}`}>
+                <div
+                    onClick={() => handleBlock(data.id)}
+                    className={cx('subdesc-text')}
+                >
+                    {block && (
+                        <span className={cx('subdesc-text')}>{block}</span>
+                    )}
+                    <span>{titleBlock}</span>
+                </div>
+                <Link
+                    to={`/recruiter/recruiterpostjob/${data.id}`}
+                    className={cx('subdesc-repair')}
+                >
                     <div className={cx('subdesc-text-repair')}>
                         {repair && (
                             <span className={cx('subdesc-text')}>{repair}</span>
