@@ -5,6 +5,7 @@ import styles from './BoxEditorItem.module.scss';
 import InputEditor from '~/components/Editor/InputEditor';
 import { useDispatch } from 'react-redux';
 import { cvSlice } from '../../cvSlice';
+import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -20,7 +21,32 @@ function BoxEditorItem({
 }) {
     const dispatch = useDispatch();
 
-    console.log(editorValue)
+    const [value, setValue] = useState(editorValue);
+
+    function findArrayElementByTitle(array, title) {
+        return array.find((element) => element.title === title);
+    }
+
+    const handleChangeValue = (id, field, value) => {
+        setValue((prevValue) => ({
+            ...prevValue,
+            [id]: {
+                ...prevValue[id],
+                [field]: value,
+            },
+        }));
+        dispatch(
+            cvSlice.actions.changeContent({
+                index,
+                typeBlock,
+                boxId,
+                groupId,
+                newText : value ,
+                key : findArrayElementByTitle(id),
+            }),
+        );
+        console.log(findArrayElementByTitle(id), field, value);
+    };
 
     const handleAddNewEditor = () => {
         dispatch(
@@ -180,7 +206,19 @@ function BoxEditorItem({
                 )}
                 {editorValue && (
                     <div className={cx('editor')}>
-                        <InputEditor defaultValue={editorValue} />
+                        <InputEditor
+                            defaultValue={value}
+                            setContent={(content) =>
+                                handleChangeValue(
+                                    editorValue?.blocks.map(
+                                        (block) => block?.key,
+                                    ),
+                                    'text',
+                                    content,
+                                )
+                            }
+                        />
+                        {console.log('editorValue', editorValue)}
                     </div>
                 )}
             </div>

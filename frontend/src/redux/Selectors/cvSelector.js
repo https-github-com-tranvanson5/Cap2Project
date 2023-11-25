@@ -8,6 +8,8 @@ export const overviewSelector = (state) => state.cv.data.overview;
 
 export const contentCvSelector = (state) => state.cv.data.content;
 
+export const updateContentCvSelector = (state) => state.cv.data.updateContent;
+
 export const typeUsedContentSelector = createSelector(
     (state) => state.cv.data.content,
     (typeUsedList) => typeUsedList.map((group) => group.type),

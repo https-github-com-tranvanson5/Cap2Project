@@ -22,12 +22,10 @@ function Overview(onChange) {
                         <TitleLarge>
                             <InputEditor
                                 defaultValue={overviewData.iconic.name}
-                                setContentBlog={onChange}
                             />
                         </TitleLarge>
                         <InputEditor
                             defaultValue={overviewData.iconic.position}
-                            setContentBlog={onChange}
                         />
                     </div>
                     <Row>

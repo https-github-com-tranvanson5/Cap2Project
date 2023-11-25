@@ -15,20 +15,17 @@ function EditorGroup({ editorData, groupId, index, length }) {
                     {editorData.data.map((editor, index) => {
                         const length = editorData.data.length - 1;
                         return (
-                            <div>
-                                <BoxEditorItem
-                                    key={editor.id}
-                                    typeBlock="content"
-                                    groupId={groupId}
-                                    index={index}
-                                    boxId={editor.id}
-                                    timeline={editor?.timeline}
-                                    title={editor?.title}
-                                    editorValue={editor.value}
-                                    length={length}
-                                />
-                                {console.log(editor.value)}
-                            </div>
+                            <BoxEditorItem
+                                key={editor.id}
+                                typeBlock="content"
+                                groupId={groupId}
+                                index={index}
+                                boxId={editor.id}
+                                timeline={editor?.timeline}
+                                title={editor?.title}
+                                editorValue={editor.value}
+                                length={length}
+                            />
                         );
                     })}
                 </BoxEditor>

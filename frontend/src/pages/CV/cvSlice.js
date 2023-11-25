@@ -26,6 +26,49 @@ export const cvSlice = createSlice({
             );
             state.theme = themeCorrect.data;
         },
+        changeContent(state, action) {
+            const { index, typeBlock, boxId, groupId, newText, key } =
+                action.payload;
+
+            console.log('action.payload', newText);
+            if (typeBlock === 'overview') {
+                state.data.overview.container.splice(index + 1, 0, {
+                    id: uuidv4(),
+                    ...newIconicContainerItem,
+                });
+            } else {
+                state.data.content = state.data.content.map((group) => {
+                    if (group.id === groupId) {
+                        return {
+                            ...group,
+                            data: group.data.map((item) => {
+                                if (item.id === boxId) {
+                                    return {
+                                        ...item,
+                                        value: {
+                                            ...item.value,
+                                            blocks: item.value.blocks.map(
+                                                (block) => {
+                                                    if (block.key === key) {
+                                                        return {
+                                                            ...block,
+                                                            text: newText,
+                                                        };
+                                                    }
+                                                    return block;
+                                                },
+                                            ),
+                                        },
+                                    };
+                                }
+                                return item;
+                            }),
+                        };
+                    }
+                    return group;
+                });
+            }
+        },
         addIconicContainerItem(state, action) {
             const { index, typeBlock, groupId } = action.payload;
 
@@ -126,6 +169,7 @@ export const cvSlice = createSlice({
 
 export const {
     changeTheme,
+    changeContent,
     addIconicContainerItem,
     addIconicContainerItemBefore,
     deleteBoxItem,

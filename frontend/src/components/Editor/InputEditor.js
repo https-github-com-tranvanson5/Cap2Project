@@ -13,9 +13,10 @@ import { useState } from 'react';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import styles from './InputEditor.module.scss';
 import { useEffect } from 'react';
+import draftToHtml from 'draftjs-to-html';
 const cx = classNames.bind(styles);
 
-function InputEditor({ defaultValue }) {
+function InputEditor({ defaultValue, setContent }) {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     // const [editorState, setEditorState] = useState(
     //     EditorState.createWithContent(
@@ -32,8 +33,9 @@ function InputEditor({ defaultValue }) {
 
     const onEditorStateChange = (editorState) => {
         setEditorState(editorState);
-        convertToRaw(editorState.getCurrentContent(editorState))
-        console.log(editorState)
+        // convertToRaw(editorState.getCurrentContent(editorState))
+        setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+        console.log(editorState);
         // console.log(
         //     'onEditorStateChange:::',
         //     editorState.getCurrentContent().getPlainText(''),
