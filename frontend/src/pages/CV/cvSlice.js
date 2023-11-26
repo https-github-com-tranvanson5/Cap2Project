@@ -32,10 +32,48 @@ export const cvSlice = createSlice({
 
             console.log('action.payload', newText);
             if (typeBlock === 'overview') {
-                state.data.overview.container.splice(index + 1, 0, {
-                    id: uuidv4(),
-                    ...newIconicContainerItem,
-                });
+                state.data.overview = {
+                    ...state.data.overview,
+                    container: state.data.overview.container.map(
+                        (container) => {
+                            if (container.id === boxId) {
+                                return {
+                                    ...container,
+                                    value: {
+                                        ...container.value,
+                                        blocks: container.value.blocks.map(
+                                            (block) => {
+                                                if (block.key === key) {
+                                                    return {
+                                                        ...block,
+                                                        text: newText,
+                                                    };
+                                                }
+                                                return block;
+                                            },
+                                        ),
+                                    },
+                                    title: {
+                                        ...container.title,
+                                        blocks: container.title.blocks.map(
+                                            (block) => {
+                                                if (block.key === key) {
+                                                    return {
+                                                        ...block,
+                                                        text: newText,
+                                                    };
+                                                }
+                                                return block;
+                                            },
+                                        ),
+                                    },
+                                };
+                            } else {
+                                return container;
+                            }
+                        },
+                    ),
+                };
             } else {
                 state.data.content = state.data.content.map((group) => {
                     if (group.id === groupId) {

@@ -21,7 +21,10 @@ function BoxEditorItem({
 }) {
     const dispatch = useDispatch();
 
+    console.log('title' , title)
+
     const [value, setValue] = useState(editorValue);
+    const [titleValue, setTitleValue] = useState(title);
 
     function findArrayElementByTitle(array, title) {
         return array.find((element) => element.title === title);
@@ -41,7 +44,28 @@ function BoxEditorItem({
                 typeBlock,
                 boxId,
                 groupId,
-                newText : value ,
+                newText : value,
+                key : findArrayElementByTitle(id),
+            }),
+        );
+        console.log(findArrayElementByTitle(id), field, value);
+    };
+
+    const handleChangeValueTitle = (id, field, value) => {
+        setTitleValue((prevValue) => ({
+            ...prevValue,
+            [id]: {
+                ...prevValue[id],
+                [field]: value,
+            },
+        }));
+        dispatch(
+            cvSlice.actions.changeContent({
+                index,
+                typeBlock,
+                boxId,
+                groupId,
+                newText : value,
                 key : findArrayElementByTitle(id),
             }),
         );
@@ -192,15 +216,31 @@ function BoxEditorItem({
             {timeline && (
                 <div className={cx('timeline-block')}>
                     <span className={cx('title-content')}>
-                        <InputEditor defaultValue={timeline} />
+                        <InputEditor defaultValue={timeline} setContent={(content) =>
+                                handleChangeValue(
+                                    editorValue?.blocks.map(
+                                        (block) => block?.key,
+                                    ),
+                                    'text',
+                                    content,
+                                )
+                            } />
                     </span>
                 </div>
             )}
             <div className={cx('editor-block')}>
-                {title && (
+                {titleValue && (
                     <div className={cx('title')}>
                         <span className={cx('title-content')}>
-                            <InputEditor defaultValue={title} />
+                            <InputEditor defaultValue={titleValue} setContent={(content) =>
+                                handleChangeValueTitle(
+                                    title?.blocks.map(
+                                        (block) => block?.key,
+                                    ),
+                                    'text',
+                                    content,
+                                )
+                            } />
                         </span>
                     </div>
                 )}

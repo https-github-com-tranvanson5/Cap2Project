@@ -10,16 +10,18 @@ import ImageControl from './Menu/ImageControl';
 import TemplateControl from './Menu/TemplateControl';
 import styles from './ToolBar.module.scss';
 import { useSelector } from 'react-redux';
-import { contentCvSelector } from '~/redux/Selectors/cvSelector';
+import { contentCvSelector, overviewSelector } from '~/redux/Selectors/cvSelector';
 
 const cx = classNames.bind(styles);
 
 function ToolBar({ cvRef }) {
     const contentData = useSelector(contentCvSelector);
+    const overviewData = useSelector(overviewSelector);
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle form submission logic here, e.g. make an API call
-        console.log('Form submitted with data:', contentData);
+        const data = {...contentData, ...overviewData}
+        console.log('Form submitted with data:', data);
     };
     const generatePDF = () => {
         const pageWidth = 210;
