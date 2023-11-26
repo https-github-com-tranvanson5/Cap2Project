@@ -30,7 +30,7 @@ export const cvSlice = createSlice({
             const { index, typeBlock, boxId, groupId, newText, key } =
                 action.payload;
 
-            console.log('action.payload', newText);
+            console.log('action.payload', action.payload);
             if (typeBlock === 'overview') {
                 state.data.overview = {
                     ...state.data.overview,
@@ -73,6 +73,37 @@ export const cvSlice = createSlice({
                             }
                         },
                     ),
+                    iconic: {
+                        ...state.data.overview.iconic,
+                        name: {
+                            ...state.data.overview.iconic.name,
+                            blocks: state.data.overview.iconic.name.blocks.map(
+                                (block) => {
+                                    if (block.key === key) {
+                                        return {
+                                            ...block,
+                                            text: newText,
+                                        };
+                                    }
+                                    return block;
+                                },
+                            ),
+                        },
+                        name: {
+                            ...state.data.overview.iconic.name,
+                            blocks: state.data.overview.iconic.name.blocks.map(
+                                (block) => {
+                                    if (block.key === key) {
+                                        return {
+                                            ...block,
+                                            text: newText,
+                                        };
+                                    }
+                                    return block;
+                                },
+                            ),
+                        },
+                    },
                 };
             } else {
                 state.data.content = state.data.content.map((group) => {
@@ -84,7 +115,7 @@ export const cvSlice = createSlice({
                                     return {
                                         ...item,
                                         value: {
-                                            ...item.value,
+                                            ...item?.value,
                                             blocks: item.value.blocks.map(
                                                 (block) => {
                                                     if (block.key === key) {
@@ -97,6 +128,24 @@ export const cvSlice = createSlice({
                                                 },
                                             ),
                                         },
+                                        timeline: item.timeline
+                                            ? {
+                                                  ...item.timeline,
+                                                  blocks: item.timeline.blocks.map(
+                                                      (block) => {
+                                                          if (
+                                                              block.key === key
+                                                          ) {
+                                                              return {
+                                                                  ...block,
+                                                                  text: newText,
+                                                              };
+                                                          }
+                                                          return block;
+                                                      },
+                                                  ),
+                                              }
+                                            : null,
                                     };
                                 }
                                 return item;
