@@ -38,7 +38,7 @@ public class JobPmController {
     public ResponseEntity<?> updateJob(@Valid @RequestBody JobForm jobForm) {
         return jobPmService.updateJob(jobForm);
     }
-    @PutMapping("/changeStatusJob")
+    @GetMapping("/changeStatusJob")
     public ResponseEntity<?> changeStatusJob(@RequestParam String id, @RequestParam JobStatus jobStatus) {
         return jobPmService.changeStatusJob(id,jobStatus);
     }

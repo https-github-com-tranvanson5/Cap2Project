@@ -39,9 +39,6 @@ public class JobPmServiceImp implements JobPmService{
     }
     @Override
     public ResponseEntity<?> changeStatusJob(String id, JobStatus jobStatus) {
-        if(jobStatus==JobStatus.DELETE){
-            throw new RuntimeException("Bạn không khôi phục job");
-        }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String idUser = ((UserPrinciple) authentication.getPrincipal()).getId();
         Optional<User> user= userRepository.findById(idUser);
@@ -51,6 +48,9 @@ public class JobPmServiceImp implements JobPmService{
         Optional<Job> job= jobRepository.findByIdAndUser(id, user.get());
         if(job.isEmpty()){
             return new ResponseEntity<>("Job không tồn tại", HttpStatus.BAD_REQUEST);
+        }
+        if(job.get().getJobStatus()==JobStatus.DELETE){
+            return new ResponseEntity<>("Job đã xóa", HttpStatus.BAD_REQUEST);
         }
         job.get().setJobStatus(jobStatus);
         jobRepository.save(job.get());

@@ -1,4 +1,4 @@
-package com.example.backend.crawl.service;
+package com.example.backend.crawl.service.admin;
 
 import com.example.backend.crawl.model.CrawlJob;
 import com.example.backend.crawl.repository.CrawlJobRepository;
@@ -15,9 +15,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 @Service
 public class WebCrawlerServiceImp implements WebCrawlerService{
@@ -147,11 +148,5 @@ public class WebCrawlerServiceImp implements WebCrawlerService{
     public ResponseEntity<?> getData(Pageable pageable) {
         Page<CrawlJob> jobs=crawlJobRepository.findAll(pageable);
         return new ResponseEntity<>(jobs, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<?> getDataById(String id) {
-        Optional<CrawlJob> jobs=crawlJobRepository.findById(id);
-        return new ResponseEntity<>(jobs.get(), HttpStatus.OK);
     }
 }

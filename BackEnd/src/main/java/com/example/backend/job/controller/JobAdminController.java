@@ -50,7 +50,7 @@ public class JobAdminController {
     public ResponseEntity<?> updateJob(@Valid @RequestBody JobForm jobForm) {
         return jobAdminService.updateJob(jobForm);
     }
-    @PutMapping("/changeStatusJob")
+    @GetMapping("/changeStatusJob")
     public ResponseEntity<?> changeStatusJob(@RequestParam String id, @RequestParam JobStatus jobStatus) {
         return jobAdminService.changeStatusJob(id,jobStatus);
     }

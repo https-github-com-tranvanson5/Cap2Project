@@ -1,42 +1,42 @@
-package com.example.backend.cv.model;
+package com.example.backend.blog.model;
 
-import com.example.backend.cv.constain.CvStatus;
+import com.example.backend.blog.constain.CommentStatus;
 import com.example.backend.user.model.User;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
-@Data
 @Entity
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Long.class)
-public class Cv {
+@Data
+public class Comment {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2", parameters = {
             @Parameter(name = "variant", value = "timeBased")
     })
     private String id;
-
-    private String title;
-
-    @Column(columnDefinition = "longtext")
     private String content;
+    private LocalDateTime createdAt;
+
+    @Enumerated(EnumType.STRING)
+    private CommentStatus status;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id",referencedColumnName = "id", nullable=false)
+    @JoinColumn(name = "blog_id",referencedColumnName = "id", nullable=false)
     @JsonManagedReference
     @JsonIdentityReference(alwaysAsId = true)
-    private User user;
-    private LocalDateTime createAt;
-    @Enumerated(EnumType.STRING)
-    private CvStatus status;
+    private Blog blog;
+
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<Recomment> recomments;
+
+    private String userId;
 }
