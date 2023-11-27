@@ -27,8 +27,8 @@ function BoxEditorItem({
     const [titleValue, setTitleValue] = useState(title);
     const [timeLineValue, setTimeLineValue] = useState(timeline);
 
-    console.log('timeLineValue',timeLineValue)
-    console.log('value' , value)
+    // console.log('timeLineValue',timeLineValue)
+    // console.log('value' , value)
 
     function findArrayElementByTitle(array, title) {
         return array.find((element) => element.title === title);
@@ -256,11 +256,11 @@ function BoxEditorItem({
                 </div>
             )}
             <div className={cx('editor-block')}>
-                {title && (
+                {titleValue && (
                     <div className={cx('title')}>
                         <span className={cx('title-content')}>
                             <InputEditor
-                                defaultValue={title}
+                                defaultValue={titleValue}
                                 setContent={(content) =>
                                     handleChangeValueTitle(
                                         title?.blocks.map(
@@ -274,10 +274,10 @@ function BoxEditorItem({
                         </span>
                     </div>
                 )}
-                {editorValue && (
+                {value && (
                     <div className={cx('editor')}>
                         <InputEditor
-                            defaultValue={editorValue}
+                            defaultValue={value}
                             setContent={(content) =>
                                 handleChangeValue(
                                     editorValue?.blocks.map(

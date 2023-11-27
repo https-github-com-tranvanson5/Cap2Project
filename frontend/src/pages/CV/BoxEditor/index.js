@@ -14,9 +14,42 @@ import { cvSlice } from '../cvSlice';
 
 const cx = classNames.bind(styles);
 
-function BoxEditor({ icon, heading, groupId, children, index, length , onChange }) {
+function BoxEditor({
+    icon,
+    heading,
+    groupId,
+    children,
+    index,
+    length,
+    onChange,
+}) {
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false);
+    const [headingValue, setHeadingValue] = useState(heading);
+
+    function findArrayElementByTitle(array, title) {
+        return array.find((element) => element.title === title);
+    }
+
+
+    const handleChangeValue = (id, field, value) => {
+        setHeadingValue((prevValue) => ({
+            ...prevValue,
+            [id]: {
+                ...prevValue[id],
+                [field]: value,
+            },
+        }));
+        dispatch(
+            cvSlice.actions.changeContent({
+                index,
+                groupId,
+                newText: value,
+                key: findArrayElementByTitle(id),
+            }),
+        );
+        console.log(findArrayElementByTitle(id), field, value);
+    };
 
     const handleDelete = () => {
         dispatch(cvSlice.actions.deleteGroup({ groupId }));
@@ -132,7 +165,18 @@ function BoxEditor({ icon, heading, groupId, children, index, length , onChange 
                         )}
                         <div className={cx('heading')}>
                             <Title>
-                                <InputEditor defaultValue={heading} setContentBlog={onChange} />
+                                <InputEditor
+                                    defaultValue={headingValue}
+                                    setContent={(content) =>
+                                        handleChangeValue(
+                                            heading?.blocks.map(
+                                                (block) => block?.key,
+                                            ),
+                                            'text',
+                                            content,
+                                        )
+                                    }
+                                />
                             </Title>
                         </div>
                     </div>

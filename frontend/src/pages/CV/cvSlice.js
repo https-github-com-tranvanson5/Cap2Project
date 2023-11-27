@@ -89,9 +89,9 @@ export const cvSlice = createSlice({
                                 },
                             ),
                         },
-                        name: {
-                            ...state.data.overview.iconic.name,
-                            blocks: state.data.overview.iconic.name.blocks.map(
+                        position: {
+                            ...state.data.overview.iconic.position,
+                            blocks: state.data.overview.iconic.position.blocks.map(
                                 (block) => {
                                     if (block.key === key) {
                                         return {
@@ -110,6 +110,20 @@ export const cvSlice = createSlice({
                     if (group.id === groupId) {
                         return {
                             ...group,
+                            heading : {
+                                ...group.heading,
+                                blocks: group.heading.blocks.map(
+                                    (block) => {
+                                        if (block.key === key) {
+                                            return {
+                                                ...block,
+                                                text: newText,
+                                            };
+                                        }
+                                        return block;
+                                    },
+                                ),
+                            },
                             data: group.data.map((item) => {
                                 if (item.id === boxId) {
                                     return {
@@ -130,21 +144,21 @@ export const cvSlice = createSlice({
                                         },
                                         timeline: item.timeline
                                             ? {
-                                                  ...item.timeline,
-                                                  blocks: item.timeline.blocks.map(
-                                                      (block) => {
-                                                          if (
-                                                              block.key === key
-                                                          ) {
-                                                              return {
-                                                                  ...block,
-                                                                  text: newText,
-                                                              };
-                                                          }
-                                                          return block;
-                                                      },
-                                                  ),
-                                              }
+                                                ...item.timeline,
+                                                blocks: item.timeline.blocks.map(
+                                                    (block) => {
+                                                        if (
+                                                            block.key === key
+                                                        ) {
+                                                            return {
+                                                                ...block,
+                                                                text: newText,
+                                                            };
+                                                        }
+                                                        return block;
+                                                    },
+                                                ),
+                                            }
                                             : null,
                                     };
                                 }
