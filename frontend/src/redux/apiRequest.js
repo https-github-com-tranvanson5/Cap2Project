@@ -67,6 +67,7 @@ import {
     getAllCawlJobsFailed,
     getAllCawlJobsStart,
 } from './calwSlice';
+import { getCvFailed, getCvStart, getCvSuccess, postCvFailed, postCvStart, postCvSuccess } from './cvDataSlice';
 
 //npm install axios
 
@@ -383,5 +384,35 @@ export const getAllCalwData = async (
         dispatch(getAllCalwJobsSuccess(setData(res.data)));
     } catch (err) {
         dispatch(getAllCawlJobsFailed());
+    }
+};
+
+export const postCv = async (cv, jwt, dispatch) => {
+    dispatch(postCvStart());
+    try {
+        await axios.post('http://localhost:8080/api/user/cv/createCv', cv, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
+        dispatch(postCvSuccess());
+    } catch (err) {
+        dispatch(postCvFailed());
+    }
+};
+export const getCv = async (jwt, dispatch) => {
+    dispatch(getCvStart());
+    try {
+        const res = await axios.get(
+            'http://localhost:8080/api/user/cv/getAllCv',
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+        dispatch(getCvSuccess(res.data));
+    } catch (err) {
+        dispatch(getCvFailed());
     }
 };

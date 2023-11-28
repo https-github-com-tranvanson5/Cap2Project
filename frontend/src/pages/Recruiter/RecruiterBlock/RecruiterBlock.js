@@ -37,6 +37,17 @@ function RecruiterBlock() {
         }
     };
 
+    const handleActive = async (id) => {
+        if (window.confirm('Bạn có muốn công khai bài tuyển dụng này ?')) {
+            try {
+                await deleteJobRecruiter(user?.jwt , dispatch , id , 'ACTIVE')
+                toast.success('Bài tuyển dụng đã được công khai');
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    };
+
     return (
         <>
             <Container>
@@ -61,6 +72,11 @@ function RecruiterBlock() {
                                                 }
                                                 titleDeleted="Xóa tin"
                                                 handleDelete={handleDelete}
+                                                active={
+                                                    <ion-icon name="earth-outline"></ion-icon>
+                                                }
+                                                titleActive="Công khai"
+                                                handleActive={handleActive}
                                                 repair={
                                                     <ion-icon name="pencil-outline"></ion-icon>
                                                 }

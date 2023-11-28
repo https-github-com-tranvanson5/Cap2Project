@@ -5,6 +5,7 @@ import allUserReducer from './allUserSlice';
 import allJobReducer from './jobSlice'
 import applyJobReducer from './recruimentSlice'
 import calwReducer from './calwSlice'
+import cvDataReducer from './cvDataSlice'
 import {
     persistStore,
     persistReducer,
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
     allJob : allJobReducer , 
     recruitment: applyJobReducer,
     calw : calwReducer,
+    cvData : cvDataReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

@@ -9,19 +9,33 @@ import FontsControl from './Menu/FontsControl';
 import ImageControl from './Menu/ImageControl';
 import TemplateControl from './Menu/TemplateControl';
 import styles from './ToolBar.module.scss';
-import { useSelector } from 'react-redux';
-import { contentCvSelector, overviewSelector } from '~/redux/Selectors/cvSelector';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    contentCvSelector,
+    overviewSelector,
+} from '~/redux/Selectors/cvSelector';
+import { postCv } from '~/redux/apiRequest';
 
 const cx = classNames.bind(styles);
 
 function ToolBar({ cvRef }) {
+    const dispatch = useDispatch();
     const contentData = useSelector(contentCvSelector);
     const overviewData = useSelector(overviewSelector);
+    const isAuth = useSelector((state) => state.auth.login?.currentUser);
+
+    console.log('isAuth' , isAuth?.id)
+
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle form submission logic here, e.g. make an API call
-        const data = {...contentData, ...overviewData}
-        console.log('Form submitted with data:', data);
+        const data = { ...contentData, ...overviewData, userId: isAuth.id };
+
+        const content = {
+            content: JSON.stringify(data)
+        };
+        console.log('Form submitted with data:', content);
+        postCv(content , isAuth?.jwt , dispatch)
     };
     const generatePDF = () => {
         const pageWidth = 210;
@@ -52,38 +66,33 @@ function ToolBar({ cvRef }) {
     return (
         <form onSubmit={handleSubmit}>
             <div className={cx('wrapper')}>
-            <div className={cx('menu')}>
-                <ColorControl />
-                <FontsControl />
-                <TemplateControl />
-                <ImageControl />
-            </div>
-            <div className={cx('manager')} >
-                <Button
-                    onClick={() => {
-                        generatePDF();
-                    }}
-                    primary
-                    rounded
-                    small
-                >
-                    Tải xuống
-                </Button>
-                <Button
-                    type="submit"
-                    primary
-                    rounded
-                    small
-                >
-                    Lưu
-                </Button>
-                <Link to="/manager-cv">
-                    <Button rounded white small>
-                        Quản lý CV
+                <div className={cx('menu')}>
+                    <ColorControl />
+                    <FontsControl />
+                    <TemplateControl />
+                    <ImageControl />
+                </div>
+                <div className={cx('manager')}>
+                    <Button
+                        onClick={() => {
+                            generatePDF();
+                        }}
+                        primary
+                        rounded
+                        small
+                    >
+                        Tải xuống
                     </Button>
-                </Link>
+                    <Button type="submit" primary rounded small>
+                        Lưu
+                    </Button>
+                    <Link to="/manager-cv">
+                        <Button rounded white small>
+                            Quản lý CV
+                        </Button>
+                    </Link>
+                </div>
             </div>
-        </div>
         </form>
     );
 }

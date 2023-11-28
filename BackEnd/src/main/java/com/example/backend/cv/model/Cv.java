@@ -25,6 +25,9 @@ public class Cv {
             @Parameter(name = "variant", value = "timeBased")
     })
     private String id;
+
+    private String title;
+
     @Column(columnDefinition = "longtext")
     private String content;
 

@@ -55,6 +55,12 @@ const sidebarMenu = [
         role: ['ROLE_USER'],
         icon: <ion-icon name="newspaper"></ion-icon>,
     },
+    {
+        title: 'Quản lý cv',
+        to: config.routes.managecv,
+        role: ['ROLE_USER'],
+        icon: <ion-icon name="newspaper"></ion-icon>,
+    },
 ];
 
 function Sidebar({ role }) {

@@ -15,5 +15,4 @@ import java.util.Set;
 public class CreateCvForm {
     private String id;
     private String content;
-
 }

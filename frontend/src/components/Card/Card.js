@@ -26,7 +26,10 @@ export default function Card({
     handleDelete,
     block,
     titleBlock,
+    active,
+    titleActive,
     handleBlock,
+    handleActive,
     onDelete,
     id,
 }) {
@@ -114,6 +117,15 @@ export default function Card({
                         <span className={cx('subdesc-text')}>{block}</span>
                     )}
                     <span>{titleBlock}</span>
+                </div>
+                <div
+                    onClick={() => handleActive(data.id)}
+                    className={cx('subdesc-text')}
+                >
+                    {active && (
+                        <span className={cx('subdesc-text')}>{active}</span>
+                    )}
+                    <span>{titleActive}</span>
                 </div>
                 <Link
                     to={`/recruiter/recruiterpostjob/${data.id}`}

@@ -20,6 +20,7 @@ import RecruiterPost from '~/pages/Recruiter/RecruiterPost/Component/RecruiterPo
 import SavedRecruitment from '~/pages/SavePost/SavedRecruitment/SavedRecruitment';
 import CalwContent from '~/pages/Calw/calwContent/CalwContent';
 import RecruiterBlock from '~/pages/Recruiter/RecruiterBlock/RecruiterBlock';
+import ManageCV from '~/pages/CV/ManageCv/ManageCv';
 
 export const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -38,6 +39,15 @@ export const privateRoutes = [
         layout: SidebarLayout,
     },
     { path: config.routes.re, component: CalwContent },
+    {
+        path: config.routes.managecv,
+        component: ManageCV,
+        layout: SidebarLayout,
+    },
+    {
+        path: config.routes.editcv,
+        component: CV,
+    },
 ];
 
 export const userPrivateRoutes = [];
