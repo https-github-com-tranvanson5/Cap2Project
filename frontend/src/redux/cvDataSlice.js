@@ -7,6 +7,12 @@ const cvDataSlice = createSlice({
             cv: null,
             isFetching: false,
             error: false,
+            cvDetail : null,
+        },
+        editCv: {
+            isFetching: false,
+            error: false,
+            success: false,
         },
         msg: '',
     },
@@ -37,6 +43,32 @@ const cvDataSlice = createSlice({
             state.data.error = true;
             state.data.success = false;
         },
+        // update Cv
+        editCvStart: (state) => {
+            state.editCv.isFetching = true;
+        },
+        editCvSuccess: (state) => {
+            state.editCv.isFetching = false;
+            state.editCv.error = false;
+            state.editCv.success = true;
+        },
+        editCvFailed: (state) => {
+            state.editCv.isFetching = false;
+            state.editCv.error = true;
+            state.editCv.success = false;
+        },
+        //detail cv
+        getCvDetailStart: (state) => {
+            state.data.isFetching = true;
+        },
+        getCvDetailSuccess: (state, action) => {
+            state.data.isFetching = false;
+            state.data.cvDetail = action.payload;
+        },
+        getCvDetailFailed: (state) => {
+            state.data.isFetching = false;
+            state.data.error = true;
+        },
         //     getUpdateProfileUsersStart: (state)=>{
         //         state.data.isFetching = true;
         //     },
@@ -64,6 +96,12 @@ const cvDataSlice = createSlice({
 });
 
 export const {
+    getCvDetailStart,
+    getCvDetailSuccess,
+    getCvDetailFailed, 
+    editCvStart,
+    editCvSuccess,
+    editCvFailed,
     postCvStart,
     postCvSuccess,
     postCvFailed,

@@ -19,16 +19,16 @@ export default function ManageCV() {
     useEffect(() => {
         getCv(user?.jwt, dispatch);
     }, []);
-    console.log(
-        'string',
-        cvData.content
-    );
-    const string = cvData.content.map((content) => {
-        return content.content;
-    });
-    const jsonData = string.map((item) => JSON.parse(item));
+    // console.log(
+    //     'string',
+    //     cvData.content
+    // );
+    // const string = cvData.content.map((content) => {
+    //     return content.content;
+    // });
+    // const jsonData = string.map((item) => JSON.parse(item));
 
-    console.log('jsonData', jsonData);
+    // console.log('jsonData', jsonData);
     return (
         <Container>
             <div className={cx('wrapper')}>

@@ -67,7 +67,7 @@ import {
     getAllCawlJobsFailed,
     getAllCawlJobsStart,
 } from './calwSlice';
-import { getCvFailed, getCvStart, getCvSuccess, postCvFailed, postCvStart, postCvSuccess } from './cvDataSlice';
+import { editCvFailed, editCvStart, editCvSuccess, getCvDetailFailed, getCvDetailStart, getCvDetailSuccess, getCvFailed, getCvStart, getCvSuccess, postCvFailed, postCvStart, postCvSuccess } from './cvDataSlice';
 
 //npm install axios
 
@@ -414,5 +414,36 @@ export const getCv = async (jwt, dispatch) => {
         dispatch(getCvSuccess(res.data));
     } catch (err) {
         dispatch(getCvFailed());
+    }
+};
+
+export const cvDetail = async (jwt, id, dispatch) => {
+    dispatch(getCvDetailStart());
+    try {
+        const res = await axios.get(
+            `http://localhost:8080/api/user/cv/getById?id=${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+        dispatch(getCvDetailSuccess(res.data));
+    } catch (err) {
+        dispatch(getCvDetailFailed(err.response.data));
+    }
+};
+
+export const editCv = async (cv, jwt, dispatch) => {
+    dispatch(editCvStart());
+    try {
+        await axios.put('http://localhost:8080/api/user/cv/updateCv', cv, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
+        dispatch(editCvSuccess());
+    } catch (err) {
+        dispatch(editCvFailed());
     }
 };
