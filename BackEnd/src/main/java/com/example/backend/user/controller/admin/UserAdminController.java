@@ -41,13 +41,17 @@ public class UserAdminController {
         return userAdminService.changeStatus(id, status);
     }
     //THỐNG KÊ
+    @GetMapping("/getMinMaxYear")
+    public ResponseEntity<?> getMinMaxYear(){
+        return userAdminService.getMinMaxYear();
+    }
     @GetMapping("/countUser")
     public ResponseEntity<?> countUser(){
         return userAdminService.countUsser();
     }
-    @GetMapping("/countUserByMoth")
-    public ResponseEntity<?> countUserMoth(@RequestParam("year") int year) throws JsonProcessingException {
-        return userAdminService.countUserMoth(year);
+    @GetMapping("/countUserMonth")
+    public ResponseEntity<?> countUserMonth(@RequestParam() int year, @RequestParam(required = false) UserStatus status) throws JsonProcessingException {
+        return userAdminService.countUserMonth(year,status);
     }
     @GetMapping("/countUserByYear")
     public ResponseEntity<?> countUserByYear() {

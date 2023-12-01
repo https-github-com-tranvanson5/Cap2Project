@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -43,8 +44,8 @@ public interface UserRepository extends JpaRepository<User,String> {
                     ") ) ) AS user_table",
             nativeQuery = true)
     Page<User> getDataUser(String search, Pageable pageable);
-    @Query(value = "SELECT MONTH(u.createAt) as month, COUNT(u.id) as userCount FROM User u WHERE YEAR(u.createAt) = :year GROUP BY MONTH(u.createAt) ")
-    List<Object[]> countUsersMonth(@Param("year") int year);
+    @Query(value = "SELECT MONTH(u.create_at) as month, COUNT(u.id) as userCount FROM User u WHERE YEAR(u.create_at) = :year AND (:statusString is null or u.status=:statusString) GROUP BY MONTH(u.create_at) ",nativeQuery = true)
+    List<Object[]> countUsersMonth(@Param("year") int year,@Param("statusString") String statusString);
 
     @Query(value = "select user.status, count(id) from user where user.status= :userStatus", nativeQuery = true)
     List<Object[]> countUserByStatus(@Param("userStatus") String userStatus);
@@ -54,4 +55,12 @@ public interface UserRepository extends JpaRepository<User,String> {
     User getByEmail(String email);
 
     Optional<User> findByEmail(String email);
+
+    @Query(value = "SELECT" +
+            "  MIN(YEAR(create_at)) AS min_year," +
+            "  MAX(YEAR(create_at)) AS max_year " +  // Added a space here
+            "FROM user", nativeQuery = true)
+    Optional<Map<String, Object>> getMinMaxYear();
+
+
 }

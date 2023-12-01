@@ -3,7 +3,6 @@ package com.example.backend.user.model;
 
 import com.example.backend.authen.model.Role;
 import com.example.backend.blog.model.Blog;
-import com.example.backend.blog.model.Comment;
 import com.example.backend.cv.model.Cv;
 import com.example.backend.job.model.Job;
 import com.example.backend.user.constain.EGender;

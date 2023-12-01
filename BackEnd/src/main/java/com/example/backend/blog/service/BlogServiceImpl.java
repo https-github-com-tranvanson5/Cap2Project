@@ -3,9 +3,10 @@ package com.example.backend.blog.service;
 import com.example.backend.authen.service.userdetail.UserPrinciple;
 import com.example.backend.blog.constain.BlogStatus;
 import com.example.backend.blog.model.Blog;
-import com.example.backend.blog.payload.request.BlogFormCreate;
-import com.example.backend.blog.payload.request.BlogFormUpdate;
-import com.example.backend.blog.respository.BlogRepository;
+import com.example.backend.blog.model.Image;
+import com.example.backend.blog.payload.request.BlogCreate;
+import com.example.backend.blog.repository.BlogRepository;
+import com.example.backend.blog.repository.ImageRepository;
 import com.example.backend.user.model.User;
 import com.example.backend.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,260 +18,286 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
-public class BlogServiceImpl implements BlogService {
+public class BlogServiceImpl implements BlogService{
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private BlogRepository blogRepository;
     @Autowired
-    private UserRepository userRepository;
+    private ImageRepository imageRepository;
     @Override
-    public ResponseEntity<?> createUserBlog(BlogFormCreate blogFormCreate) {
-        try{
+    @Transactional
+    public ResponseEntity<?> create(BlogCreate blogCreate) {
+        try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String id = ((UserPrinciple) authentication.getPrincipal()).getId();
-            Optional<User> optionalUser = userRepository.findById(id);
-            if (!optionalUser.isPresent()) {
-                return new ResponseEntity<>("Người dùng không tồn tại", HttpStatus.BAD_REQUEST);
+            String idUser = ((UserPrinciple) authentication.getPrincipal()).getId();
+            Optional<User> optionalUser = userRepository.findById(idUser);
+            if (optionalUser.isEmpty()) {
+                return new ResponseEntity<>("User not authenticated", HttpStatus.UNAUTHORIZED);
             }
-            User user = optionalUser.get();
 
-            Blog blog=new Blog();
-            blog.setTitle(blogFormCreate.getTitle());
-            blog.setContent(blogFormCreate.getContent());
-            blog.setAuthor(blogFormCreate.getAuthor());
-            blog.setImageUrl(blogFormCreate.getImageUrl());
-            blog.setCreatedAt(LocalDateTime.now());
+            Blog blog = new Blog();
+            blog.setContent(blogCreate.getContent());
             blog.setStatus(BlogStatus.ACTIVE);
-            blog.setUser(user);
-            blogRepository.save(blog);
-            return new ResponseEntity<>("tạo thành công", HttpStatus.OK);
-        } catch (Error error){
-            return new ResponseEntity<>("tạo thất bại", HttpStatus.BAD_REQUEST);
+            blog.setCreatedAt(LocalDateTime.now());
+            blog.setUser(optionalUser.get());
+
+            // Ensure that blogCreate.getImages() is not null before attempting to save
+            if (blogCreate.getImages() != null && !blogCreate.getImages().isEmpty()) {
+                Set<Image> images = new HashSet<>(imageRepository.saveAll(blogCreate.getImages()));
+                blog.setImages(images);
+            }
+
+            return new ResponseEntity<>(blogRepository.save(blog), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Override
-    public ResponseEntity<?> updateUserBlog(BlogFormUpdate blogFormUpdate) {
-        try{
+    @Transactional
+    public ResponseEntity<?> updateMyBlog(BlogCreate blogCreate, String id) {
+        try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String id = ((UserPrinciple) authentication.getPrincipal()).getId();
-            Optional<User> optionalUser = userRepository.findById(id);
-            if (!optionalUser.isPresent()) {
-                return new ResponseEntity<>("Người dùng không tồn tại", HttpStatus.BAD_REQUEST);
-            }
-            User user = optionalUser.get();
-
-            Optional<Blog> blogOptional= blogRepository.findByIdAndUser(blogFormUpdate.getId(), user);
-            if (!blogOptional.isPresent()) {
-                return new ResponseEntity<>("Blog không tồn tại", HttpStatus.BAD_REQUEST);
-            }
-            Blog blog= blogOptional.get();
-
-            if (blog.getStatus()==BlogStatus.DELETE) {
-                return new ResponseEntity<>("Blog không tồn tại", HttpStatus.BAD_REQUEST);
+            if (!authentication.isAuthenticated()) {
+                return new ResponseEntity<>("User not authenticated", HttpStatus.UNAUTHORIZED);
             }
 
-            blog.setTitle(blogFormUpdate.getTitle());
-            blog.setContent(blogFormUpdate.getContent());
-            blog.setAuthor(blogFormUpdate.getAuthor());
-            blog.setImageUrl(blogFormUpdate.getImageUrl());
-            blog.setUser(user);
-            blogRepository.save(blog);
-            return new ResponseEntity<>("cập nhật thành công", HttpStatus.OK);
-        } catch (Exception error){
-            return new ResponseEntity<>("cập nhật thất bại", HttpStatus.BAD_REQUEST);
+            UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
+            Optional<User> optionalUser = userRepository.findById(userPrincipal.getId());
+            if (optionalUser.isEmpty()) {
+                return new ResponseEntity<>("User not authenticated", HttpStatus.UNAUTHORIZED);
+            }
+
+            Optional<Blog> blogOptional = blogRepository.findByIdAndUser(id, optionalUser.get());
+            if (blogOptional.isEmpty() || blogOptional.get().getStatus() == BlogStatus.DELETE) {
+                return new ResponseEntity<>("Blog not found or deleted", HttpStatus.NOT_FOUND);
+            }
+
+            Blog blog = blogOptional.get();
+            blog.setContent(blogCreate.getContent());
+
+            Set<Image> newImages = new HashSet<>(blogCreate.getImages());
+
+            // Delete images that are not present in the updated set
+            if (blog.getImages() != null) {
+                blog.getImages().stream()
+                        .filter(existingImage -> !newImages.contains(existingImage))
+                        .forEach(imageRepository::delete);
+            }
+
+            // Save new images
+            Set<Image> savedImages = new HashSet<>(imageRepository.saveAll(newImages));
+            blog.setImages(savedImages);
+
+            return new ResponseEntity<>(blogRepository.save(blog), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Override
-    public ResponseEntity<?> getUserByIdBlog(String id, BlogStatus status) {
-        try{
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String userId = ((UserPrinciple) authentication.getPrincipal()).getId();
-            Optional<User> optionalUser = userRepository.findById(userId);
-            if (!optionalUser.isPresent()) {
-                return new ResponseEntity<>("Người dùng không tồn tại", HttpStatus.BAD_REQUEST);
-            }
-            User user = optionalUser.get();
-
-            Optional<Blog> blogOptional;
-            if(status!=null){
-                blogOptional = blogRepository.findByIdAndUserAndStatus(id, user, status);
-            }else {
-                blogOptional = blogRepository.findByIdAndUser(id, user);
-            }
-            if (!blogOptional.isPresent()) {
-                return new ResponseEntity<>("Blog không tồn tại", HttpStatus.BAD_REQUEST);
-            }
-            Blog blog= blogOptional.get();
-
-            if (blog.getStatus()==BlogStatus.DELETE) {
-                return new ResponseEntity<>("Blog không tồn tại", HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity<>(blog, HttpStatus.OK);
-        } catch (Exception error){
-            return new ResponseEntity<>("get thất bại", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @Override
-    public ResponseEntity<?> changeStatusBlog(String id, BlogStatus status) {
-        try{
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String userId = ((UserPrinciple) authentication.getPrincipal()).getId();
-            Optional<User> optionalUser = userRepository.findById(userId);
-            if (!optionalUser.isPresent()) {
-                return new ResponseEntity<>("Người dùng không tồn tại", HttpStatus.BAD_REQUEST);
-            }
-            User user = optionalUser.get();
-
-            Optional<Blog> blogOptional;
-            blogOptional = blogRepository.findByIdAndUser(id, user);
-            if (!blogOptional.isPresent()) {
-                return new ResponseEntity<>("Blog không tồn tại", HttpStatus.BAD_REQUEST);
-            }
-            Blog blog= blogOptional.get();
-
-            if (blog.getStatus()==BlogStatus.DELETE) {
-                return new ResponseEntity<>("Blog không tồn tại", HttpStatus.BAD_REQUEST);
-            }
-            blog.setStatus(status);
-            blogRepository.save(blog);
-            return new ResponseEntity<>("thay đổi trạng thái thành công", HttpStatus.OK);
-        } catch (Exception error){
-            return new ResponseEntity<>("thay đổi trạng thái thất bại", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    public ResponseEntity<?> getAllBlog(String search, BlogStatus status, Pageable pageable) {
-        try{
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String userId = ((UserPrinciple) authentication.getPrincipal()).getId();
-            Optional<User> optionalUser = userRepository.findById(userId);
-            if (!optionalUser.isPresent()) {
-                return new ResponseEntity<>("Người dùng không tồn tại", HttpStatus.BAD_REQUEST);
-            }
-            String statusString = status!=null?status.toString(): null;
-            Page<Blog> blogs = blogRepository.getAllBlog(search,statusString,userId,pageable);
-
+    public ResponseEntity<?> getAll(String search, Pageable pageable) {
+        try {
+            Page<Blog> blogs = blogRepository.findAllBlog( search, BlogStatus.ACTIVE.toString(),null,pageable);
             return new ResponseEntity<>(blogs, HttpStatus.OK);
-        } catch (Exception e){
-            return new ResponseEntity<>("get thất bại", HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Override
-    public ResponseEntity<?> getAllBlogAdmin(String search, BlogStatus status, Pageable pageable) {
-        try{
-            String userId = null;
-            String statusString = status!=null?status.toString(): null;
-            Page<Blog> blogs = blogRepository.getAllBlog(search,statusString,userId,pageable);
-
-            return new ResponseEntity<>(blogs, HttpStatus.OK);
-        } catch (Exception e){
-            return new ResponseEntity<>("get thất bại", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> getById(String id) {
+        try {
+            Optional<Blog> blogOptional = blogRepository.findById(id);
+            if (blogOptional.isEmpty() || blogOptional.get().getStatus() == BlogStatus.DELETE) {
+                return new ResponseEntity<>("Blog not found or deleted", HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(blogOptional.get(), HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Override
-    public ResponseEntity<?> updateUserBlogAdmin(BlogFormUpdate blogFormUpdate) {
-        try{
+    public ResponseEntity<?> deleteMyBlog(String id) {
+        try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String id = ((UserPrinciple) authentication.getPrincipal()).getId();
-            Optional<User> optionalUser = userRepository.findById(id);
-            if (!optionalUser.isPresent()) {
-                return new ResponseEntity<>("Người dùng không tồn tại", HttpStatus.BAD_REQUEST);
-            }
-            User user = optionalUser.get();
-
-            Optional<Blog> blogOptional= blogRepository.findById(blogFormUpdate.getId());
-            if (!blogOptional.isPresent()) {
-                return new ResponseEntity<>("Blog không tồn tại", HttpStatus.BAD_REQUEST);
-            }
-            Blog blog= blogOptional.get();
-
-            if (blog.getStatus()==BlogStatus.DELETE) {
-                return new ResponseEntity<>("Blog không tồn tại", HttpStatus.BAD_REQUEST);
+            if (!authentication.isAuthenticated()) {
+                return new ResponseEntity<>("User not authenticated", HttpStatus.UNAUTHORIZED);
             }
 
-            blog.setTitle(blogFormUpdate.getTitle());
-            blog.setContent(blogFormUpdate.getContent());
-            blog.setAuthor(blogFormUpdate.getAuthor());
-            blog.setImageUrl(blogFormUpdate.getImageUrl());
-            blog.setUser(user);
-            blogRepository.save(blog);
-            return new ResponseEntity<>("cập nhật thành công", HttpStatus.OK);
-        } catch (Exception error){
-            return new ResponseEntity<>("cập nhật thất bại", HttpStatus.BAD_REQUEST);
+            UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
+            Optional<User> optionalUser = userRepository.findById(userPrincipal.getId());
+            if (optionalUser.isEmpty()) {
+                return new ResponseEntity<>("User not authenticated", HttpStatus.UNAUTHORIZED);
+            }
+            Optional<Blog> blogOptional = blogRepository.findByIdAndUser(id, optionalUser.get());
+            if (blogOptional.isEmpty() || blogOptional.get().getStatus() == BlogStatus.DELETE) {
+                return new ResponseEntity<>("Blog not found or deleted", HttpStatus.NOT_FOUND);
+            }
+            Blog blog = blogOptional.get();
+            blog.setStatus(BlogStatus.DELETE);
+            return new ResponseEntity<>(blogRepository.save(blog), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+    @Override
+    public ResponseEntity<?> getByIdMyBlog(String id) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (!authentication.isAuthenticated()) {
+                return new ResponseEntity<>("User not authenticated", HttpStatus.UNAUTHORIZED);
+            }
+
+            UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
+            Optional<User> optionalUser = userRepository.findById(userPrincipal.getId());
+            Optional<Blog> blogOptional = blogRepository.findByIdAndUser(id,optionalUser.get());
+            if (blogOptional.isEmpty() || blogOptional.get().getStatus() == BlogStatus.DELETE) {
+                return new ResponseEntity<>("Blog not found or deleted", HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(blogOptional.get(), HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Override
-    public ResponseEntity<?> getUserByIdBlogAdmin(String id, BlogStatus status) {
-        try{
-            Optional<Blog> blogOptional;
-            if(status!=null){
-                blogOptional = blogRepository.findByIdAndStatus(id, status);
-            }else {
-                blogOptional = blogRepository.findById(id);
-            }
-            if (!blogOptional.isPresent()) {
-                return new ResponseEntity<>("Blog không tồn tại", HttpStatus.BAD_REQUEST);
-            }
-            Blog blog= blogOptional.get();
+    public ResponseEntity<?> getAllMyBlog(String search, Pageable pageable) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-            if (blog.getStatus()==BlogStatus.DELETE) {
-                return new ResponseEntity<>("Blog không tồn tại", HttpStatus.BAD_REQUEST);
+            if (!authentication.isAuthenticated()) {
+                return new ResponseEntity<>("User not authenticated", HttpStatus.UNAUTHORIZED);
             }
-            return new ResponseEntity<>(blog, HttpStatus.OK);
-        } catch (Exception error){
-            return new ResponseEntity<>("get thất bại", HttpStatus.BAD_REQUEST);
+
+            UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
+            Optional<User> optionalUser = userRepository.findById(userPrincipal.getId());
+            Page<Blog> blogs = blogRepository.findAllBlog( search, BlogStatus.ACTIVE.toString(),optionalUser.get().getId(),pageable);
+            return new ResponseEntity<>(blogs, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Override
-    public ResponseEntity<?> changeStatusBlogAdmin(String id, BlogStatus status, String userId) {
-        try{
-            Optional<User> optionalUser = userRepository.findById(userId);
-            if (!optionalUser.isPresent()) {
-                return new ResponseEntity<>("Người dùng không tồn tại", HttpStatus.BAD_REQUEST);
+    @Transactional
+    public ResponseEntity<?> adminCreate(BlogCreate blogCreate) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String idUser = ((UserPrinciple) authentication.getPrincipal()).getId();
+            Optional<User> optionalUser = userRepository.findById(idUser);
+            if (optionalUser.isEmpty()) {
+                return new ResponseEntity<>("User not authenticated", HttpStatus.UNAUTHORIZED);
             }
-            User user = optionalUser.get();
 
-            Optional<Blog> blogOptional;
-            blogOptional = blogRepository.findByIdAndUser(id, user);
-            if (!blogOptional.isPresent()) {
-                return new ResponseEntity<>("Blog không tồn tại", HttpStatus.BAD_REQUEST);
-            }
-            Blog blog= blogOptional.get();
+            Blog blog = new Blog();
+            blog.setContent(blogCreate.getContent());
+            blog.setStatus(BlogStatus.ACTIVE);
+            blog.setCreatedAt(LocalDateTime.now());
+            blog.setUser(optionalUser.get());
 
-            if (blog.getStatus()==BlogStatus.DELETE) {
-                return new ResponseEntity<>("Blog không tồn tại", HttpStatus.BAD_REQUEST);
+            // Ensure that blogCreate.getImages() is not null before attempting to save
+            if (blogCreate.getImages() != null && !blogCreate.getImages().isEmpty()) {
+                Set<Image> images = new HashSet<>(imageRepository.saveAll(blogCreate.getImages()));
+                blog.setImages(images);
             }
-            blog.setStatus(status);
-            blogRepository.save(blog);
-            return new ResponseEntity<>("thay đổi trạng thái thành công", HttpStatus.OK);
-        } catch (Exception error){
-            return new ResponseEntity<>("thay đổi trạng thái thất bại", HttpStatus.BAD_REQUEST);
+
+            return new ResponseEntity<>(blogRepository.save(blog), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-//    @Override
-//    public ResponseEntity<?> commentBlog(String id, String comment) {
-//        try {
-//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//            String userId = ((UserPrinciple) authentication.getPrincipal()).getId();
-//            Optional<User> optionalUser = userRepository.findById(userId);
-//            if (!optionalUser.isPresent()) {
-//                return new ResponseEntity<>("Người dùng không tồn tại", HttpStatus.BAD_REQUEST);
-//            }
-//            User user = optionalUser.get();
-//            return new ResponseEntity<>("thay đổi trạng thái thành công", HttpStatus.OK);
-//        }catch (Exception e){
-//            return new ResponseEntity<>("comment thất bại", HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    @Override
+    public ResponseEntity<?> adminGetAll(String search, Pageable pageable) {
+        try {
+            Page<Blog> blogs = blogRepository.findAllBlog( search, BlogStatus.ACTIVE.toString(),null,pageable);
+            return new ResponseEntity<>(blogs, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> adminGetById(String id) {
+        try {
+            Optional<Blog> blogOptional = blogRepository.findById(id);
+            if (blogOptional.isEmpty() || blogOptional.get().getStatus() == BlogStatus.DELETE) {
+                return new ResponseEntity<>("Blog not found or deleted", HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(blogOptional.get(), HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> adminDelete(String id) {
+        try {
+            Optional<Blog> blogOptional = blogRepository.findById(id);
+            if (blogOptional.isEmpty() || blogOptional.get().getStatus() == BlogStatus.DELETE) {
+                return new ResponseEntity<>("Blog not found or deleted", HttpStatus.NOT_FOUND);
+            }
+            Blog blog = blogOptional.get();
+            blog.setStatus(BlogStatus.DELETE);
+            return new ResponseEntity<>(blogRepository.save(blog), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> adminUpdate(String id,BlogCreate blogCreate) {
+        try {
+            Optional<Blog> blogOptional = blogRepository.findById(id);
+            if (blogOptional.isEmpty() || blogOptional.get().getStatus() == BlogStatus.DELETE) {
+                return new ResponseEntity<>("Blog not found or deleted", HttpStatus.NOT_FOUND);
+            }
+
+            Blog blog = blogOptional.get();
+            blog.setContent(blogCreate.getContent());
+
+            Set<Image> newImages = new HashSet<>(blogCreate.getImages());
+
+            // Delete images that are not present in the updated set
+            if (blog.getImages() != null) {
+                blog.getImages().stream()
+                        .filter(existingImage -> !newImages.contains(existingImage))
+                        .forEach(imageRepository::delete);
+            }
+
+            // Save new images
+            Set<Image> savedImages = new HashSet<>(imageRepository.saveAll(newImages));
+            blog.setImages(savedImages);
+
+            return new ResponseEntity<>(blogRepository.save(blog), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

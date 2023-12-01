@@ -8,7 +8,7 @@ import com.example.backend.user.model.User;
 import com.example.backend.user.payload.request.UserFormCreate;
 import com.example.backend.user.payload.request.UserFormUpdate;
 import com.example.backend.user.payload.response.Count;
-import com.example.backend.user.payload.response.CountMoth;
+import com.example.backend.user.payload.response.CountMonth;
 import com.example.backend.user.payload.response.CountStatus;
 import com.example.backend.user.payload.response.CountYear;
 import com.example.backend.user.repository.UserRepository;
@@ -127,6 +127,16 @@ public class UserAdminServiceImp implements UserAdminService{
         return new ResponseEntity<>("Change status thành công", HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<?> getMinMaxYear() {
+        try {
+            return new ResponseEntity<>(userRepository.getMinMaxYear(), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("Fail", HttpStatus.OK);
+        }
+    }
+
+
     public ResponseEntity<?> getDataUser(String search, Pageable pageable, String column, String sort) {
         // Xác định thông tin sắp xếp
         Sort.Order order = null;
@@ -158,22 +168,26 @@ public class UserAdminServiceImp implements UserAdminService{
         return ResponseEntity.ok(countUser);
     }
 
-    public ResponseEntity<?> countUserMoth(int year){
-        List<Object[]> listCountMoth = userRepository.countUsersMonth(year);
-        List<CountMoth> countMoths= new ArrayList<>();
+    public ResponseEntity<?> countUserMonth(int year, UserStatus status){
+        String statusString = (status != null) ? status.toString() : null;
+        System.out.println(statusString);
+
+
+        List<Object[]> listCountMoth = userRepository.countUsersMonth(year,statusString);
+        List<CountMonth> countMonths = new ArrayList<>();
         for (Object[] object: listCountMoth) {
             if (object.length >= 2 && object[0] != null && object[1] != null) {
-                CountMoth countMoth = new CountMoth();
-                int moth = ((Number) object[0]).intValue();
+                CountMonth countMonth = new CountMonth();
+                int month = ((Number) object[0]).intValue();
                 int count = ((Number) object[1]).intValue();
 
-                countMoth.setMoth(moth);
-                countMoth.setCount(count);
+                countMonth.setMonth(month);
+                countMonth.setCount(count);
 
-                countMoths.add(countMoth);
+                countMonths.add(countMonth);
             }
         }
-        return ResponseEntity.ok(countMoths);
+        return ResponseEntity.ok(countMonths);
     }
 
     public ResponseEntity<?> countUserStatus(String userStatus) {
