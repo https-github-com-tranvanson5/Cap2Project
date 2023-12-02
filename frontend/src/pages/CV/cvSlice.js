@@ -107,6 +107,7 @@ export const cvSlice = createSlice({
                 };
             } else {
                 state.data.content = state.data.content.map((group) => {
+                    console.log('group.id' , group.id)
                     if (group.id === groupId) {
                         return {
                             ...group,

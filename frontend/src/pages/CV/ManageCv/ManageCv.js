@@ -13,30 +13,18 @@ const cx = classNames.bind(styles);
 export default function ManageCV() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.login?.currentUser);
-    const [cvData, setCvData] = useState(
-        useSelector((state) => state.cvData.data?.cv),
-    );
+    const cvData = useSelector((state) => state.cvData.data?.cv)
     useEffect(() => {
         getCv(user?.jwt, dispatch);
     }, []);
-    // console.log(
-    //     'string',
-    //     cvData.content
-    // );
-    // const string = cvData.content.map((content) => {
-    //     return content.content;
-    // });
-    // const jsonData = string.map((item) => JSON.parse(item));
-
-    // console.log('jsonData', jsonData);
     return (
         <Container>
             <div className={cx('wrapper')}>
                 <h2 className={cx('heading')}>CV của bạn</h2>
                 <div className={cx('wrapper')}>
                     <Row>
-                        {cvData.content &&
-                            cvData.content?.map((cv) => {
+                        {cvData?.content &&
+                            cvData?.content?.map((cv) => {
                                 return (
                                     <Col
                                         key={cv.id}

@@ -66,7 +66,7 @@ export default function FindJobs() {
         setFormData({ ...formData, [field]: value });
     };
 
-    console.log('formData', formData);
+    // console.log('formData', formData);
 
     // console.log('jobListData' ,jobListData)
     // console.log('careers' , careers)

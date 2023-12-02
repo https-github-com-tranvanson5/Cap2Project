@@ -9,10 +9,28 @@ import FontsControl from './Menu/FontsControl';
 import ImageControl from './Menu/ImageControl';
 import TemplateControl from './Menu/TemplateControl';
 import styles from './ToolBar.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { contentCvSelector, overviewSelector } from '~/redux/Selectors/cvSelector';
+import { postCv, postJob } from '~/redux/apiRequest';
 
 const cx = classNames.bind(styles);
 
 function ToolBar({ cvRef }) {
+    const dispatch = useDispatch();
+    const contentData = useSelector(contentCvSelector);
+    const overviewData = useSelector(overviewSelector);
+    const isAuth = useSelector((state) => state.auth.login?.currentUser);
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Handle form submission logic here, e.g. make an API call
+        const data = { content : contentData  , ...overviewData };
+
+        const content = {
+            content: JSON.stringify(data),
+        };
+        console.log('Form submitted with data:', data);
+        postCv(content, isAuth?.jwt, dispatch);
+    };
     const generatePDF = () => {
         const pageWidth = 210;
         const pageHeight = 297;
@@ -40,14 +58,15 @@ function ToolBar({ cvRef }) {
     };
 
     return (
-        <div className={cx('wrapper')}>
+        <form onSubmit={handleSubmit}>
+            <div className={cx('wrapper')}>
             <div className={cx('menu')}>
                 <ColorControl />
                 <FontsControl />
                 <TemplateControl />
                 <ImageControl />
             </div>
-            <div className={cx('manager')}>
+            <div className={cx('manager')} >
                 <Button
                     onClick={() => {
                         generatePDF();
@@ -58,6 +77,14 @@ function ToolBar({ cvRef }) {
                 >
                     Tải xuống
                 </Button>
+                <Button
+                    type="submit"
+                    primary
+                    rounded
+                    small
+                >
+                    Lưu
+                </Button>
                 <Link to="/manager-cv">
                     <Button rounded white small>
                         Quản lý CV
@@ -65,6 +92,7 @@ function ToolBar({ cvRef }) {
                 </Link>
             </div>
         </div>
+        </form>
     );
 }
 

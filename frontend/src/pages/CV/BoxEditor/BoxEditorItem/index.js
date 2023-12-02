@@ -288,7 +288,7 @@ function BoxEditorItem({
                                 )
                             }
                         />
-                        {console.log('editorValue', editorValue)}
+                        {/* {console.log('editorValue', editorValue)} */}
                     </div>
                 )}
             </div>

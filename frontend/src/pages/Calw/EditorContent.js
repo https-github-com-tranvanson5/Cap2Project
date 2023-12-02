@@ -52,6 +52,7 @@ const TextEditor = ({
         return draftToHtml(convertToRaw(es.getCurrentContent()));
     }
     useEffect(() => {
+        console.log('defaultValueProps' , defaultValueProps)
         if (toHtml(editorState) === defaultValueProps) return;
         setEditorState(
             EditorState.push(
@@ -61,17 +62,19 @@ const TextEditor = ({
                 ),
             ),
         );
+        console.log('defaultValueProps' ,defaultValueProps)
     }, [defaultValueProps]);
 
     return (
         <EditorStyled isHidderTools={isHidderTools}>
             <Editor
                 editorState={editorState}
+                onEditorStateChange={onEditorStateChange}
                 // toolbarClassName="toolbarClassName"
                 wrapperClassName="wrapperClassName"
                 editorClassName="editorClassName"
                 toolbarClassName="hide-toolbar"
-                onEditorStateChange={onEditorStateChange}
+                
                 placeholder={'Nhập nội dung ...'}
             />
         </EditorStyled>
