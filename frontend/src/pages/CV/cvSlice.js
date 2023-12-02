@@ -237,6 +237,7 @@ export const cvSlice = createSlice({
         },
         moveEditor(state, action) {
             const { typeBlock, boxId, direction, groupId } = action.payload;
+            console.log('action.payload' , action.payload)
 
             if (typeBlock === 'overview') {
                 arrayMove(state.data.overview.container, boxId, direction);
@@ -262,8 +263,8 @@ export const cvSlice = createSlice({
         },
         addGroup(state, action) {
             const { type } = action.payload;
+            console.log('action.payload' , action.payload)
             const newGroup = findGroupByType(type);
-
             state.data.content.push({ ...newGroup, id: uuidv4() });
         },
     },

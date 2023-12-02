@@ -99,8 +99,8 @@ function Overview(onChange) {
         );
     };
 
-    console.log('formData',formData)
-    console.log('name',name)
+    // console.log('formData',formData)
+    // console.log('name',name)
     return (
         <div className={cx('wrapper')}>
             <Row>

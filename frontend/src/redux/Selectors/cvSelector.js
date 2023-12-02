@@ -12,5 +12,5 @@ export const updateContentCvSelector = (state) => state.cv.data.updateContent;
 
 export const typeUsedContentSelector = createSelector(
     (state) => state.cv.data.content,
-    (typeUsedList) => typeUsedList.map((group) => group.type),
+    (typeUsedList) => typeUsedList.map((group) => group?.type),
 );

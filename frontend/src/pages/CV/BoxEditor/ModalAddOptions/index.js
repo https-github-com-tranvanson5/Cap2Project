@@ -93,7 +93,7 @@ function ModalAddOptions({ show, onClose }) {
 
     useEffect(() => {
         const newOptions = modalOptions.map((option) => {
-            const isUsed = typeUsedList.find((type) => type === option.type);
+            const isUsed = typeUsedList.find((type) => type === option?.type);
             if (isUsed) {
                 return { ...option, isDisable: true };
             }
@@ -104,6 +104,7 @@ function ModalAddOptions({ show, onClose }) {
 
     const handleAddGroup = (type) => {
         dispatch(cvSlice.actions.addGroup({ type }));
+        console.log('type' , type)
     };
 
     return (
@@ -148,7 +149,7 @@ function ModalAddOptions({ show, onClose }) {
                                     <div className={cx('options-item')}>
                                         <div
                                             onClick={() => {
-                                                handleAddGroup(option.type);
+                                                handleAddGroup(option?.type);
                                             }}
                                             className={cx(
                                                 'options-item-content',

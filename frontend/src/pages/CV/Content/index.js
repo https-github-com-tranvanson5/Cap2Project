@@ -18,7 +18,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 
 const cx = classNames.bind(styles);
-
+const initialState = {};
 function Content(props, ref) {
     const dispatch = useDispatch();
     const { id } = useParams();
@@ -26,9 +26,7 @@ function Content(props, ref) {
     const contentData = useSelector(contentCvSelector);
     const isAuth = useSelector((state) => state.auth.login?.currentUser);
     const dataDetail = useSelector((state) => state.cvData.data?.cvDetail);
-    const [formData, setFormData] = useState({
-        content: { content: contentData },
-    });
+    const [formData, setFormData] = useState(initialState);
     useEffect(() => {
         if (id) {
             cvDetail(isAuth?.jwt, id, dispatch);
@@ -55,7 +53,7 @@ function Content(props, ref) {
         };
         fetchData();
     }, [id, dataDetail]);
-    
+
     // console.log('formdata', formData);
     // console.log('contentData', contentData);
 
@@ -63,19 +61,30 @@ function Content(props, ref) {
         <ThemeProvider theme={theme}>
             <div ref={ref} className={cx('wrapper')}>
                 <Overview />
+
                 {/* Content CV */}
-                {formData.content.content.map((contentItem, index) => {
-                    const length = formData.content.content.length - 1;
-                    return (
+                {id
+                    ? formData.content?.content.map((contentItem, index) => {
+                        const length = formData.content.content.length - 1;
+                        return (
+                            <EditorGroup
+                                index={index}
+                                length={length}
+                                key={contentItem.id}
+                                groupId={contentItem.id}
+                                editorData={contentItem}
+                            />
+                        );
+                    })
+                    : contentData.map((contentItem, index) => (
                         <EditorGroup
-                            index={index}
-                            length={length}
                             key={contentItem.id}
+                            index={index}
+                            length={contentData.length - 1}
                             groupId={contentItem.id}
                             editorData={contentItem}
                         />
-                    );
-                })}
+                    ))}
             </div>
         </ThemeProvider>
     );

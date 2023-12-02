@@ -21,7 +21,7 @@ function BoxEditorItem({
 }) {
     const dispatch = useDispatch();
 
-    console.log('title', title);
+    // console.log('title', title);
 
     const [value, setValue] = useState(editorValue);
     const [titleValue, setTitleValue] = useState(title);

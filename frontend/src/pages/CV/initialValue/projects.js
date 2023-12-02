@@ -40,7 +40,7 @@ const projectsInitial = {
                 blocks: [
                     {
                         key: uuidv4(),
-                        text: 'JobFinded',
+                        text: 'JobCare',
                         type: 'unstyled',
                         depth: 0,
                         inlineStyleRanges: [

@@ -20,7 +20,6 @@ import { useParams } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 function InputEditor({ defaultValue, setContent }) {
-    const { id } = useParams();
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     
     // const [editorState, setEditorState] = useState(
@@ -30,43 +29,15 @@ function InputEditor({ defaultValue, setContent }) {
     //         ),
     //     ),
     // );
-    function toHtml(es) {
-        return draftToHtml(convertToRaw(es.getCurrentContent()));
-    }
 
     useEffect(() => {
         const contentState = convertFromRaw(defaultValue);
         setEditorState(EditorState.createWithContent(contentState));
-        // const contentState = convertFromRaw(defaultValue);
-        // const newHtmlString = stateToHTML(contentState);
-        // const string = JSON.stringify(newHtmlString);
-        // console.log('string' ,string)
-        // const decodedText = newHtmlString.replace(/&lt;(\/)?(p|strong|li|ul)&gt;|&amp;nbsp;/g, '');
-        // // console.log('decodedText' , decodedText)
-        // // console.log('editorstate' , newHtmlString)
-        // if (toHtml(editorState) === string) return;
-        // setEditorState(
-        //     EditorState.push(
-        //         editorState,
-        //         ContentState.createFromBlockArray(
-        //             htmlToDraft(string),
-        //         ),
-        //     ),
-        // );
     }, []);
 
     const onEditorStateChange = (editorState) => {
         setEditorState(editorState);
-        // convertToRaw(editorState.getCurrentContent(editorState))
         setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())));
-        // console.log(
-        //     'onEditorStateChange:::',
-        //     editorState.getCurrentContent().getPlainText(''),
-        // );
-        // console.log(
-        //     'editorState:::: ',
-        //     convertToRaw(editorState.getCurrentContent(editorState)),
-        // );
     };
 
     return (
