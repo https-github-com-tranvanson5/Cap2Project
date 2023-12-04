@@ -1,0 +1,27 @@
+.wrapper {
+    margin-top: var(--margin-0);
+    background-color: var(--white-color);
+    padding: 5px 10px;
+}
+.related-job {
+    display: flex;
+    justify-content: space-between;
+    color: var(--primary-color);
+    .related-title {
+        font-size: 2.8rem;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+    .related-more {
+        cursor: pointer;
+        border-radius: var(--radius-1);
+        span {
+            color: var(--black-color);
+            font-weight: 700;
+            font-size: 20px;
+            &:hover {
+                color: var(--primary-color);
+            }
+        }
+    }
+}

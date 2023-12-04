@@ -1,0 +1,40 @@
+.wrapper {
+    display: inline-block;
+    margin-top: var(--margin-top-0);
+    width: 100%;
+    .content {
+        box-shadow: var(--box-shadown-0);
+        padding: var(--padding-2);
+        margin: 50px 0;
+        border-radius: var(--radius-1);
+        background-color: var(--white-color);
+        .content-header {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        .content-rule {
+            margin-bottom: 20px;
+            h3 {
+                font-size: 20px;
+                font-weight: 700;
+                margin-bottom: 8px;
+            }
+        }
+    }
+    .content-box {
+        font-size: 20px;
+        background-color: var(--white-color);
+        box-shadow: var(--box-shadown-0);
+        padding: var(--padding-2);
+        margin: 50px 0;
+        border-radius: var(--radius-1);
+        text-align: center;
+        .number-use {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+    }
+}

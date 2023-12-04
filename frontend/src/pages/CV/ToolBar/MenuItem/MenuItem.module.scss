@@ -1,0 +1,14 @@
+.menu-item {
+    display: flex;
+    align-items: center;
+    .icon {
+        display: flex;
+        margin: auto;
+        font-size: 20px;
+        padding-right: 8px;
+    }
+    &:hover {
+        cursor: pointer;
+        color: var(--primary-color);
+    }
+}

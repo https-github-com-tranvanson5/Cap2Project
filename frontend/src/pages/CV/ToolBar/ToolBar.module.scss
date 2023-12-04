@@ -1,0 +1,29 @@
+.wrapper {
+    user-select: none;
+    color: var(--white-color);
+    background-color: var(--dark-color-0);
+    padding: 10px 20px;
+    border-radius: 30px;
+    // border: 1px solid var(--secondary-color);
+    box-shadow: var(--box-shadow-2);
+}
+
+.wrapper,
+.menu,
+.manager {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    a {
+        margin: 0;
+    }
+}
+
+.menu {
+    gap: 20px;
+}
+
+.manager {
+    margin-left: 20px;
+    gap: 10px;
+}

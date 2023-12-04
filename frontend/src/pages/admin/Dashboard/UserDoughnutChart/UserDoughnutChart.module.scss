@@ -1,0 +1,18 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .title {
+        font-size: 22px;
+        font-weight: 600;
+    }
+    .total-data {
+        margin-top: 8px;
+        display: flex;
+        font-size: 14px;
+        font-weight: 600;
+        li {
+            margin-right: 10px;
+        }
+    }
+}

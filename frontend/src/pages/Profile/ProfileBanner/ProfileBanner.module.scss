@@ -1,0 +1,34 @@
+.wrapper {
+    --size: 160px;
+    margin-bottom: 120px;
+    position: relative;
+    .background {
+        width: 100%;
+        height: 380px;
+        object-fit: cover;
+        background-repeat: no-repeat;
+        border-radius: 20px;
+    }
+
+    .user-profile {
+        display: flex;
+        align-items: flex-end;
+        position: absolute;
+        bottom: calc(var(--size) / 2 * -1);
+        left: 50px;
+        .avatar-img {
+            object-fit: cover;
+            background-repeat: no-repeat;
+            border: 4px solid var(--white-color);
+            border-radius: 50%;
+            width: var(--size);
+            height: var(--size);
+        }
+        .user-name {
+            color: var(--black-color);
+            font-size: 32px;
+            font-weight: 700;
+            padding-left: 10px;
+        }
+    }
+}

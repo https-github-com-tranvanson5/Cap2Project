@@ -1,0 +1,51 @@
+.wrapper {
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    .form-group {
+        margin-bottom: 10px;
+        .label-form-accounts {
+            text-align: left;
+            font-size: 1.4rem;
+            font-weight: 500;
+            padding-left: 15px;
+            margin: 15px 0 8px 0;
+            // margin-bottom: 10px;
+        }
+        .input-block {
+            background: rgba(22, 24, 35, 0.06);
+            border: 1px solid rgba(22, 24, 35, 0.06);
+            border-radius: 44px;
+            display: flex;
+            height: 44px;
+            overflow: hidden;
+            width: 100%;
+            margin-bottom: 4px;
+            .input-text {
+                background-color: transparent;
+                border: none;
+                display: block;
+                flex: 1 1;
+                font-size: 1.4rem;
+                outline: none;
+                padding: 12px 20px;
+                width: 100%;
+            }
+        }
+        .error-message {
+            color: red;
+            font-size: 1.2rem;
+            padding-left: 20px;
+            text-align: left;
+        }
+    }
+
+    .button-form {
+        margin-top: 20px;
+        width: 100%;
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}
