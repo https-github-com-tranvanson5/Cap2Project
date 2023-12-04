@@ -24,32 +24,24 @@ ChartJS.register(
     Legend,
 );
 
-export const options = {
-    responsive: true,
-    plugins: {
-        legend: {
-            position: 'top',
+const options = {
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true,
+            },
+        }],
+    },
+    elements: {
+        line: {
+            fill: true, // Set to true to fill the area under the line
         },
     },
 };
 
-function StatisticalLinesChart({ data }) {
-    const dataChart = {
-        labels: ['January', 'Februar', 'March', 'April', 'May', 'June', 'July', 'August'],
-        datasets: [
-            {
-                label: 'Thống kê tuyển dụng',
-                // data: data?.jobCount.map((item) => item.count),
-                data:[10,15,35,41,50,58,70,80],
-                borderColor: '#4bc0c0',
-                backgroundColor: '#a4f5f5',
-            },
-        ],
-    };
-
+function StatisticalLinesChart({ dataChart }) {
     return (
         <div className={cx('wrapper')}>
-            <h2 className={cx('title')}>Thống kê tổng quan hệ thống</h2>
             <Line options={options} data={dataChart} />
         </div>
     );

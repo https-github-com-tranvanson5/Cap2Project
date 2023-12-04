@@ -1,5 +1,29 @@
 import axios from 'axios';
 import {
+    //thoong ke theo 12 thang
+    getUsersByMonthStart,
+    getUsersByMonthSuccess,
+    getUsersByMonthFailed,
+
+    // get year min max
+    getYearMinMaxStart,
+    getYearMinMaxSuccess,
+    getYearMinMaxFailed,
+
+    // count user
+    getCountAllUserStart,
+    getCountAllUserSuccess,
+    getCountAllUserFailed,
+    getCountAllUserStatusStart,
+    getCountAllUserStatusSuccess,
+    getCountAllUserStatusFailed,
+
+    // count user year
+    getCountUserYearStart,
+    getCountUserYearSuccess,
+    getCountUserYearFailed,
+} from './statisticalSlice';
+import {
     loginFailed,
     loginStart,
     loginSuccess,
@@ -162,7 +186,7 @@ export const deleteUser = async (jwt, dispatch, id) => {
     }
 };
 
-export const getAllJobs = async (jwt, dispatch , query , setData) => {
+export const getAllJobs = async (jwt, dispatch, query, setData) => {
     dispatch(getAllJobsStart());
     try {
         const res = await axios.get(
@@ -318,7 +342,7 @@ export const getAllApplyJobsCandidate = async (jwt, dispatch) => {
     }
 };
 
-export const changeStatus = async (jwt, dispatch, status ,id , data) => {
+export const changeStatus = async (jwt, dispatch, status, id, data) => {
     dispatch(getchangeStatusStart());
     try {
         await axios.put(
@@ -352,3 +376,168 @@ export const getAllCalwData = async (
         dispatch(getAllCawlJobsFailed());
     }
 };
+
+// {Thong ke
+export const countUserByMonth = async (jwt, dispatch, year, status) => {
+    dispatch(getUsersByMonthStart());
+
+    try {
+        const response = await axios.get(
+            `http://localhost:8080/api/admin/countUserMonth?year=${year}&status=${status}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Check if the response status is successful (2xx)
+        if (response.status >= 200 && response.status < 300) {
+            dispatch(getUsersByMonthSuccess(response.data)); // Dispatch action with fetched data
+            return response.data;
+        } else {
+            const errorMessage =
+                response.data?.message || 'Error fetching data';
+            dispatch(getUsersByMonthFailed(errorMessage));
+            console.error(errorMessage); // Log the error message
+        }
+    } catch (err) {
+        // Extract the error message from err.response
+        const errorMessage =
+            err.response?.data?.message || 'Error fetching data';
+        dispatch(getUsersByMonthFailed(errorMessage));
+        console.error(errorMessage); // Log the error message
+    }
+};
+
+export const getYearUserMinMax = async (jwt, dispatch) => {
+    dispatch(getYearMinMaxStart());
+
+    try {
+        const response = await axios.get(
+            `http://localhost:8080/api/admin/getMinMaxYear`,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Check if the response status is successful (2xx)
+        if (response.status >= 200 && response.status < 300) {
+            dispatch(getYearMinMaxSuccess(response.data)); // Dispatch action with fetched data
+            return response.data;
+        } else {
+            const errorMessage =
+                response.data?.message || 'Error fetching data';
+            dispatch(getYearMinMaxFailed(errorMessage));
+            console.error(errorMessage); // Log the error message
+        }
+    } catch (err) {
+        // Extract the error message from err.response
+        const errorMessage =
+            err.response?.data?.message || 'Error fetching data';
+        dispatch(getYearMinMaxFailed(errorMessage));
+        console.error(errorMessage); // Log the error message
+    }
+};
+
+export const getCountAllUser = async (jwt, dispatch) => {
+    dispatch(getCountAllUserStart());
+
+    try {
+        const response = await axios.get(
+            `http://localhost:8080/api/admin/countUser`,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Check if the response status is successful (2xx)
+        if (response.status >= 200 && response.status < 300) {
+            dispatch(getCountAllUserSuccess(response.data)); // Dispatch action with fetched data
+            return response.data;
+        } else {
+            const errorMessage =
+                response.data?.message || 'Error fetching data';
+            dispatch(getCountAllUserFailed(errorMessage));
+            console.error(errorMessage); // Log the error message
+        }
+    } catch (err) {
+        // Extract the error message from err.response
+        const errorMessage =
+            err.response?.data?.message || 'Error fetching data';
+        dispatch(getCountAllUserFailed(errorMessage));
+        console.error(errorMessage); // Log the error message
+    }
+};
+
+export const getCountAllStatusUser = async (jwt, dispatch, status) => {
+    dispatch(getCountAllUserStart());
+
+    try {
+        const response = await axios.get(
+            `http://localhost:8080/api/admin/countUserStatus?status=${status}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Check if the response status is successful (2xx)
+        if (response.status >= 200 && response.status < 300) {
+            dispatch(getCountAllUserStatusSuccess(response.data)); // Dispatch action with fetched data
+            return response.data;
+        } else {
+            const errorMessage =
+                response.data?.message || 'Error fetching data';
+            dispatch(getCountAllUserStatusSuccess(errorMessage));
+            console.error(errorMessage); // Log the error message
+        }
+    } catch (err) {
+        // Extract the error message from err.response
+        const errorMessage =
+            err.response?.data?.message || 'Error fetching data';
+        dispatch(getCountAllUserStatusFailed(errorMessage));
+        console.error(errorMessage); // Log the error message
+    }
+};
+
+export const getcountUserYear = async (jwt, dispatch, status) => {
+    dispatch(getCountUserYearStart());
+
+    try {
+        const response = await axios.get(
+            `http://localhost:8080/api/admin/countUserByYear?status=${status}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Check if the response status is successful (2xx)
+        if (response.status >= 200 && response.status < 300) {
+            dispatch(getCountUserYearSuccess(response.data)); // Dispatch action with fetched data
+            console.log(response.data)
+            return response.data;
+        } else {
+            const errorMessage =
+                response.data?.message || 'Error fetching data';
+            dispatch( getCountUserYearFailed(errorMessage));
+            console.error(errorMessage); // Log the error message
+        }
+    } catch (err) {
+        // Extract the error message from err.response
+        const errorMessage =
+            err.response?.data?.message || 'Error fetching data';
+        dispatch( getCountUserYearFailed(errorMessage));
+        console.error(errorMessage); // Log the error message
+    }
+  };
+  
+
+// Thong ke}

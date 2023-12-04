@@ -1,5 +1,6 @@
 package com.example.backend.user.service.admin;
 
+import com.example.backend.authen.constain.RoleName;
 import com.example.backend.user.constain.UserStatus;
 import com.example.backend.user.payload.request.UserFormCreate;
 import com.example.backend.user.payload.request.UserFormUpdate;
@@ -19,7 +20,7 @@ public interface UserAdminService {
 
     ResponseEntity<?> countUserStatus(String userStatus);
 
-    ResponseEntity<?> countUserByYear();
+    ResponseEntity<?> countUserByYear(UserStatus status);
 
     ResponseEntity<?> getUserById(String id);
 
@@ -30,4 +31,6 @@ public interface UserAdminService {
     ResponseEntity<?> changeStatus(String id, UserStatus status);
 
     ResponseEntity<?> getMinMaxYear();
+
+    ResponseEntity<?> countRole(String role, UserStatus status);
 }

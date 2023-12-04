@@ -1,0 +1,7 @@
+{
+    "java.compile.nullAnalysis.mode": "automatic",
+    "reader-mode.auto.glob": [
+        "**/node_modules/**"
+    ],
+    "java.debug.settings.onBuildFailureProceed": true
+}

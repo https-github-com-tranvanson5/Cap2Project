@@ -1,0 +1,21 @@
+.info-box.info-box-sm {
+    min-height: 45px; /* Sets a minimum height of 45px for the info box */
+  
+    small {
+      font-size: 12px; /* Sets the font size to 12px for small elements inside the info box */
+    }
+  
+    margin-bottom: 8px; /* Adds a bottom margin of 8px to the info box */
+  
+    .info-box-icon {
+      height: 45px; /* Sets the height of the info box icon to 45px */
+      width: 45px; /* Sets the width of the info box icon to 45px */
+      font-size: 24px; /* Sets the font size of the info box icon to 24px */
+      line-height: 45px; /* Sets the line height of the info box icon to 45px, ensuring the icon is vertically centered */
+    }
+  
+    .info-box-content {
+      margin-left: 45px; /* Adds a left margin of 45px to the info box content, aligning it with the right edge of the info box icon */
+    }
+  }
+  

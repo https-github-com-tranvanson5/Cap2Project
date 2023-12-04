@@ -10,6 +10,7 @@ const cx = classNames.bind(styles);
 function UserOptions({ user }) {
     const handleLogout = () => {
         localStorage.clear();
+        window.location.reload();
     };
 
     return (

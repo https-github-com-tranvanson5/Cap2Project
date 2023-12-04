@@ -1,5 +1,6 @@
 package com.example.backend.user.controller.admin;
 
+import com.example.backend.authen.constain.RoleName;
 import com.example.backend.user.constain.UserStatus;
 import com.example.backend.user.payload.request.UserFormCreate;
 import com.example.backend.user.payload.request.UserFormUpdate;
@@ -54,11 +55,15 @@ public class UserAdminController {
         return userAdminService.countUserMonth(year,status);
     }
     @GetMapping("/countUserByYear")
-    public ResponseEntity<?> countUserByYear() {
-        return userAdminService.countUserByYear();
+    public ResponseEntity<?> countUserByYear(@RequestParam(required = false) UserStatus status) {
+        return userAdminService.countUserByYear(status);
     }
     @GetMapping("/countUserStatus")
     public ResponseEntity<?> countUserStatus(@RequestParam String status){
         return userAdminService.countUserStatus(status);
+    }
+    @GetMapping("/countRole")
+    public ResponseEntity<?> countRole(@RequestParam(required = false) String role, @RequestParam(required = false) UserStatus status){
+        return userAdminService.countRole(role,status);
     }
 }
