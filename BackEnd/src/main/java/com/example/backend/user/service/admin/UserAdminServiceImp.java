@@ -230,13 +230,17 @@ public class UserAdminServiceImp implements UserAdminService {
     }
 
     @Override
-    public ResponseEntity<List<UserCount>> countRole(String role, UserStatus status) {
+    public ResponseEntity<List<UserCount>> countRole(RoleName role, UserStatus status, Integer year) {
         try {
             // Chuyển đổi Enum thành chuỗi (String) nếu nó không phải là null
             String statusString = (status != null) ? status.toString() : null;
-
+            Optional<Role> roleOptional = roleReposetory.findByName(role==null?null:role);
+            String roleString= null;
+            if(roleOptional.isPresent()){
+                roleString = roleOptional.get().getId();
+            }
             // Gọi phương thức countRoleByRoleId từ userRepository (Bạn cần cung cấp các tham số phù hợp nếu cần)
-            List<Object[]> counts = userRepository.countRoleByRoleId(role,statusString);
+            List<Object[]> counts = userRepository.countRoleByRoleId(roleString,statusString,year);
 
             // Tạo danh sách mới để chứa đối tượng được chuyển đổi
             List<UserCount> userCounts = new ArrayList<>();

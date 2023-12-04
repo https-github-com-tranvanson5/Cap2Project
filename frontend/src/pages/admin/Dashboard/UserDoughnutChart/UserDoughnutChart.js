@@ -7,28 +7,10 @@ import styles from './UserDoughnutChart.module.scss';
 const cx = classNames.bind(styles);
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function UserDoughnutChart({ data }) {
-    const dataChart = {
-        labels: ['Người dùng', 'Nhà Tuyển Dụng'],
-        datasets: [
-            {
-                label: '',
-                data: [70,30],
-                backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)'],
-                hoverOffset: 4,
-            },
-        ],
-        ...data,
-    };
-
+function UserDoughnutChart({ dataChart }) {
     return (
         <div className={cx('wrapper')}>
-            <h2 className={cx('title')}>Thống kê người dùng</h2>
             <Doughnut datasetIdKey="id" data={dataChart} />
-            <ul className={cx('total-data')}>
-                <li>Người dùng: {data?.datasets[0].data[0]}</li>
-                <li>Nhà tuyển dụng: {data?.datasets[0].data[1]}</li>
-            </ul>
         </div>
     );
 }

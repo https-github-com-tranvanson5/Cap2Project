@@ -45,6 +45,16 @@ const statisticalSlice = createSlice({
         }
       },
 
+      //count user role
+      countUserRole:{
+        countUserRole:{
+            countUserRole: null,
+            isFetching: false,
+            error: false,
+            countUser: null,
+        }
+      },
+
   },
   reducers: {
     //thoong ke theo 12 thang
@@ -118,6 +128,18 @@ const statisticalSlice = createSlice({
         state.countUserYear.error = true;
     },
 
+    // count user role
+    countUserRoleStart : (state) => {
+        state.countUserRole.isFetching = true;
+    },
+    countUserRoleSuccess : (state, action) => {
+        state.countUserRole.isFetching = false;
+        state.countUserRole = action.payload;
+    },
+    countUserRoleFailed : (state) => {
+        state.countUserRole.isFetching = false;
+        state.countUserRole.error = true;
+    },
 
   },
 });
@@ -145,6 +167,11 @@ export const {
     getCountUserYearStart,
     getCountUserYearSuccess,
     getCountUserYearFailed,
+
+    // count user role
+    countUserRoleStart,
+    countUserRoleSuccess,
+    countUserRoleFailed,
     
 } = statisticalSlice.actions;
 

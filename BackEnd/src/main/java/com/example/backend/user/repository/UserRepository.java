@@ -62,13 +62,14 @@ public interface UserRepository extends JpaRepository<User, String> {
                         "FROM user", nativeQuery = true)
         Optional<Map<String, Object>> getMinMaxYear();
 
-        @Query(value = "SELECT role_id, COUNT(user_id) " +
+        @Query(value = "SELECT user_role.role_id, COUNT(user_id) " +
                         "FROM user " +
                         "JOIN user_role ON user.id = user_role.user_id " +
-                        "WHERE (:roleString IS NULL OR role_id = :roleString) " +
-                        "AND (:statusString IS NULL OR status = :statusString) " +
+                        "WHERE (:roleString IS NULL OR user_role.role_id = :roleString) " +
+                        "AND (:statusString IS NULL OR user.status = :statusString) " +
+                        "AND (:year IS NULL OR YEAR(user.create_at)=:year)" +
                         "GROUP BY role_id", nativeQuery = true)
         List<Object[]> countRoleByRoleId(@Param("roleString") String roleString,
-                        @Param("statusString") String statusString);
+                        @Param("statusString") String statusString, @Param("year") Integer year);
 
 }

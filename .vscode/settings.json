@@ -1,7 +1,8 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
     "reader-mode.auto.glob": [
-        "**/node_modules/**"
+        "**/node_modules/**",
+        "C:\\c:\\Users\\drive\\OneDrive\\Documents\\GitHub\\Cap2Project\\**"
     ],
     "java.debug.settings.onBuildFailureProceed": true
 }

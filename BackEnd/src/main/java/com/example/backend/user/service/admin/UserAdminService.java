@@ -32,5 +32,5 @@ public interface UserAdminService {
 
     ResponseEntity<?> getMinMaxYear();
 
-    ResponseEntity<?> countRole(String role, UserStatus status);
+    ResponseEntity<?> countRole(RoleName role, UserStatus status, Integer year);
 }

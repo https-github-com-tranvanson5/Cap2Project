@@ -22,6 +22,12 @@ import {
     getCountUserYearStart,
     getCountUserYearSuccess,
     getCountUserYearFailed,
+
+    // count user role
+    countUserRoleStart,
+    countUserRoleSuccess,
+    countUserRoleFailed,
+
 } from './statisticalSlice';
 import {
     loginFailed,
@@ -522,7 +528,6 @@ export const getcountUserYear = async (jwt, dispatch, status) => {
         // Check if the response status is successful (2xx)
         if (response.status >= 200 && response.status < 300) {
             dispatch(getCountUserYearSuccess(response.data)); // Dispatch action with fetched data
-            console.log(response.data)
             return response.data;
         } else {
             const errorMessage =
@@ -535,6 +540,39 @@ export const getcountUserYear = async (jwt, dispatch, status) => {
         const errorMessage =
             err.response?.data?.message || 'Error fetching data';
         dispatch( getCountUserYearFailed(errorMessage));
+        console.error(errorMessage); // Log the error message
+    }
+  };
+
+  export const getCountRole = async (jwt, dispatch, role,status,year) => {
+    dispatch(countUserRoleStart());
+
+    try {
+        const response = await axios.get(
+            `http://localhost:8080/api/admin/countRole?role=${role}&status=${status}&year=${year}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Check if the response status is successful (2xx)
+        if (response.status >= 200 && response.status < 300) {
+            dispatch(countUserRoleSuccess(response.data)); // Dispatch action with fetched data
+            console.log(response.data)
+            return response.data;
+        } else {
+            const errorMessage =
+                response.data?.message || 'Error fetching data';
+            dispatch( countUserRoleFailed(errorMessage));
+            console.error(errorMessage); // Log the error message
+        }
+    } catch (err) {
+        // Extract the error message from err.response
+        const errorMessage =
+            err.response?.data?.message || 'Error fetching data';
+        dispatch( countUserRoleFailed(errorMessage));
         console.error(errorMessage); // Log the error message
     }
   };
