@@ -24,7 +24,6 @@ const persistConfig = {
     version: 1,
     storage,
     blacklist: [
-        'cv',
         'allUser',
         'allJob',
         'recruitment',
