@@ -5,7 +5,7 @@ import { Col, Row } from 'react-bootstrap';
 
 import { getChartAdminApi } from '~/services/chartService';
 import StatisticalLinesChart from './StatisticalLinesChart/StatisticalLinesChart';
-import UserDoughnutChart from './UserDoughnutChart/UserDoughnutChart';
+import StatitiscalPieChart from './StatitiscalPieChart/StatitiscalPieChart';
 
 import styles from './Dashboard.module.scss';
 import { useDispatch, useSelector } from 'react-redux';

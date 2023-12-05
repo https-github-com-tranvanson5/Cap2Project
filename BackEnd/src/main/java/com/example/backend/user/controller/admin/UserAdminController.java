@@ -41,10 +41,10 @@ public class UserAdminController {
         return userAdminService.changeStatus(id, status);
     }
     //THỐNG KÊ
-    @GetMapping("/countUser")
-    public ResponseEntity<?> countUser(){
-        return userAdminService.countUsser();
-    }
+    // @GetMapping("/countUser")
+    // public ResponseEntity<?> countUser(){
+    //     return userAdminService.countUsser();
+    // }
     @GetMapping("/countUserByMoth")
     public ResponseEntity<?> countUserMonth(@RequestParam("year") int year, @RequestParam(required = false) UserStatus status){
         return userAdminService.countUserMonth(year,status);
@@ -53,9 +53,9 @@ public class UserAdminController {
     public ResponseEntity<?> countUserByYear() {
         return userAdminService.countUserByYear();
     }
-    @GetMapping("/countUserStatus")
-    public ResponseEntity<?> countUserStatus(@RequestParam String status){
-        return userAdminService.countUserStatus(status);
+    @GetMapping("/countUser")
+    public ResponseEntity<?> countUser(@RequestParam(required = false) UserStatus status){
+        return userAdminService.countUser(status);
     }
     @GetMapping("/getMinMaxYear")
     public ResponseEntity<?> getMinMaxYear(){

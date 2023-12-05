@@ -1,5 +1,6 @@
 package com.example.backend.user.repository;
 
+import com.example.backend.user.constain.UserStatus;
 import com.example.backend.user.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -58,4 +59,7 @@ public interface UserRepository extends JpaRepository<User,String> {
 
     @Query(value = "SELECT MIN(EXTRACT(YEAR FROM u.create_at)) AS min_year, MAX(EXTRACT(YEAR FROM u.create_at)) AS max_year FROM User u", nativeQuery = true)
     List<Object[]> getMinMaxYear();
+
+    long countByStatus(UserStatus status);
+
 }

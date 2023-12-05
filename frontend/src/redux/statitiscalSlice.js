@@ -12,6 +12,11 @@ const StatitiscalSlice = createSlice({
             isFetching: false,
             error: false,
         },
+        userCount: {
+            userCount: null,
+            isFetching: false,
+            error: false,
+        },
     },
     reducers: {
         // UserStatitiscalMonth
@@ -32,11 +37,25 @@ const StatitiscalSlice = createSlice({
         },
         getUserMinMaxCreateAtSuccess: (state, action) => {
             state.userMinMaxYearCreateAt.isFetching = false;
-            state.userMinMaxYearCreateAt.userMinMaxYearCreateAt = action.payload;
+            state.userMinMaxYearCreateAt.userMinMaxYearCreateAt =
+                action.payload;
         },
         getUserMinMaxCreateAtFailed: (state) => {
             state.userMinMaxYearCreateAt.isFetching = false;
             state.userMinMaxYearCreateAt.error = true;
+        },
+
+        //count user
+        getUserCountStart: (state) => {
+            state.userCount.isFetching = true;
+        },
+        getUserCountSuccess: (state, action) => {
+            state.userCount.isFetching = false;
+            state.userCount.userMinMaxYearCreateAt = action.payload;
+        },
+        getUserCountFailed: (state) => {
+            state.userCount.isFetching = false;
+            state.userCount.error = true;
         },
     },
 });
@@ -51,5 +70,10 @@ export const {
     getUserMinMaxCreateAtSuccess,
     getUserMinMaxCreateAtFailed,
 
+    //count user
+    getUserCountStart,
+    getUserCountSuccess,
+    getUserCountFailed,
+    
 } = StatitiscalSlice.actions;
 export default StatitiscalSlice.reducer;

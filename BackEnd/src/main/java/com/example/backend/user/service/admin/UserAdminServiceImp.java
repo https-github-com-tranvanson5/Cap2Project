@@ -152,15 +152,22 @@ public class UserAdminServiceImp implements UserAdminService{
     }
 
     @Override
-    public ResponseEntity<?> countUsser() {
-        Count countUser = new Count();
-        countUser.setCount((int) userRepository.count());
-        return ResponseEntity.ok(countUser);
+    public ResponseEntity<Map<String, Long>> countUser(UserStatus status) {
+        long userCount;
+        if (status == null) {
+            userCount = userRepository.count();
+        } else {
+            userCount =  userRepository.countByStatus(status);
+        }
+        Map<String, Long> response = new HashMap<>();
+        response.put("userCount", userCount);
+        return ResponseEntity.ok(response);
     }
 
     public ResponseEntity<?> countUserMonth(int year, UserStatus status) {
         String statusString = status == null ? null : status.toString();
         List<Object[]> listCountMonth = userRepository.countUsersMonth(year, statusString);
+        System.out.println(listCountMonth);
         List<CountMonth> countMonths = new ArrayList<>();
     
         for (Object[] object : listCountMonth) {

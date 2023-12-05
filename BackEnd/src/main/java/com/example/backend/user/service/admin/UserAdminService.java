@@ -13,11 +13,10 @@ public interface UserAdminService {
 
     ResponseEntity<?> getDataUser(String search, Pageable pageable,String column, String sort);
 
-    ResponseEntity<?> countUsser();
+    ResponseEntity<?> countUser(UserStatus status);
 
     ResponseEntity<?> countUserMonth(int year, UserStatus status);
 
-    ResponseEntity<?> countUserStatus(String userStatus);
 
     ResponseEntity<?> countUserByYear();
 
