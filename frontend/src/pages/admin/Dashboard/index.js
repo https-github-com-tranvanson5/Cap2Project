@@ -10,6 +10,7 @@ import UserDoughnutChart from './UserDoughnutChart/UserDoughnutChart';
 import styles from './Dashboard.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers } from '~/redux/apiRequest';
+import UserStatiscal from './UserStatistical/UserStatiscal';
 
 const cx = classNames.bind(styles);
 
@@ -35,12 +36,13 @@ function Dashboard() {
     return (
         <div className={cx('wrapper')}>
             <Row>
-                <Col md={4}>
+                {/* <Col md={4}>
                     <UserDoughnutChart />
                 </Col>
                 <Col md={8}>
                     <StatisticalLinesChart/>
-                </Col>
+                </Col> */}
+                <UserStatiscal/>
             </Row>
         </div>
     );

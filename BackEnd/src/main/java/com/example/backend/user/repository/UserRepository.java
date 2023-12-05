@@ -43,8 +43,9 @@ public interface UserRepository extends JpaRepository<User,String> {
                     ") ) ) AS user_table",
             nativeQuery = true)
     Page<User> getDataUser(String search, Pageable pageable);
-    @Query(value = "SELECT MONTH(u.createAt) as month, COUNT(u.id) as userCount FROM User u WHERE YEAR(u.createAt) = :year GROUP BY MONTH(u.createAt) ")
-    List<Object[]> countUsersMonth(@Param("year") int year);
+
+    @Query(value = "SELECT MONTH(u.create_at) as month, COUNT(u.id) as userCount FROM User u WHERE YEAR(u.create_at) = :year AND (:status IS NULL OR u.status=:status) GROUP BY MONTH(u.create_at)", nativeQuery = true)
+    List<Object[]> countUsersMonth(@Param("year") int year, @Param("status") String status);
 
     @Query(value = "select user.status, count(id) from user where user.status= :userStatus", nativeQuery = true)
     List<Object[]> countUserByStatus(@Param("userStatus") String userStatus);
@@ -54,4 +55,7 @@ public interface UserRepository extends JpaRepository<User,String> {
     User getByEmail(String email);
 
     Optional<User> findByEmail(String email);
+
+    @Query(value = "SELECT MIN(EXTRACT(YEAR FROM u.create_at)) AS min_year, MAX(EXTRACT(YEAR FROM u.create_at)) AS max_year FROM User u", nativeQuery = true)
+    List<Object[]> getMinMaxYear();
 }

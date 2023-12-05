@@ -3,7 +3,7 @@ package com.example.backend.user.payload.response;
 import lombok.Data;
 
 @Data
-public class CountMoth {
-    private int moth;
+public class CountMonth {
+    private int month;
     private int count;
 }

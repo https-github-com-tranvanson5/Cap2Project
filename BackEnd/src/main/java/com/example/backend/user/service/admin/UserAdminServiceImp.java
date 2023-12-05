@@ -8,7 +8,7 @@ import com.example.backend.user.model.User;
 import com.example.backend.user.payload.request.UserFormCreate;
 import com.example.backend.user.payload.request.UserFormUpdate;
 import com.example.backend.user.payload.response.Count;
-import com.example.backend.user.payload.response.CountMoth;
+import com.example.backend.user.payload.response.CountMonth;
 import com.example.backend.user.payload.response.CountStatus;
 import com.example.backend.user.payload.response.CountYear;
 import com.example.backend.user.repository.UserRepository;
@@ -158,22 +158,25 @@ public class UserAdminServiceImp implements UserAdminService{
         return ResponseEntity.ok(countUser);
     }
 
-    public ResponseEntity<?> countUserMoth(int year){
-        List<Object[]> listCountMoth = userRepository.countUsersMonth(year);
-        List<CountMoth> countMoths= new ArrayList<>();
-        for (Object[] object: listCountMoth) {
+    public ResponseEntity<?> countUserMonth(int year, UserStatus status) {
+        String statusString = status == null ? null : status.toString();
+        List<Object[]> listCountMonth = userRepository.countUsersMonth(year, statusString);
+        List<CountMonth> countMonths = new ArrayList<>();
+    
+        for (Object[] object : listCountMonth) {
             if (object.length >= 2 && object[0] != null && object[1] != null) {
-                CountMoth countMoth = new CountMoth();
-                int moth = ((Number) object[0]).intValue();
+                CountMonth countMonth = new CountMonth();
+                int month = ((Number) object[0]).intValue();
                 int count = ((Number) object[1]).intValue();
-
-                countMoth.setMoth(moth);
-                countMoth.setCount(count);
-
-                countMoths.add(countMoth);
+    
+                countMonth.setMonth(month);
+                countMonth.setCount(count);
+    
+                countMonths.add(countMonth);
             }
         }
-        return ResponseEntity.ok(countMoths);
+    
+        return ResponseEntity.ok(countMonths);
     }
 
     public ResponseEntity<?> countUserStatus(String userStatus) {
@@ -204,6 +207,25 @@ public class UserAdminServiceImp implements UserAdminService{
             countYears.add(countYear);
         }
         return new ResponseEntity<>(countYears,HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> getMinMaxYear() {
+        List<Object[]> result = userRepository.getMinMaxYear();
+    
+        if (result != null && !result.isEmpty()) {
+            Object[] minMax = result.get(0);
+            BigInteger minYear = (BigInteger) minMax[0];
+            BigInteger maxYear = (BigInteger) minMax[1];
+    
+            Map<String, Integer> response = new HashMap<>();
+            response.put("minYear", minYear.intValue());
+            response.put("maxYear", maxYear.intValue());
+    
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
 

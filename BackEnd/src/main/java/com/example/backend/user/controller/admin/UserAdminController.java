@@ -46,8 +46,8 @@ public class UserAdminController {
         return userAdminService.countUsser();
     }
     @GetMapping("/countUserByMoth")
-    public ResponseEntity<?> countUserMoth(@RequestParam("year") int year) throws JsonProcessingException {
-        return userAdminService.countUserMoth(year);
+    public ResponseEntity<?> countUserMonth(@RequestParam("year") int year, @RequestParam(required = false) UserStatus status){
+        return userAdminService.countUserMonth(year,status);
     }
     @GetMapping("/countUserByYear")
     public ResponseEntity<?> countUserByYear() {
@@ -56,5 +56,9 @@ public class UserAdminController {
     @GetMapping("/countUserStatus")
     public ResponseEntity<?> countUserStatus(@RequestParam String status){
         return userAdminService.countUserStatus(status);
+    }
+    @GetMapping("/getMinMaxYear")
+    public ResponseEntity<?> getMinMaxYear(){
+        return userAdminService.getMinMaxYear();
     }
 }

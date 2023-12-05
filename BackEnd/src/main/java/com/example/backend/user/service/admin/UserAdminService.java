@@ -15,7 +15,7 @@ public interface UserAdminService {
 
     ResponseEntity<?> countUsser();
 
-    ResponseEntity<?> countUserMoth(int year) throws JsonProcessingException;
+    ResponseEntity<?> countUserMonth(int year, UserStatus status);
 
     ResponseEntity<?> countUserStatus(String userStatus);
 
@@ -28,4 +28,6 @@ public interface UserAdminService {
     ResponseEntity<?> updateUser(UserFormUpdate userFormUpdate);
 
     ResponseEntity<?> changeStatus(String id, UserStatus status);
+
+    ResponseEntity<?> getMinMaxYear();
 }

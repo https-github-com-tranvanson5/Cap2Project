@@ -13,7 +13,7 @@ import com.example.backend.job.repository.JobRepository;
 import com.example.backend.job.service.user.JobUserSerivceImp;
 import com.example.backend.user.model.User;
 import com.example.backend.user.payload.response.Count;
-import com.example.backend.user.payload.response.CountMoth;
+import com.example.backend.user.payload.response.CountMonth;
 import com.example.backend.user.payload.response.CountYear;
 import com.example.backend.user.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
@@ -163,12 +163,12 @@ public class JobAdminServiceImp implements JobAdminService{
     public ResponseEntity<?> getqualityJobByMoth(int year) {
         List<Object[]> listObject = jobRepository.getQualityJobByMonthAdmin(year);
 
-        List<CountMoth> countMothList = new ArrayList<>();
+        List<CountMonth> countMothList = new ArrayList<>();
         for (Object[] obj : listObject) {
             BigInteger month = new BigInteger(obj[0].toString());
             BigInteger count = new BigInteger(obj[1].toString());
-            CountMoth countMoth = new CountMoth();
-            countMoth.setMoth(month.intValue());
+            CountMonth countMoth = new CountMonth();
+            countMoth.setMonth(month.intValue());
             countMoth.setCount(count.intValue());
             countMothList.add(countMoth);
         }
@@ -196,12 +196,12 @@ public class JobAdminServiceImp implements JobAdminService{
     @Override
     public ResponseEntity<?> getqualityJobMothByStatus(JobStatus status, int year) {
         List<Object[]> listObject = jobRepository.getQualityJobMothByStatus(status.toString(),year);
-        List<CountMoth> countMothList = new ArrayList<>();
+        List<CountMonth> countMothList = new ArrayList<>();
         for (Object[] obj : listObject) {
             BigInteger month = new BigInteger(obj[0].toString());
             BigInteger count = new BigInteger(obj[1].toString());
-            CountMoth countMoth = new CountMoth();
-            countMoth.setMoth(month.intValue());
+            CountMonth countMoth = new CountMonth();
+            countMoth.setMonth(month.intValue());
             countMoth.setCount(count.intValue());
             countMothList.add(countMoth);
         }
