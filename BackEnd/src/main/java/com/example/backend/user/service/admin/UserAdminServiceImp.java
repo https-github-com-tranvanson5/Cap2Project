@@ -12,6 +12,9 @@ import com.example.backend.user.payload.response.CountMonth;
 import com.example.backend.user.payload.response.CountStatus;
 import com.example.backend.user.payload.response.CountYear;
 import com.example.backend.user.repository.UserRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -126,7 +129,11 @@ public class UserAdminServiceImp implements UserAdminService {
         return new ResponseEntity<>("Change status thành công", HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getDataUser(String search, Pageable pageable, String column, String sort) {
+    public ResponseEntity<?> getDataUser(String search, Pageable pageable, String column, String sort,
+            UserStatus status, RoleName role) {
+
+        String statusString = (status == null) ? null : status.toString();
+        String roleString = (role == null) ? null : role.toString();
         // Xác định thông tin sắp xếp
         Sort.Order order = null;
         if ("asc".equalsIgnoreCase(sort)) {
@@ -140,9 +147,9 @@ public class UserAdminServiceImp implements UserAdminService {
                                                                            // cầu sắp xếp.
 
         // Tạo Pageable kết hợp cả phân trang và sắp xếp
-        Pageable pageableWithSorting = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sorting);
+        Pageable pageableWithSorting = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
 
-        Page<User> users = userRepository.getDataUser(search, pageableWithSorting);
+        Page<User> users = userRepository.getDataUser(search, statusString, roleString, pageableWithSorting);
 
         if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -201,20 +208,25 @@ public class UserAdminServiceImp implements UserAdminService {
     }
 
     @Override
-    public ResponseEntity<?> countUserByYear() {
-        List<Object[]> listCountYear = userRepository.countUsersYear();
-        List<CountYear> countYears = new ArrayList<>();
-        for (Object[] objects : listCountYear) {
-            int year = (int) objects[0];
-            Long countLong = (Long) objects[1];
-            int count = countLong.intValue();
-            CountYear countYear = new CountYear();
-            countYear.setYear(year);
-            countYear.setCount(count);
-            countYears.add(countYear);
-        }
-        return new ResponseEntity<>(countYears, HttpStatus.OK);
+public ResponseEntity<?> countUserByYear(UserStatus status) {
+    String statusString = (status == null) ? null : status.toString();
+    List<Object[]> listCountYear = userRepository.countUsersYear(statusString);
+    List<CountYear> countYears = new ArrayList<>();
+
+    for (Object[] objects : listCountYear) {
+        int year = ((Number) objects[0]).intValue();
+        BigInteger countBigInteger = (BigInteger) objects[1];
+        long count = (countBigInteger != null) ? countBigInteger.longValue() : 0;
+
+        CountYear countYear = new CountYear();
+        countYear.setYear(year);
+        countYear.setCount((int) count);
+        countYears.add(countYear);
     }
+
+    return new ResponseEntity<>(countYears, HttpStatus.OK);
+}
+
 
     @Override
     public ResponseEntity<?> getMinMaxYear() {

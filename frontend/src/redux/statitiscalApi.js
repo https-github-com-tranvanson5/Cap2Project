@@ -8,16 +8,24 @@ import {
     getUserMinMaxCreateAtSuccess,
     getUserMinMaxCreateAtFailed,
 
-     //count user
-     getUserCountStart,
-     getUserCountSuccess,
-     getUserCountFailed,
+    //count user
+    getUserCountStart,
+    getUserCountSuccess,
+    getUserCountFailed,
 
     //count Role
-     getUserCountRoleStart,
-     getUserCountRoleSuccess,
-     getUserCountRoleFailed,
+    getUserCountRoleStart,
+    getUserCountRoleSuccess,
+    getUserCountRoleFailed,
 
+    //getAll
+    getAllUsersFailed,
+    getAllUsersStart,
+    getAllUsersSuccess,
+   // UserStatitiscalYear
+   getUserStatitiscalYearStart,
+   getUserStatitiscalYearSuccess,
+   getUserStatitiscalYearFailed,
 } from './statitiscalSlice';
 
 export const getUserStatistiscalMonth = async (jwt, dispatch, year, status) => {
@@ -53,7 +61,43 @@ export const getUserStatistiscalMonth = async (jwt, dispatch, year, status) => {
         return null; // Trả về null để báo lỗi
     }
 };
-export const getUserMinMaxCreateAt = async(jwt, dispatch) =>{
+
+export const getUserStatistiscalYear = async (jwt, dispatch,status) => {
+    // Dispatch action start
+    dispatch(getUserStatitiscalYearStart());
+
+    try {
+        // Sửa lỗi: chuyển thành fetch với async/await
+        const response = await fetch(
+            `http://localhost:8080/api/admin/countUserByYear?status=${status}`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Kiểm tra response
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        // Lấy dữ liệu và dispatch action success
+        const data = await response.json();
+        dispatch(getUserStatitiscalYearSuccess(data));
+
+        // Trả về dữ liệu
+        return data;
+    } catch (error) {
+        // Dispatch action failed
+        dispatch(getUserStatitiscalYearFailed(error.message));
+        return null; // Trả về null để báo lỗi
+    }
+};
+
+
+export const getUserMinMaxCreateAt = async (jwt, dispatch) => {
     dispatch(getUserMinMaxCreateAtStart());
 
     try {
@@ -86,7 +130,7 @@ export const getUserMinMaxCreateAt = async(jwt, dispatch) =>{
     }
 };
 
-export const getUserCount = async(jwt, dispatch, status) =>{
+export const getUserCount = async (jwt, dispatch, status) => {
     dispatch(getUserCountStart());
 
     try {
@@ -119,7 +163,7 @@ export const getUserCount = async(jwt, dispatch, status) =>{
     }
 };
 
-export const getUserCountRole = async(jwt, dispatch, year,status) =>{
+export const getUserCountRole = async (jwt, dispatch, year, status) => {
     dispatch(getUserCountRoleStart());
     try {
         // Sửa lỗi: chuyển thành fetch với async/await
@@ -146,7 +190,46 @@ export const getUserCountRole = async(jwt, dispatch, year,status) =>{
         return data;
     } catch (error) {
         // Dispatch action failed
-        dispatch(getUserCountFailed(error.message));
+        dispatch(getUserCountRoleFailed(error.message));
+        return null; // Trả về null để báo lỗi
+    }
+};
+export const getAllUsers = async (
+    jwt,
+    dispatch,
+    search,
+    column,
+    sort,
+    status,
+    role,
+) => {
+    dispatch(getAllUsersStart());
+    try {
+        // Sửa lỗi: chuyển thành fetch với async/await
+        const response = await fetch(
+            `http://localhost:8080/api/admin/getDataUser?search=${search}&column=create_at&sort=${sort}&role=${role}&status=${status}`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Kiểm tra response
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        // Lấy dữ liệu và dispatch action success
+        const data = await response.json();
+        dispatch(getAllUsersSuccess(data));
+
+        // Trả về dữ liệu
+        return data;
+    } catch (error) {
+        // Dispatch action failed
+        dispatch(getAllUsersFailed(error.message));
         return null; // Trả về null để báo lỗi
     }
 };

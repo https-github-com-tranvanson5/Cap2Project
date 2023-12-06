@@ -7,7 +7,9 @@ function UserStatiscal() {
     return (
         <div>
             <UserCard/>
+            <br/>
             <UserLineChartMonth />
+            <br/>
             <UserPieChartRole/>
         </div>
     );

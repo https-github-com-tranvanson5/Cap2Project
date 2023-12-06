@@ -85,11 +85,11 @@ function UserPieChartRole() {
                         backgroundColor:
                             response?.length === 0
                                 ? ['gray']
-                                : ['green', 'blue', 'red'],
+                                : ['#3437eb', '#5f81fa', '#9bd4fa'],
                         hoverBackgroundColor:
                             response?.length === 0
                                 ? ['gray']
-                                : ['green', 'blue', 'red'],
+                                : ['#3437eb', '#5f81fa', '#9bd4fa'],
                     },
                 ],
             },
@@ -107,13 +107,13 @@ function UserPieChartRole() {
                                 ? [1]
                                 : responseAcitve.map((item) => item.count),
                         backgroundColor:
-                        responseAcitve?.length === 0
+                            responseAcitve?.length === 0
                                 ? ['gray']
-                                : ['green', 'blue', 'red'],
+                                : ['#059913', '#40f551', '#8df7a9'],
                         hoverBackgroundColor:
-                        responseAcitve?.length === 0
+                            responseAcitve?.length === 0
                                 ? ['gray']
-                                : ['green', 'blue', 'red'],
+                                : ['#059913', '#40f551', '#8df7a9'],
                     },
                 ],
             },
@@ -131,13 +131,13 @@ function UserPieChartRole() {
                                 ? [1]
                                 : responseBlock.map((item) => item.count),
                         backgroundColor:
-                        responseBlock?.length === 0
+                            responseBlock?.length === 0
                                 ? ['gray']
-                                : ['green', 'blue', 'red'],
+                                : ['#990606', '#ff6363', '#b06666'],
                         hoverBackgroundColor:
-                        responseBlock?.length === 0
+                            responseBlock?.length === 0
                                 ? ['gray']
-                                : ['green', 'blue', 'red'],
+                                : ['#990606', '#ff6363', '#b06666'],
                     },
                 ],
             },
@@ -159,20 +159,20 @@ function UserPieChartRole() {
                     />
                 </Col>
             </Row>
-            <Row>
-                <Col md={4}>
-                    {userCountRole && userCountRole.all ? (
-                        <StatitiscalPieChart dataChart={userCountRole.all} />
-                    ) : (
-                        <p>No user data found for selected year.</p>
-                    )}
+            <Row style={{ textAlign: 'center' }}>
+                <Col md={4} style={{ textAlign: 'center' }}>
+                    <StatitiscalPieChart dataChart={userCountRole.all} />
+                    <span>User all</span>
                 </Col>
-                <Col md={4}>
+                <Col md={4} style={{ textAlign: 'center' }}>
                     <StatitiscalPieChart dataChart={userCountRole.active} />
+                    <span>User active</span>
                 </Col>
-                <Col md={4}>
+                <Col md={4} style={{ textAlign: 'center' }}>
                     <StatitiscalPieChart dataChart={userCountRole.block} />
+                    <span>User block</span>
                 </Col>
+                <b>Thống kê user theo role</b>
             </Row>
         </div>
     );

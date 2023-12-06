@@ -1,8 +1,6 @@
 package com.example.backend.blog.controller;
 
-import com.example.backend.blog.constain.BlogStatus;
-import com.example.backend.blog.payload.request.BlogFormCreate;
-import com.example.backend.blog.payload.request.BlogFormUpdate;
+import com.example.backend.blog.payload.request.BlogCreate;
 import com.example.backend.blog.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -15,49 +13,60 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class BlogController {
     @Autowired
-    private BlogService blogUserService;
-    @PostMapping("/create")
-    public ResponseEntity<?> createUserBlog(@RequestBody BlogFormCreate blogFormCreate){
-        return blogUserService.createUserBlog(blogFormCreate);
+    private BlogService blogService;
+
+    @PostMapping("create")
+    public ResponseEntity<?> create(@RequestBody BlogCreate blogCreate){
+        return blogService.create(blogCreate);
     }
-    @PutMapping("/update")
-    public ResponseEntity<?> updateUserBlog(@RequestBody BlogFormUpdate blogFormUpdate){
-        return blogUserService.updateUserBlog(blogFormUpdate);
+    @GetMapping("getAll")
+    public ResponseEntity<?> getAll(@RequestParam(required = false) String search, @PageableDefault Pageable pageable){
+        return blogService.getAll(search,pageable);
     }
-    @GetMapping("/getById")
-    public ResponseEntity<?> getUserByIdBlog(@RequestParam String id, @RequestParam(required = false) BlogStatus status){
-        return blogUserService.getUserByIdBlog(id, status);
+    @GetMapping("getById")
+    public ResponseEntity<?> getById(@RequestParam String id){
+        return blogService.getById(id);
     }
-    @GetMapping("/changeStatus")
-    public ResponseEntity<?> changeStatusBlog(@RequestParam String id, @RequestParam BlogStatus status){
-        return blogUserService.changeStatusBlog(id, status);
+
+
+
+    @PutMapping("updateMyBlog")
+    public ResponseEntity<?> update(@RequestBody BlogCreate blogCreate, @RequestParam String id){
+        return blogService.updateMyBlog(blogCreate,id);
     }
-    @GetMapping("/getAll")
-    public ResponseEntity<?> getAllBlog(@RequestParam(required = false) String search,
-                                        @RequestParam(required = false) BlogStatus status,
-                                        @PageableDefault Pageable pageable){
-        return blogUserService.getAllBlog(search, status , pageable);
+    @DeleteMapping("deleteMyBlog")
+    public ResponseEntity<?> delete(@RequestParam String id){
+        return blogService.deleteMyBlog(id);
     }
-    @GetMapping("/admin/getAll")
-    public ResponseEntity<?> getAllBlogAdmin(@RequestParam(required = false) String search,
-                                        @RequestParam(required = false) BlogStatus status,
-                                        @PageableDefault Pageable pageable){
-        return blogUserService.getAllBlogAdmin(search, status , pageable);
+    @GetMapping("getAllMyBlog")
+    public ResponseEntity<?> getAllMyBlog(@RequestParam(required = false) String search, @PageableDefault Pageable pageable){
+        return blogService.getAllMyBlog(search,pageable);
     }
-    @PutMapping("/admin/update")
-    public ResponseEntity<?> updateUserBlogAdmin(@RequestBody BlogFormUpdate blogFormUpdate){
-        return blogUserService.updateUserBlogAdmin(blogFormUpdate);
+    @GetMapping("getByIdMyBlog")
+    public ResponseEntity<?> getByIdMyBlog(@RequestParam String id){
+        return blogService.getByIdMyBlog(id);
     }
-    @GetMapping("/admin/getById")
-    public ResponseEntity<?> getUserByIdBlogAdmin(@RequestParam String id, @RequestParam(required = false) BlogStatus status){
-        return blogUserService.getUserByIdBlogAdmin(id, status);
+
+
+    @PostMapping("admin/create")
+    public ResponseEntity<?> adminCreate(@RequestBody BlogCreate blogCreate){
+        return blogService.adminCreate(blogCreate);
     }
-    @GetMapping("/admin/changeStatus")
-    public ResponseEntity<?> changeStatusBlogAdmin(@RequestParam String id, @RequestParam BlogStatus status, @RequestParam String userId){
-        return blogUserService.changeStatusBlogAdmin(id, status , userId);
+    @PutMapping("admin/update")
+    public ResponseEntity<?> adminUpdate(@RequestBody BlogCreate blogCreate,@RequestParam String id){
+        return blogService.adminUpdate(id,blogCreate);
     }
-//    @PostMapping("/addCommentBlog")
-//    public ResponseEntity<?> addCommentBlog(@RequestParam String id, @RequestParam String comment){
-//        return blogUserService.commentBlog(id,comment);
-//    }
+    @GetMapping("admin/getAll")
+    public ResponseEntity<?> adminGetAll(@RequestParam(required = false) String search, @PageableDefault Pageable pageable){
+        return blogService.adminGetAll(search,pageable);
+    }
+    @GetMapping("admin/getById")
+    public ResponseEntity<?> adminGetById(@RequestParam String id){
+        return blogService.adminGetById(id);
+    }
+
+    @DeleteMapping("admin/delete")
+    public ResponseEntity<?> adminDelete(@RequestParam String id){
+        return blogService.adminDelete(id);
+    }
 }

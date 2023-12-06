@@ -1,3 +1,4 @@
+import React from 'react';
 import classNames from 'classnames/bind';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -9,7 +10,10 @@ import Loading from '~/components/Loading/Loading';
 import AddAccountModal from './AddAccountModal';
 
 import styles from './UsersManage.module.scss';
-import { deleteUser, getAllUsers } from '~/redux/apiRequest';
+import { deleteUser } from '~/redux/apiRequest';
+import { getAllUsers } from '~/redux/statitiscalApi';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfo } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
@@ -31,7 +35,7 @@ function UsersManage() {
     };
 
     useEffect(() => {
-        getAllUsers(user?.jwt, dispatch);
+        getAllUsers(user?.jwt, dispatch, '', '', '', '', '');
     }, []);
 
     useEffect(() => {
@@ -96,11 +100,13 @@ function UsersManage() {
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Fullname</th>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Username</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                <th>Phone Number</th>
-                                <th>Delete</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -108,19 +114,34 @@ function UsersManage() {
                                 return (
                                     <tr key={user.id}>
                                         <td>{index + 1}</td>
+                                        <td>{user.id}</td>
                                         <td>{user.name}</td>
+                                        <td>{user.username}</td>
                                         <td>{user.email}</td>
-                                        <td>{user.roles[0].id}</td>
-                                        <td>{user.phoneNumber}</td>
+                                        <td>
+                                            {user.roles.map((item, index) => (
+                                                <React.Fragment key={item.id}>
+                                                    <span>{item.name}</span>
+                                                    {index <
+                                                        user.roles.length -
+                                                            1 && <br />}{' '}
+                                                    {/* Add <br /> except for the last item */}
+                                                </React.Fragment>
+                                            ))}
+                                        </td>
+
+                                        <td>{user.status}</td>
                                         <td className={cx('action-column')}>
                                             <span
-                                                onClick={() => {
-                                                    setIdUserDelete(user.id);
-                                                    setShowModalDelete(true);
-                                                }}
                                                 className={cx('content-icon')}
                                             >
-                                                <ion-icon name="trash-outline"></ion-icon>
+                                                <FontAwesomeIcon
+                                                    icon={faInfo}
+                                                    style={{
+                                                        fontSize: '1em',
+                                                        color: 'black',
+                                                    }}
+                                                />
                                             </span>
                                         </td>
                                     </tr>

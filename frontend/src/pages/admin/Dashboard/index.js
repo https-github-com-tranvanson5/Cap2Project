@@ -36,12 +36,6 @@ function Dashboard() {
     return (
         <div className={cx('wrapper')}>
             <Row>
-                {/* <Col md={4}>
-                    <UserDoughnutChart />
-                </Col>
-                <Col md={8}>
-                    <StatisticalLinesChart/>
-                </Col> */}
                 <UserStatiscal/>
             </Row>
         </div>

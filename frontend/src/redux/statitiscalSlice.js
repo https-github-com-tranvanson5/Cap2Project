@@ -22,6 +22,17 @@ const StatitiscalSlice = createSlice({
             isFetching: false,
             error: false,
         },
+        users: {
+            allUsers:null,
+            isFetching:false,
+            error:false
+        },
+        userCountYear: {
+            userCountYear: null,
+            isFetching: false,
+            error: false,
+        },
+        msg:"",
     },
     reducers: {
         // UserStatitiscalMonth
@@ -35,6 +46,19 @@ const StatitiscalSlice = createSlice({
         getUserStatitiscalMonthFailed: (state) => {
             state.userStatitiscalMonth.isFetching = false;
             state.userStatitiscalMonth.error = true;
+        },
+
+         // UserStatitiscalYear
+         getUserStatitiscalYearStart: (state) => {
+            state.userCountYear.isFetching = true;
+        },
+        getUserStatitiscalYearSuccess: (state, action) => {
+            state.userCountYear.isFetching = false;
+            state.userCountYear.userCountYear = action.payload;
+        },
+        getUserStatitiscalYearFailed: (state) => {
+            state.userCountYear.isFetching = false;
+            state.userCountYear.error = true;
         },
         // userMinMaxCreateAt
         getUserMinMaxCreateAtStart: (state) => {
@@ -74,6 +98,19 @@ const StatitiscalSlice = createSlice({
             state.userCountRole.isFetching = false;
             state.userCountRole.error = true;
         },
+
+        //get all
+        getAllUsersStart: (state)=>{
+            state.users.isFetching = true;
+        },
+        getAllUsersSuccess: (state,action) =>{
+            state.users.isFetching = false;
+            state.users.allUsers = action.payload;
+        },
+        getAllUsersFailed: (state) => {
+            state.users.isFetching = false;
+            state.users.error = true;
+        },
     },
 });
 export const {
@@ -96,6 +133,16 @@ export const {
     getUserCountRoleStart,
     getUserCountRoleSuccess,
     getUserCountRoleFailed,
+    
+    //getAll
+    getAllUsersFailed,
+    getAllUsersStart,
+    getAllUsersSuccess,
+
+    // UserStatitiscalYear
+    getUserStatitiscalYearStart,
+    getUserStatitiscalYearSuccess,
+    getUserStatitiscalYearFailed,
     
 } = StatitiscalSlice.actions;
 export default StatitiscalSlice.reducer;
