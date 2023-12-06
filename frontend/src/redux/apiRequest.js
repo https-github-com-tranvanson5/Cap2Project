@@ -66,8 +66,41 @@ import {
     getAllCalwJobsSuccess,
     getAllCawlJobsFailed,
     getAllCawlJobsStart,
+    getCawlFailed,
+    getCawlStart,
+    getCawlSuccess,
 } from './calwSlice';
-import { editCvFailed, editCvStart, editCvSuccess, getCvDetailFailed, getCvDetailStart, getCvDetailSuccess, getCvFailed, getCvStart, getCvSuccess, postCvFailed, postCvStart, postCvSuccess } from './cvDataSlice';
+import {
+    editCvFailed,
+    editCvStart,
+    editCvSuccess,
+    getCvDetailFailed,
+    getCvDetailStart,
+    getCvDetailSuccess,
+    getCvFailed,
+    getCvStart,
+    getCvSuccess,
+    postCvFailed,
+    postCvStart,
+    postCvSuccess,
+} from './cvDataSlice';
+import {
+    getAllBlogFailed,
+    getAllBlogRecruiterFailed,
+    getAllBlogRecruiterStart,
+    getAllBlogRecruiterSuccess,
+    getAllBlogStart,
+    getAllBlogSuccess,
+    getBLogRecruiterStart,
+    getBlogFailed,
+    getBlogRecruiterSuccess,
+    getBlogStart,
+    getBlogSuccess,
+    getBlogbRecruiterFailed,
+    postBlogFailed,
+    postBlogStart,
+    postBlogSuccess,
+} from './blogSlice';
 
 //npm install axios
 
@@ -148,7 +181,7 @@ export const getAllUsers = async (jwt, dispatch) => {
     }
 };
 
-export const deleteUser = async (jwt, dispatch, id , status) => {
+export const deleteUser = async (jwt, dispatch, id, status) => {
     dispatch(deleteAllUserStart());
     try {
         const res = await axios.get(
@@ -173,10 +206,9 @@ export const getAllJobs = async (
     searchAddress,
     jobEducation,
     jobExperience,
-    jobPosition,  
+    jobPosition,
     jobType,
     setData,
-    
 ) => {
     dispatch(getAllJobsStart());
     try {
@@ -240,7 +272,6 @@ export const getJobRecruiter = async (jwt, id, dispatch) => {
     }
 };
 
-
 export const postJob = async (job, jwt, dispatch) => {
     dispatch(postJobStart());
     try {
@@ -269,7 +300,7 @@ export const editJob = async (job, jwt, dispatch) => {
     }
 };
 
-export const deleteJobRecruiter = async (jwt, dispatch, id , status) => {
+export const deleteJobRecruiter = async (jwt, dispatch, id, status) => {
     dispatch(deleteJobRecruiterStart());
     try {
         const res = await axios.get(
@@ -386,6 +417,17 @@ export const getAllCalwData = async (
         dispatch(getAllCawlJobsFailed());
     }
 };
+export const getCawlDetail = async (id, dispatch) => {
+    dispatch(getCawlStart());
+    try {
+        const res = await axios.get(
+            `http://localhost:8080/api/user/job/WebCrawler/getDataDetail?id=${id}`,
+        );
+        dispatch(getCawlSuccess(res.data));
+    } catch (err) {
+        dispatch(getCawlFailed(err.response.data));
+    }
+};
 
 export const postCv = async (cv, jwt, dispatch) => {
     dispatch(postCvStart());
@@ -445,5 +487,64 @@ export const editCv = async (cv, jwt, dispatch) => {
         dispatch(editCvSuccess());
     } catch (err) {
         dispatch(editCvFailed());
+    }
+};
+export const postBlog = async (job, jwt, dispatch) => {
+    dispatch(postBlogStart());
+    try {
+        await axios.post('http://localhost:8080/api/blog/create', job, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
+        dispatch(postBlogSuccess());
+    } catch (err) {
+        dispatch(postBlogFailed());
+    }
+};
+export const getMyBlog = async (jwt, dispatch) => {
+    dispatch(getAllBlogRecruiterStart());
+    try {
+        const res = await axios.get(
+            'http://localhost:8080/api/blog/getAllMyBlog',
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+        dispatch(getAllBlogRecruiterSuccess(res.data));
+    } catch (err) {
+        dispatch(getAllBlogRecruiterFailed());
+    }
+};
+
+export const getAllBlog = async (jwt, dispatch) => {
+    dispatch(getAllBlogStart());
+    try {
+        const res = await axios.get('http://localhost:8080/api/blog/getAll', {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
+        dispatch(getAllBlogSuccess(res.data));
+    } catch (err) {
+        dispatch(getAllBlogFailed());
+    }
+};
+export const getBlog = async (jwt, dispatch, id) => {
+    dispatch(getBlogStart());
+    try {
+        const res = await axios.get(
+            `http://localhost:8080/api/blog/getById?id=${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+        dispatch(getBlogSuccess(res.data));
+    } catch (err) {
+        dispatch(getBlogFailed(err.response.data));
     }
 };

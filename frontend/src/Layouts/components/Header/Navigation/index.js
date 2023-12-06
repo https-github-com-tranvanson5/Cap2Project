@@ -39,6 +39,11 @@ const navigationMenu = [
         to: config.routes.recruiter,
         role: ['ROLE_PM'],
     },
+    {
+        title: 'Blog',
+        to: config.routes.blog,
+        role: ['ROLE_USER', 'ROLE_PM', 'ROLE_ADMIN'],
+    },
 ];
 
 function Navigation({ role }) {

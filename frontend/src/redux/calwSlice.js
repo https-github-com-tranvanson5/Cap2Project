@@ -30,14 +30,14 @@ const calwSlice = createSlice({
             state.jobs.error = true;
         },
         //job
-        getJobStart: (state) => {
+        getCawlStart: (state) => {
             state.jobs.isFetching = true;
         },
-        getJobSuccess: (state, action) => {
+        getCawlSuccess: (state, action) => {
             state.jobs.isFetching = false;
             state.jobs.job = action.payload;
         },
-        getJobFailed: (state) => {
+        getCawlFailed: (state) => {
             state.jobs.isFetching = false;
             state.jobs.error = true;
         },
@@ -62,9 +62,9 @@ export const {
     getAllCalwJobsSuccess,
     getAllCawlJobsFailed,
     //detail job
-    getJobStart,
-    getJobSuccess,
-    getJobFailed,
+    getCawlStart,
+    getCawlSuccess,
+    getCawlFailed,
     getCareerStart,
     getCareerSuccess,
     getCareerFailed,

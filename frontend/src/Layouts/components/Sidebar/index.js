@@ -61,6 +61,19 @@ const sidebarMenu = [
         role: ['ROLE_USER'],
         icon: <ion-icon name="newspaper"></ion-icon>,
     },
+    {
+        title: 'Blog',
+        to: '/dashboard/blog',
+        role: ['ROLE_ADMIN'],
+        icon: <ion-icon name="book-sharp"></ion-icon>,
+    },
+    {
+        title: 'Blog',
+        to: config.routes.saveblog,
+        role: ['ROLE_USER'],
+        icon: <ion-icon name="library"></ion-icon>,
+    },
+    
 ];
 
 function Sidebar({ role }) {

@@ -21,6 +21,16 @@ import SavedRecruitment from '~/pages/SavePost/SavedRecruitment/SavedRecruitment
 import CalwContent from '~/pages/Calw/calwContent/CalwContent';
 import RecruiterBlock from '~/pages/Recruiter/RecruiterBlock/RecruiterBlock';
 import ManageCV from '~/pages/CV/ManageCv/ManageCv';
+import Blog from '~/pages/Blogs/Blog';
+import PostBlog from '~/pages/Blogs/BlogController/PostBlog/PostBlog';
+import BlogController from '~/pages/Blogs/BlogController/BlogController';
+import ContentBlog from '~/pages/Blogs/BlogContent/BlogContent';
+import BlogDetail from '~/pages/Blogs/BlogDetail/BlogDetail';
+import BlogContentRecruiter from '~/pages/Blogs/BlogContentRecruiter';
+import MyBlog from '~/pages/Blogs/BlogController/MyBlog/MyBlog';
+import CawlDetail from '~/pages/Calw/CawlDetail/CawlDetail';
+
+
 
 export const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -33,6 +43,7 @@ export const privateRoutes = [
     { path: config.routes.settings, component: Settings },
     { path: config.routes.cv, component: CV },
     { path: config.routes.recruitmentdetail, component: RecruitmentDetail },
+    { path: config.routes.redetail, component: CawlDetail },
     {
         path: config.routes.saverecruitment,
         component: SavedRecruitment,
@@ -48,6 +59,14 @@ export const privateRoutes = [
         path: config.routes.editcv,
         component: CV,
     },
+    { path: config.routes.blog, component: Blog },
+    { path: config.routes.postblog, component: PostBlog },
+    { path: config.routes.createblog, component: BlogController },
+    { path: config.routes.manageBlog, component: PostBlog },
+    { path: config.routes.blogcontent, component: ContentBlog },
+    { path: config.routes.blogdetail, component: BlogDetail },
+    { path: config.routes.blogdetail2, component: BlogDetail },
+    { path: config.routes.myblog, component: MyBlog },
 ];
 
 export const userPrivateRoutes = [];
@@ -91,6 +110,11 @@ export const recruiterPrivateRoutes = [
     {
         path: config.routes.ListRecruitmentPostBlock,
         component: RecruiterBlock,
+        layout: SidebarLayout,
+    },
+    {
+        path: config.routes.blogcontentrecuiter,
+        component: BlogContentRecruiter,
         layout: SidebarLayout,
     },
 ];

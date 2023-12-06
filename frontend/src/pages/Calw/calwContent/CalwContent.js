@@ -63,7 +63,7 @@ export default function CalwContent() {
                                                     <ion-icon name="heart-outline"></ion-icon>
                                                 }
                                                 titleSaved="Lưu tin"
-                                                to={`/recruitmentpage/recruitmentdetail/${recruitment.id}`}
+                                                to={`/reauto/listreauto/${recruitment.id}`}
                                             ></Card>
                                         </Col>
                                     );

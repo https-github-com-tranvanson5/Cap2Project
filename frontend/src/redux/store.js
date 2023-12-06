@@ -6,6 +6,7 @@ import allJobReducer from './jobSlice';
 import applyJobReducer from './recruimentSlice';
 import calwReducer from './calwSlice';
 import cvDataReducer from './cvDataSlice';
+import allBlogReducer from './blogSlice';
 import {
     persistStore,
     persistReducer,
@@ -30,6 +31,7 @@ const persistConfig = {
         ' calw',
         'cvData',
         'cv',
+        'allBlog',
     ],
 };
 const rootReducer = combineReducers({
@@ -38,6 +40,7 @@ const rootReducer = combineReducers({
     cv: cvSlice.reducer,
     allUser: allUserReducer,
     allJob: allJobReducer,
+    allBlog : allBlogReducer,
     recruitment: applyJobReducer,
     calw: calwReducer,
     cvData: cvDataReducer,

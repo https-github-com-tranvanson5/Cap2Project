@@ -1,0 +1,27 @@
+.wrapper {
+    width: 800px;
+    margin: 0 auto;
+    margin-top: 200px;
+    font-size: 25px;
+    .control-block {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        background-color: var(--white-color);
+        &:hover {
+            background-image: linear-gradient(
+                180deg,
+                #d0eef9 0%,
+                #f8e6ec 60%,
+                #ffffff 100%
+            );
+            color: black;
+        }
+        .icon {
+            margin-right: 5px;
+        }
+    }
+}
