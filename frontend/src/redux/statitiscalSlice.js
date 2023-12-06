@@ -17,6 +17,11 @@ const StatitiscalSlice = createSlice({
             isFetching: false,
             error: false,
         },
+        userCountRole: {
+            userCountRole: null,
+            isFetching: false,
+            error: false,
+        },
     },
     reducers: {
         // UserStatitiscalMonth
@@ -57,6 +62,18 @@ const StatitiscalSlice = createSlice({
             state.userCount.isFetching = false;
             state.userCount.error = true;
         },
+        //count Role
+        getUserCountRoleStart: (state) => {
+            state.userCountRole.isFetching = true;
+        },
+        getUserCountRoleSuccess: (state, action) => {
+            state.userCountRole.isFetching = false;
+            state.userCountRole.userMinMaxYearCreateAt = action.payload;
+        },
+        getUserCountRoleFailed: (state) => {
+            state.userCountRole.isFetching = false;
+            state.userCountRole.error = true;
+        },
     },
 });
 export const {
@@ -74,6 +91,11 @@ export const {
     getUserCountStart,
     getUserCountSuccess,
     getUserCountFailed,
+
+    //count Role
+    getUserCountRoleStart,
+    getUserCountRoleSuccess,
+    getUserCountRoleFailed,
     
 } = StatitiscalSlice.actions;
 export default StatitiscalSlice.reducer;

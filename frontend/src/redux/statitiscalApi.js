@@ -13,6 +13,11 @@ import {
      getUserCountSuccess,
      getUserCountFailed,
 
+    //count Role
+     getUserCountRoleStart,
+     getUserCountRoleSuccess,
+     getUserCountRoleFailed,
+
 } from './statitiscalSlice';
 
 export const getUserStatistiscalMonth = async (jwt, dispatch, year, status) => {
@@ -104,6 +109,38 @@ export const getUserCount = async(jwt, dispatch, status) =>{
         // Lấy dữ liệu và dispatch action success
         const data = await response.json();
         dispatch(getUserCountSuccess(data));
+
+        // Trả về dữ liệu
+        return data;
+    } catch (error) {
+        // Dispatch action failed
+        dispatch(getUserCountFailed(error.message));
+        return null; // Trả về null để báo lỗi
+    }
+};
+
+export const getUserCountRole = async(jwt, dispatch, year,status) =>{
+    dispatch(getUserCountRoleStart());
+    try {
+        // Sửa lỗi: chuyển thành fetch với async/await
+        const response = await fetch(
+            `http://localhost:8080/api/admin/countRole?year=${year}&status=${status}`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Kiểm tra response
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        // Lấy dữ liệu và dispatch action success
+        const data = await response.json();
+        dispatch(getUserCountRoleSuccess(data));
 
         // Trả về dữ liệu
         return data;

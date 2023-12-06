@@ -29,4 +29,6 @@ public interface UserAdminService {
     ResponseEntity<?> changeStatus(String id, UserStatus status);
 
     ResponseEntity<?> getMinMaxYear();
+
+    ResponseEntity<?> countUserRole(Integer year, UserStatus status);
 }

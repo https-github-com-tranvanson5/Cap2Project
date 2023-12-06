@@ -61,4 +61,9 @@ public class UserAdminController {
     public ResponseEntity<?> getMinMaxYear(){
         return userAdminService.getMinMaxYear();
     }
+
+    @GetMapping("/countRole")
+    public ResponseEntity<?> countUserRole(@RequestParam(required = false) Integer year,@RequestParam(required = false) UserStatus status){
+        return userAdminService.countUserRole(year, status);
+    }
 }
