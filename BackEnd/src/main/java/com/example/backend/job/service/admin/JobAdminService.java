@@ -24,7 +24,7 @@ public interface JobAdminService {
 
     ResponseEntity<?> getqualityJobByMoth(int year);
 
-    ResponseEntity<?> getqualityJobByYear();
+    ResponseEntity<?> getqualityJobByYear(JobStatus status);
 
     ResponseEntity<?> getqualityJobMothByStatus(JobStatus status, int year);
 
@@ -39,4 +39,7 @@ public interface JobAdminService {
     ResponseEntity<?> getDataJob(String search, String searchAddress, JobEducation jobEducation, JobExperience jobExperience, JobPosition jobPosition, JobType jobType, Integer salary, Integer career, JobStatus status, String userId,Pageable pageable);
 
     ResponseEntity<?> getCareerJob();
+
+    ResponseEntity<?> getMinMaxYear();
+
 }

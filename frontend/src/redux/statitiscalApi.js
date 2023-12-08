@@ -47,9 +47,196 @@ import {
     getCountBlogYearSuccess,
     getCountBlogYearFailed,
 
+    // getqualityJob
+    getqualityJobStart,
+    getqualityJobSuccess,
+    getqualityJobFailed,
+
+    // getqualityJobByStatus
+    getqualityJobByStatusStart,
+    getqualityJobByStatusSuccess,
+    getqualityJobByStatusFailed,
+
+    // getQualityJobMoth
+    getQualityJobMothStart,
+    getQualityJobMothSuccess,
+    getQualityJobMothFailed,
+
+    // getqualityJobByYear
+    getQualityJobByYearStart,
+    getQualityJobByYearSuccess,
+    getQualityJobByYearFailed,
+
+
+
 } from './statitiscalSlice';
 
 
+export const getQualityJobByYear = async (jwt, dispatch,status) => {
+    // Dispatch action start
+    dispatch(getQualityJobByYearStart());
+
+    try {
+        // Sửa lỗi: chuyển thành fetch với async/await
+        const response = await fetch(
+            `http://localhost:8080/api/admin/job/getqualityJobByYear?status=${status}`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Kiểm tra response
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        // Lấy dữ liệu và dispatch action success
+        const data = await response.json();
+        dispatch(getQualityJobByYearSuccess(data));
+        // Trả về dữ liệu
+        return data;
+    } catch (error) {
+        // Dispatch action failed
+        dispatch(getQualityJobByYearFailed(error.message));
+        return null; // Trả về null để báo lỗi
+    }
+};
+export const getJobMinMaxYear = async (jwt, dispatch) => {
+    // Dispatch action start
+    dispatch(getMinYearStart());
+
+    try {
+        // Sửa lỗi: chuyển thành fetch với async/await
+        const response = await fetch(
+            `http://localhost:8080/api/admin/job/getMinMaxYear`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Kiểm tra response
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        // Lấy dữ liệu và dispatch action success
+        const data = await response.json();
+        dispatch(getMinYearSuccess(data));
+
+        // Trả về dữ liệu
+        return data;
+    } catch (error) {
+        // Dispatch action failed
+        dispatch(getMinYearFailed(error.message));
+        return null; // Trả về null để báo lỗi
+    }
+};
+export const getQualityJobMoth = async (jwt, dispatch, year,status) => {
+    // Dispatch action start
+    dispatch(getQualityJobMothStart());
+
+    try {
+        // Sửa lỗi: chuyển thành fetch với async/await
+        const response = await fetch(
+            `http://localhost:8080/api/admin/job/getqualityJobMonthByStatus?status=${status}&year=${year}`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Kiểm tra response
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        // Lấy dữ liệu và dispatch action success
+        const data = await response.json();
+        dispatch(getQualityJobMothSuccess(data));
+
+        // Trả về dữ liệu
+        return data;
+    } catch (error) {
+        // Dispatch action failed
+        dispatch(getQualityJobMothFailed(error.message));
+        return null; // Trả về null để báo lỗi
+    }
+};
+export const getqualityJobByStatus = async (jwt, dispatch, status) => {
+    // Dispatch action start
+    dispatch(getqualityJobByStatusStart());
+
+    try {
+        // Sửa lỗi: chuyển thành fetch với async/await
+        const response = await fetch(
+            `http://localhost:8080/api/admin/job/getqualityJobByStatus?status=${status}`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Kiểm tra response
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        // Lấy dữ liệu và dispatch action success
+        const data = await response.json();
+        dispatch(getqualityJobByStatusSuccess(data));
+
+        // Trả về dữ liệu
+        return data;
+    } catch (error) {
+        // Dispatch action failed
+        dispatch(getqualityJobByStatusFailed(error.message));
+        return null; // Trả về null để báo lỗi
+    }
+};
+
+export const getqualityJob = async (jwt, dispatch, status) => {
+    // Dispatch action start
+    dispatch(getqualityJobStart());
+
+    try {
+        // Sửa lỗi: chuyển thành fetch với async/await
+        const response = await fetch(
+            `http://localhost:8080/api/admin/job/getqualityJob`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Kiểm tra response
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        // Lấy dữ liệu và dispatch action success
+        const data = await response.json();
+        dispatch(getqualityJobSuccess(data));
+
+        // Trả về dữ liệu
+        return data;
+    } catch (error) {
+        // Dispatch action failed
+        dispatch(getqualityJobFailed(error.message));
+        return null; // Trả về null để báo lỗi
+    }
+};
 export const getCountBlogYear = async (jwt, dispatch, status) => {
     // Dispatch action start
     dispatch(getCountBlogYearStart());

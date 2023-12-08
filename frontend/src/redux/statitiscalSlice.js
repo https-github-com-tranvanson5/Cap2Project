@@ -53,9 +53,33 @@ const StatitiscalSlice = createSlice({
             isFetching: false,
             error: false,
         },
+        getqualityJob: {
+            getqualityJob: null,
+            isFetching: false,
+            error: false,
+        },
+        qualityJobByStatus: {
+            qualityJobByStatus: null,
+            isFetching: false,
+            error: false,
+        },
+        qualityJobMonth: {
+            qualityJobMonth: null,
+            isFetching: false,
+            error: false,
+        },
+        qualityJobByYear: {
+            qualityJobByYear: null,
+            isFetching: false,
+            error: false,
+        },
+
+
         msg: '',
     },
     reducers: {
+
+
 
         // UserStatitiscalMonth
         getUserStatitiscalMonthStart: (state) => {
@@ -183,9 +207,81 @@ const StatitiscalSlice = createSlice({
             state.countBlogYear.isFetching = false;
             state.countBlogYear.error = true;
         },
+
+        // getqualityJob
+        getqualityJobStart: (state) => {
+            state.getqualityJob.isFetching = true;
+        },
+        getqualityJobSuccess: (state, action) => {
+            state.getqualityJob.isFetching = false;
+            state.getqualityJob.getqualityJob = action.payload;
+        },
+        getqualityJobFailed: (state) => {
+            state.getqualityJob.isFetching = false;
+            state.getqualityJob.error = true;
+        },
+        // getqualityJobByStatus
+        getqualityJobByStatusStart: (state) => {
+            state.qualityJobByStatus.isFetching = true;
+        },
+        getqualityJobByStatusSuccess: (state, action) => {
+            state.qualityJobByStatus.isFetching = false;
+            state.qualityJobByStatus.qualityJobByStatus = action.payload;
+        },
+        getqualityJobByStatusFailed: (state) => {
+            state.qualityJobByStatus.isFetching = false;
+            state.qualityJobByStatus.error = true;
+        },
+
+
+        // getQualityJobMoth
+        getQualityJobMothStart: (state) => {
+            state.userStatitiscalMonth.isFetching = true;
+        },
+        getQualityJobMothSuccess: (state, action) => {
+            state.userStatitiscalMonth.isFetching = false;
+            state.userStatitiscalMonth.userStatitiscalMonth = action.payload;
+        },
+        getQualityJobMothFailed: (state) => {
+            state.userStatitiscalMonth.isFetching = false;
+            state.userStatitiscalMonth.error = true;
+        },
+        // getqualityJobByYear
+        getQualityJobByYearStart: (state) => {
+            state.qualityJobByYear.isFetching = true;
+        },
+        getQualityJobByYearSuccess: (state, action) => {
+            state.qualityJobByYear.isFetching = false;
+            state.qualityJobByYear.qualityJobByYear = action.payload;
+        },
+        getQualityJobByYearFailed: (state) => {
+            state.qualityJobByYear.isFetching = false;
+            state.qualityJobByYear.error = true;
+        },
     },
 });
 export const {
+    // getqualityJobByYear
+    getQualityJobByYearStart,
+    getQualityJobByYearSuccess,
+    getQualityJobByYearFailed,
+
+    // getQualityJobMoth
+    getQualityJobMothStart,
+    getQualityJobMothSuccess,
+    getQualityJobMothFailed,
+
+    // getqualityJobByStatus
+    getqualityJobByStatusStart,
+    getqualityJobByStatusSuccess,
+    getqualityJobByStatusFailed,
+
+
+    // getqualityJob
+    getqualityJobStart,
+    getqualityJobSuccess,
+    getqualityJobFailed,
+
     // UserStatitiscalYear
     getCountBlogYearStart,
     getCountBlogYearSuccess,

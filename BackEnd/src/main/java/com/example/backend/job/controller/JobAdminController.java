@@ -87,18 +87,22 @@ public class JobAdminController {
     public ResponseEntity<?> getqualityJobByMoth(@RequestParam int year) {
         return jobAdminService.getqualityJobByMoth(year);
     }
-    @GetMapping("/getqualityJobMothByStatus")
-    public ResponseEntity<?> getqualityJobMothByStatus(@RequestParam JobStatus status, @RequestParam int year) {
+    @GetMapping("/getqualityJobMonthByStatus")
+    public ResponseEntity<?> getqualityJobMothByStatus(@RequestParam(required = false) JobStatus status, @RequestParam int year) {
         return jobAdminService.getqualityJobMothByStatus(status,year);
     }
     // thống kê theo NĂM
     @GetMapping("/getqualityJobByYear")
-    public ResponseEntity<?> getqualityJobByYear() {
-        return jobAdminService.getqualityJobByYear();
+    public ResponseEntity<?> getqualityJobByYear(@RequestParam(required = false) JobStatus status) {
+        return jobAdminService.getqualityJobByYear(status);
     }
     @GetMapping("/getqualityJobYearByStatus")
     public ResponseEntity<?> getqualityJobYearByStatus(@RequestParam JobStatus status) {
         return jobAdminService.getqualityJobYearByStatus(status);
+    }
+    @GetMapping("/getMinMaxYear")
+    public ResponseEntity<?> getMinMaxYear() {
+        return jobAdminService.getMinMaxYear();
     }
 
 }

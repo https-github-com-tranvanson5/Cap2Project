@@ -10,18 +10,16 @@ import com.example.backend.job.payload.response.JobGroupByUserMonth;
 import com.example.backend.job.payload.response.JobGroupByUserYear;
 import com.example.backend.job.repository.CareerRepository;
 import com.example.backend.job.repository.JobRepository;
-import com.example.backend.job.service.user.JobUserSerivceImp;
 import com.example.backend.user.model.User;
 import com.example.backend.user.payload.response.Count;
 import com.example.backend.user.payload.response.CountMonth;
 import com.example.backend.user.payload.response.CountYear;
 import com.example.backend.user.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -31,12 +29,10 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Service
-public class JobAdminServiceImp implements JobAdminService{
+public class JobAdminServiceImp implements JobAdminService {
     @Autowired
     private JobRepository jobRepository;
     @Autowired
@@ -55,7 +51,7 @@ public class JobAdminServiceImp implements JobAdminService{
                 }
             }
         }
-        if(jobForm.getJobStatus()== JobStatus.DELETE){
+        if (jobForm.getJobStatus() == JobStatus.DELETE) {
             return new ResponseEntity<>("Lỗi status", HttpStatus.BAD_REQUEST);
         }
         if (jobForm.getRecruitmentStartDate() != null && jobForm.getRecruitmentEndDate() != null
@@ -83,7 +79,7 @@ public class JobAdminServiceImp implements JobAdminService{
 
         jobRepository.save(job);
 
-        return new ResponseEntity<>("create thông tin job thành công",HttpStatus.OK);
+        return new ResponseEntity<>("create thông tin job thành công", HttpStatus.OK);
     }
 
     @Override
@@ -98,7 +94,7 @@ public class JobAdminServiceImp implements JobAdminService{
                 }
             }
         }
-        if(jobForm.getJobStatus()== JobStatus.DELETE){
+        if (jobForm.getJobStatus() == JobStatus.DELETE) {
             return new ResponseEntity<>("Lỗi status", HttpStatus.BAD_REQUEST);
         }
         if (jobForm.getRecruitmentStartDate() != null && jobForm.getRecruitmentEndDate() != null
@@ -110,26 +106,26 @@ public class JobAdminServiceImp implements JobAdminService{
                 && jobForm.getStartSalary().compareTo(jobForm.getEndSalary()) > 0) {
             return new ResponseEntity<>("Lỗi set lương", HttpStatus.BAD_REQUEST);
         }
-        if(!jobRepository.existsById(jobForm.getId())){
+        if (!jobRepository.existsById(jobForm.getId())) {
             return new ResponseEntity<>("Lỗi job không tồn tại", HttpStatus.BAD_REQUEST);
         }
         List<Career> careers = careerRepository.findAllById(jobForm.getCareers());
-        Job job= jobRepository.getById(jobForm.getId());
+        Job job = jobRepository.getById(jobForm.getId());
         BeanUtils.copyProperties(jobForm, job);
         job.setCareers(new HashSet<>(careers));
         jobRepository.save(job);
-        return new ResponseEntity<>("update thông tin job thành công",HttpStatus.OK);
+        return new ResponseEntity<>("update thông tin job thành công", HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> changeStatusJob(String id, JobStatus jobStatus) {
-        if(!jobRepository.existsById(id)){
+        if (!jobRepository.existsById(id)) {
             return new ResponseEntity<>("Lỗi job không tồn tại", HttpStatus.BAD_REQUEST);
         }
-        Job job= jobRepository.getById(id);
+        Job job = jobRepository.getById(id);
         job.setJobStatus(jobStatus);
         jobRepository.save(job);
-        return new ResponseEntity<>("thay đổi trạng thái job thành công",HttpStatus.OK);
+        return new ResponseEntity<>("thay đổi trạng thái job thành công", HttpStatus.OK);
     }
 
 
@@ -157,7 +153,8 @@ public class JobAdminServiceImp implements JobAdminService{
         Count count = new Count();
         BigInteger countValue = (BigInteger) object[0];
         count.setCount(countValue.intValue());
-        return new ResponseEntity<>(count, HttpStatus.OK);    }
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
 
     @Override
     public ResponseEntity<?> getqualityJobByMoth(int year) {
@@ -177,8 +174,10 @@ public class JobAdminServiceImp implements JobAdminService{
     }
 
     @Override
-    public ResponseEntity<?> getqualityJobByYear() {
-        List<Object[]> listObject = jobRepository.getqualityJobByYear();
+    public ResponseEntity<?> getqualityJobByYear(JobStatus status) {
+        String statusString = (status == null) ? null : status.toString();
+
+        List<Object[]> listObject = jobRepository.getqualityJobByYear(statusString);
 
         List<CountYear> countList = new ArrayList<>();
         for (Object[] obj : listObject) {
@@ -195,7 +194,8 @@ public class JobAdminServiceImp implements JobAdminService{
 
     @Override
     public ResponseEntity<?> getqualityJobMothByStatus(JobStatus status, int year) {
-        List<Object[]> listObject = jobRepository.getQualityJobMothByStatus(status.toString(),year);
+        String statusString = (status == null) ? null : status.toString();
+        List<Object[]> listObject = jobRepository.getQualityJobMothByStatus(statusString, year);
         List<CountMonth> countMothList = new ArrayList<>();
         for (Object[] obj : listObject) {
             BigInteger month = new BigInteger(obj[0].toString());
@@ -228,49 +228,49 @@ public class JobAdminServiceImp implements JobAdminService{
     public ResponseEntity<?> jobGroupByUserBySort(Pageable pageable, String sort) {
         sort = sort.toUpperCase();
         String sortFc = "ASC";
-        if(sort.equals("ASC")){
+        if (sort.equals("ASC")) {
             sortFc = "ASC";
-        }else
-        if(sort.equals("DESC")){
-            sortFc = "DESC";        }
-        Page<Object[]> jobs= jobRepository.countByIdAndGroupByUser(pageable,sortFc);
+        } else if (sort.equals("DESC")) {
+            sortFc = "DESC";
+        }
+        Page<Object[]> jobs = jobRepository.countByIdAndGroupByUser(pageable, sortFc);
         Page<JobGroupByUser> jobGroupByUserPage = jobs.map(this::mapToJobGroupByUser);
-        return new ResponseEntity<>(jobGroupByUserPage,HttpStatus.OK);
+        return new ResponseEntity<>(jobGroupByUserPage, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> jobGroupByUserBySortMonth(Pageable pageable, String sort, int year) {
         sort = sort.toUpperCase();
         String sortFc = "ASC";
-        if(sort.equals("ASC")){
+        if (sort.equals("ASC")) {
             sortFc = "ASC";
-        }else
-        if(sort.equals("DESC")){
-            sortFc = "DESC";        }
-        Page<Object[]> jobs= jobRepository.jobGroupByUserBySortMonth(pageable,sortFc,year);
+        } else if (sort.equals("DESC")) {
+            sortFc = "DESC";
+        }
+        Page<Object[]> jobs = jobRepository.jobGroupByUserBySortMonth(pageable, sortFc, year);
         Page<JobGroupByUserYear> jobGroupByUserPage = jobs.map(this::mapToJobGroupByUserYear);
-        return new ResponseEntity<>(jobGroupByUserPage,HttpStatus.OK);
+        return new ResponseEntity<>(jobGroupByUserPage, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> jobGroupByUserBySortYear(Pageable pageable, String sort) {
         sort = sort.toUpperCase();
         String sortFc = "ASC";
-        if(sort.equals("ASC")){
+        if (sort.equals("ASC")) {
             sortFc = "ASC";
-        }else
-        if(sort.equals("DESC")){
-            sortFc = "DESC";        }
-        Page<Object[]> jobs= jobRepository.jobGroupByUserBySortYear(pageable,sortFc);
+        } else if (sort.equals("DESC")) {
+            sortFc = "DESC";
+        }
+        Page<Object[]> jobs = jobRepository.jobGroupByUserBySortYear(pageable, sortFc);
         Page<JobGroupByUserMonth> jobGroupByUserPage = jobs.map(this::mapToJobGroupByUserMonth);
-        return new ResponseEntity<>(jobGroupByUserPage,HttpStatus.OK);
+        return new ResponseEntity<>(jobGroupByUserPage, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<?> getDataJob(String search, String searchAddress, JobEducation jobEducation, JobExperience jobExperience, JobPosition jobPosition, JobType jobType, Integer salary, Integer career, JobStatus status,String userId,Pageable pageable) {
+    public ResponseEntity<?> getDataJob(String search, String searchAddress, JobEducation jobEducation, JobExperience jobExperience, JobPosition jobPosition, JobType jobType, Integer salary, Integer career, JobStatus status, String userId, Pageable pageable) {
 
-        if(userId.equals("")){
-            userId=null;
+        if (userId.equals("")) {
+            userId = null;
         }
         BigDecimal startSalary = null;
         BigDecimal endSalary = null;
@@ -298,7 +298,7 @@ public class JobAdminServiceImp implements JobAdminService{
                     endSalary = null;
                     break;
                 default:
-                    return new ResponseEntity<>("Lỗi chon lương",HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>("Lỗi chon lương", HttpStatus.BAD_REQUEST);
             }
         } else {
             startSalary = null;
@@ -311,8 +311,8 @@ public class JobAdminServiceImp implements JobAdminService{
         String jobPositionString = (jobPosition == null) ? null : jobPosition.toString();
         String jobTypeString = (jobType == null) ? null : jobType.toString();
         String jobStatusString = (jobType == null) ? null : status.toString();
-        Page<Job> jobs= jobRepository.getDataJob(
-                search,searchAddress,
+        Page<Job> jobs = jobRepository.getDataJob(
+                search, searchAddress,
                 jobEducationString,
                 jobExperienceString,
                 jobPositionString,
@@ -323,26 +323,55 @@ public class JobAdminServiceImp implements JobAdminService{
                 endSalary,
                 userId,
                 pageable);
-                return new ResponseEntity<>(jobs,HttpStatus.OK);
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> getCareerJob() {
-        return new ResponseEntity<>(careerRepository.findAll(),HttpStatus.OK);
+        return new ResponseEntity<>(careerRepository.findAll(), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<?> getMinMaxYear() {
+        try {
+            List<Object[]> yearRangeList = jobRepository.yearMinMax();
+
+            if (!yearRangeList.isEmpty()) {
+                Object[] yearRange = yearRangeList.get(0);
+
+                Map<String, Object> resultMap = new HashMap<>();
+                resultMap.put("minYear", yearRange[0]);
+                resultMap.put("maxYear", yearRange[1]);
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                String jsonResult = objectMapper.writeValueAsString(resultMap); // Remove Collections.singletonList
+                return new ResponseEntity<>(jsonResult, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Year range data is empty", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
 
     private JobGroupByUserMonth mapToJobGroupByUserMonth(Object[] row) {
         String userId = (String) row[0];
         Long countId = Long.valueOf(row[1].toString());
         int month = Integer.valueOf(row[2].toString());
-        return new JobGroupByUserMonth(userId, countId,month);
+        return new JobGroupByUserMonth(userId, countId, month);
     }
+
     private JobGroupByUserYear mapToJobGroupByUserYear(Object[] row) {
         String userId = (String) row[0];
         Long countId = Long.valueOf(row[1].toString());
         int year = Integer.valueOf(row[2].toString());
-        return new JobGroupByUserYear(userId, countId,year);
+        return new JobGroupByUserYear(userId, countId, year);
     }
+
     private JobGroupByUser mapToJobGroupByUser(Object[] row) {
         String userId = (String) row[0];
         Long countId = Long.valueOf(row[1].toString());

@@ -5,18 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ec6c993-7d14-4a20-ad4f-8b6f3738384d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pages/admin/Dashboard/BlogStatitiscal/BlogCard.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/admin/Dashboard/BlogStatitiscal/BlogLineChart.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/admin/Dashboard/BlogStatitiscal/BlogStatistical.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/admin/Dashboard/JobStatitiscal/JobCard.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/admin/Dashboard/JobStatitiscal/JobStatitiscal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/blog/controller/BlogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/blog/controller/BlogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/blog/repository/BlogRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/blog/repository/BlogRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/blog/service/BlogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/blog/service/BlogService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/blog/service/BlogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/blog/service/BlogServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/user/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/user/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/Dashboard/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/Dashboard/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/Dashboard/processData/processData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/Dashboard/processData/processData.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/admin/Dashboard/JobStatitiscal/JobLineChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/job/controller/JobAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/job/controller/JobAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/job/repository/JobRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/job/repository/JobRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/job/service/admin/JobAdminServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../BackEnd/src/main/java/com/example/backend/job/service/admin/JobAdminServiceImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/admin/Dashboard/JobStatitiscal/JobCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/Dashboard/JobStatitiscal/JobCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/admin/Dashboard/JobStatitiscal/JobStatitiscal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/Dashboard/JobStatitiscal/JobStatitiscal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/redux/statitiscalApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/statitiscalApi.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/redux/statitiscalSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/statitiscalSlice.js" afterDir="false" />
     </list>
@@ -73,6 +68,7 @@
       <workItem from="1701982063531" duration="8399000" />
       <workItem from="1701991116159" duration="4658000" />
       <workItem from="1701998140411" duration="344000" />
+      <workItem from="1702012174006" duration="9138000" />
     </task>
     <servers />
   </component>

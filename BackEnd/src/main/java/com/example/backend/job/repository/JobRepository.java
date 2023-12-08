@@ -6,9 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -78,22 +76,22 @@ public interface JobRepository extends JpaRepository<Job,String> {
 
     @Query(
             value = "SELECT YEAR(create_at) AS job_year, COUNT(*) AS job_count " +
-                    "FROM job " +
+                    "FROM job WHERE (:statusString IS NULL OR job_status=:statusString)" +
                     "GROUP BY job_year " +
                     "ORDER BY job_year",
             nativeQuery = true
     )
-    List<Object[]> getqualityJobByYear();
+    List<Object[]> getqualityJobByYear(@Param("statusString") String statusString);
     @Query(
-            value = "SELECT YEAR(create_at) AS job_year, COUNT(*) AS job_count " +
+            value = "SELECT MONTH(create_at) AS job_year, COUNT(*) AS job_count " +
                     "FROM job " +
-                    "WHERE job.job_status = :status " + // Thêm khoảng cách sau :status
+                    "WHERE (:statusString IS NUll OR job.job_status = :statusString) " + // Thêm khoảng cách sau :status
                     "AND YEAR(create_at) = :year " +    // Thêm điều kiện cho năm
                     "GROUP BY job_year " +
-                    "ORDER BY job_year",
+                    "ORDER BY MONTH(create_at)",
             nativeQuery = true
     )
-    List<Object[]> getQualityJobMothByStatus(@Param("status") String status, @Param("year") int year);
+    List<Object[]> getQualityJobMothByStatus(@Param("statusString") String statusString, @Param("year") int year);
 
     @Query(
             value = "SELECT YEAR(create_at) AS job_year, COUNT(*) AS job_count " +
@@ -192,5 +190,9 @@ public interface JobRepository extends JpaRepository<Job,String> {
             @Param("userId") String userId,
             Pageable pageable
     );
+
+    @Query(value = "SELECT MIN(YEAR(job.create_at)) AS minYear, MAX(YEAR(job.create_at)) AS maxYear "
+            + "FROM job", nativeQuery = true)
+    List<Object[]> yearMinMax();
 
 }
