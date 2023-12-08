@@ -1,5 +1,6 @@
 package com.example.backend.blog.service;
 
+import com.example.backend.blog.constain.BlogStatus;
 import com.example.backend.blog.payload.request.BlogCreate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -28,4 +29,12 @@ public interface BlogService {
     ResponseEntity<?> adminDelete(String id);
 
     ResponseEntity<?> adminUpdate(String id,BlogCreate blogCreate);
+
+    ResponseEntity<?> countBlog(BlogStatus status);
+
+    ResponseEntity<?> countBlogMonth(BlogStatus status, Integer year);
+
+    ResponseEntity<?> yearMinMax();
+
+    ResponseEntity<?> countBlogYear(BlogStatus status);
 }

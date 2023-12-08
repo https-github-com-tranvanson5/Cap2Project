@@ -26,7 +26,6 @@ export const parseYearMinMaxToListOject = (data) => {
     const minYear = data.minYear;
     const maxYear = data.maxYear;
     const objects = [];
-
     for (let year = minYear; year <= maxYear; year++) {
         objects.push({ name: year, value: year });
     }

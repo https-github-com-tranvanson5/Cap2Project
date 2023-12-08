@@ -9,6 +9,7 @@ import com.example.backend.blog.repository.BlogRepository;
 import com.example.backend.blog.repository.ImageRepository;
 import com.example.backend.user.model.User;
 import com.example.backend.user.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,18 +21,18 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
-public class BlogServiceImpl implements BlogService{
+public class BlogServiceImpl implements BlogService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private BlogRepository blogRepository;
     @Autowired
     private ImageRepository imageRepository;
+
     @Override
     @Transactional
     public ResponseEntity<?> create(BlogCreate blogCreate) {
@@ -89,9 +90,7 @@ public class BlogServiceImpl implements BlogService{
 
             // Delete images that are not present in the updated set
             if (blog.getImages() != null) {
-                blog.getImages().stream()
-                        .filter(existingImage -> !newImages.contains(existingImage))
-                        .forEach(imageRepository::delete);
+                blog.getImages().stream().filter(existingImage -> !newImages.contains(existingImage)).forEach(imageRepository::delete);
             }
 
             // Save new images
@@ -108,7 +107,7 @@ public class BlogServiceImpl implements BlogService{
     @Override
     public ResponseEntity<?> getAll(String search, Pageable pageable) {
         try {
-            Page<Blog> blogs = blogRepository.findAllBlog( search, BlogStatus.ACTIVE.toString(),null,pageable);
+            Page<Blog> blogs = blogRepository.findAllBlog(search, BlogStatus.ACTIVE.toString(), null, pageable);
             return new ResponseEntity<>(blogs, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,7 +123,7 @@ public class BlogServiceImpl implements BlogService{
                 return new ResponseEntity<>("Blog not found or deleted", HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(blogOptional.get(), HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -157,7 +156,6 @@ public class BlogServiceImpl implements BlogService{
     }
 
 
-
     @Override
     public ResponseEntity<?> getByIdMyBlog(String id) {
         try {
@@ -168,12 +166,12 @@ public class BlogServiceImpl implements BlogService{
 
             UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
             Optional<User> optionalUser = userRepository.findById(userPrincipal.getId());
-            Optional<Blog> blogOptional = blogRepository.findByIdAndUser(id,optionalUser.get());
+            Optional<Blog> blogOptional = blogRepository.findByIdAndUser(id, optionalUser.get());
             if (blogOptional.isEmpty() || blogOptional.get().getStatus() == BlogStatus.DELETE) {
                 return new ResponseEntity<>("Blog not found or deleted", HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(blogOptional.get(), HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -191,7 +189,7 @@ public class BlogServiceImpl implements BlogService{
             UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
             Optional<User> optionalUser = userRepository.findById(userPrincipal.getId());
             System.out.println(optionalUser.get().getId());
-            Page<Blog> blogs = blogRepository.findAllBlog( search, BlogStatus.ACTIVE.toString(),optionalUser.get().getId(),pageable);
+            Page<Blog> blogs = blogRepository.findAllBlog(search, BlogStatus.ACTIVE.toString(), optionalUser.get().getId(), pageable);
             return new ResponseEntity<>(blogs, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -232,7 +230,7 @@ public class BlogServiceImpl implements BlogService{
     @Override
     public ResponseEntity<?> adminGetAll(String search, Pageable pageable) {
         try {
-            Page<Blog> blogs = blogRepository.findAllBlog( search, BlogStatus.ACTIVE.toString(),null,pageable);
+            Page<Blog> blogs = blogRepository.findAllBlog(search, BlogStatus.ACTIVE.toString(), null, pageable);
             return new ResponseEntity<>(blogs, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -248,7 +246,7 @@ public class BlogServiceImpl implements BlogService{
                 return new ResponseEntity<>("Blog not found or deleted", HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(blogOptional.get(), HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -271,7 +269,7 @@ public class BlogServiceImpl implements BlogService{
     }
 
     @Override
-    public ResponseEntity<?> adminUpdate(String id,BlogCreate blogCreate) {
+    public ResponseEntity<?> adminUpdate(String id, BlogCreate blogCreate) {
         try {
             Optional<Blog> blogOptional = blogRepository.findById(id);
             if (blogOptional.isEmpty() || blogOptional.get().getStatus() == BlogStatus.DELETE) {
@@ -285,9 +283,7 @@ public class BlogServiceImpl implements BlogService{
 
             // Delete images that are not present in the updated set
             if (blog.getImages() != null) {
-                blog.getImages().stream()
-                        .filter(existingImage -> !newImages.contains(existingImage))
-                        .forEach(imageRepository::delete);
+                blog.getImages().stream().filter(existingImage -> !newImages.contains(existingImage)).forEach(imageRepository::delete);
             }
 
             // Save new images
@@ -300,5 +296,102 @@ public class BlogServiceImpl implements BlogService{
             return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Override
+    public ResponseEntity<?> countBlog(BlogStatus status) {
+        try {
+            String statusString = (status == null) ? null : status.toString();
+
+            // Assuming blogRepository.countBlog expects BlogStatus directly
+            int count = blogRepository.countBlog(statusString);
+            // Create a Map to represent the structure
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("count", count);
+
+            // Convert the Map to JSON
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonResult = objectMapper.writeValueAsString(Collections.singletonList(resultMap));
+
+            return new ResponseEntity<>(jsonResult, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> countBlogMonth(BlogStatus status, Integer year) {
+        try {
+            String statusString = (status == null) ? null : status.toString();
+
+            // Assuming blogRepository.countBlog expects BlogStatus directly
+            List<Object[]> countList = blogRepository.countBlogMonth(statusString, year);
+
+            // Convert the list of arrays to a list of maps
+            List<Map<String, Object>> responseList = countList.stream().map(array -> {
+                Map<String, Object> item = new HashMap<>();
+                item.put("month", array[1]); // Assuming the month is at index 1
+                item.put("count", array[0]); // Assuming the count is at index 0
+                return item;
+            }).collect(Collectors.toList());
+
+            return new ResponseEntity<>(responseList, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> yearMinMax() {
+        try {
+            List<Object[]> yearRangeList = blogRepository.yearMinMax();
+
+            if (!yearRangeList.isEmpty()) {
+                Object[] yearRange = yearRangeList.get(0);
+
+                Map<String, Object> resultMap = new HashMap<>();
+                resultMap.put("minYear", yearRange[0]);
+                resultMap.put("maxYear", yearRange[1]);
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                String jsonResult = objectMapper.writeValueAsString(resultMap); // Remove Collections.singletonList
+                return new ResponseEntity<>(jsonResult, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Year range data is empty", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> countBlogYear(BlogStatus status) {
+        try {
+            String statusString = (status == null) ? null : status.toString();
+
+            List<Object[]> result = blogRepository.countBlogYear(statusString);
+
+            if (!result.isEmpty()) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                String jsonResult = objectMapper.writeValueAsString(result.stream()
+                        .map(row -> {
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("count", row[0]);
+                            map.put("year", row[1]);
+                            return map;
+                        })
+                        .collect(Collectors.toList()));
+
+                return new ResponseEntity<>(jsonResult, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Blog count data is empty", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }

@@ -26,8 +26,163 @@ import {
    getUserStatitiscalYearStart,
    getUserStatitiscalYearSuccess,
    getUserStatitiscalYearFailed,
+
+    //count blog
+    getCountBlogStart,
+    getCountBlogSuccess,
+    getCountBlogFailed,
+
+    //count blog month
+    getCountBlogMonthStart,
+    getCountBlogMonthSuccess,
+    getCountBlogMonthFailed,
+
+    // MinYear
+    getMinYearStart,
+    getMinYearSuccess,
+    getMinYearFailed,
+
+    // getCountBlogYear
+    getCountBlogYearStart,
+    getCountBlogYearSuccess,
+    getCountBlogYearFailed,
+
 } from './statitiscalSlice';
 
+
+export const getCountBlogYear = async (jwt, dispatch, status) => {
+    // Dispatch action start
+    dispatch(getCountBlogYearStart());
+
+    try {
+        // Sửa lỗi: chuyển thành fetch với async/await
+        const response = await fetch(
+            `http://localhost:8080/api/blog/admin/countBlogYear?status=${status}`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Kiểm tra response
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        // Lấy dữ liệu và dispatch action success
+        const data = await response.json();
+        dispatch(getCountBlogYearSuccess(data));
+
+        // Trả về dữ liệu
+        return data;
+    } catch (error) {
+        // Dispatch action failed
+        dispatch(getCountBlogYearFailed(error.message));
+        return null; // Trả về null để báo lỗi
+    }
+};
+
+export const getMinMaxYear = async (jwt, dispatch) => {
+    // Dispatch action start
+    dispatch(getMinYearStart());
+
+    try {
+        // Sửa lỗi: chuyển thành fetch với async/await
+        const response = await fetch(
+            `http://localhost:8080/api/blog/admin/yearMinMax`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Kiểm tra response
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        // Lấy dữ liệu và dispatch action success
+        const data = await response.json();
+        dispatch(getMinYearSuccess(data));
+
+        // Trả về dữ liệu
+        return data;
+    } catch (error) {
+        // Dispatch action failed
+        dispatch(getMinYearFailed(error.message));
+        return null; // Trả về null để báo lỗi
+    }
+};
+export const getCountBlogMonth = async (jwt, dispatch, year,status) => {
+    // Dispatch action start
+    dispatch(getCountBlogMonthStart());
+
+    try {
+        // Sửa lỗi: chuyển thành fetch với async/await
+        const response = await fetch(
+            `http://localhost:8080/api/blog/admin/countBlogMonth?year=${year}&status=${status}`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Kiểm tra response
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        // Lấy dữ liệu và dispatch action success
+        const data = await response.json();
+        dispatch(getCountBlogMonthSuccess(data));
+
+        // Trả về dữ liệu
+        return data;
+    } catch (error) {
+        // Dispatch action failed
+        dispatch(getCountBlogMonthFailed(error.message));
+        return null; // Trả về null để báo lỗi
+    }
+};
+export const getCountBlog = async (jwt, dispatch, status) => {
+    // Dispatch action start
+    dispatch(getCountBlogStart());
+
+    try {
+        // Sửa lỗi: chuyển thành fetch với async/await
+        const response = await fetch(
+            `http://localhost:8080/api/blog/admin/countBlog?status=${status}`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Kiểm tra response
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        // Lấy dữ liệu và dispatch action success
+        const data = await response.json();
+        dispatch(getCountBlogSuccess(data));
+
+        // Trả về dữ liệu
+        return data;
+    } catch (error) {
+        // Dispatch action failed
+        dispatch(getCountBlogFailed(error.message));
+        return null; // Trả về null để báo lỗi
+    }
+};
 export const getUserStatistiscalMonth = async (jwt, dispatch, year, status) => {
     // Dispatch action start
     dispatch(getUserStatitiscalMonthStart());

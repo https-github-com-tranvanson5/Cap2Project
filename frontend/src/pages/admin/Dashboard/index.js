@@ -11,6 +11,8 @@ import styles from './Dashboard.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers } from '~/redux/apiRequest';
 import UserStatiscal from './UserStatistical/UserStatiscal';
+import BlogStatistical from "~/pages/admin/Dashboard/BlogStatitiscal/BlogStatistical";
+import JobStatitiscal from '~/pages/admin/Dashboard/JobStatitiscal/JobStatitiscal';
 
 const cx = classNames.bind(styles);
 
@@ -36,7 +38,13 @@ function Dashboard() {
     return (
         <div className={cx('wrapper')}>
             <Row>
-                <UserStatiscal/>
+                {/*<UserStatiscal/>*/}
+            </Row>
+            <Row>
+                {/*<BlogStatistical/>*/}
+            </Row>
+            <Row>
+                <JobStatitiscal/>
             </Row>
         </div>
     );
