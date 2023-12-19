@@ -32,8 +32,8 @@ export default function CawlDetail() {
                             <h3 className={cx('company-name')}>
                                 {jobDetailData?.company}
                             </h3>
-                            <Link to={`${jobDetailData?.companyLink}`}>
-                                Website doanh nghiệp
+                            <Link to={`${jobDetailData?.webUrl}`}>
+                                Website ứng tuyển
                             </Link>
                             <div className={cx('time')}>
                                 <span className={cx('type-work-icons')}>
@@ -63,7 +63,7 @@ export default function CawlDetail() {
                         <div className={cx('box-logo')}>
                             <Link
                                 className={cx('link')}
-                                to={`${jobDetailData?.companyLink}`}
+                                to={`${jobDetailData?.companyUrl}`}
                             >
                                 <img src={jobDetailData?.imageUrl} alt="" />
                             </Link>
@@ -77,7 +77,7 @@ export default function CawlDetail() {
                     /> */}
                             <div className={cx('time')}>
                                 <span className={cx('end-day')}>
-                                    {jobDetailData?.contactEmail}
+                                    {jobDetailData?.contractEmail}
                                 </span>
                             </div>
                             {/* <img src={images.CV} alt="" /> */}
@@ -103,7 +103,7 @@ export default function CawlDetail() {
                                                 <span>Mức lương khởi điểm</span>
                                             </div>
                                             <span className={cx('type-detail')}>
-                                                {jobDetailData?.startSalary}
+                                                {jobDetailData?.salary}
                                             </span>
                                         </Col>
                                         <Col md={6} className={'mb-5'}>
@@ -118,7 +118,7 @@ export default function CawlDetail() {
                                                 <span>Mức lương tối đa</span>
                                             </div>
                                             <span className={cx('type-detail')}>
-                                                {jobDetailData?.endSalary}
+                                                {jobDetailData?.salary}
                                             </span>
                                         </Col>
                                         <Col md={6} className={'mb-5'}>
@@ -148,7 +148,7 @@ export default function CawlDetail() {
                                                 <span>Hình thức làm việc</span>
                                             </div>
                                             <span className={cx('type-detail')}>
-                                                {jobDetailData?.jobType}
+                                                {jobDetailData?.typeJob}
                                             </span>
                                         </Col>
                                         <Col md={6} className={'mb-5'}>
@@ -163,7 +163,7 @@ export default function CawlDetail() {
                                                 <span>Giới tính</span>
                                             </div>
                                             <span className={cx('type-detail')}>
-                                                {jobDetailData?.genderRequest}
+                                                {jobDetailData?.gender}
                                             </span>
                                         </Col>
                                         <Col md={6} className={'mb-5'}>
@@ -178,58 +178,54 @@ export default function CawlDetail() {
                                                 <span>Cấp bậc</span>
                                             </div>
                                             <span className={cx('type-detail')}>
-                                                {jobDetailData?.jobPosition}
+                                                {jobDetailData?.position}
                                             </span>
                                         </Col>
-                                        {/* <Col md={6} className={'mb-5'}>
-                                    <div className={cx('type-work')}>
-                                        <span
-                                            className={cx(
-                                                'type-work-icon',
-                                            )}
-                                        >
-                                            <ion-icon name="podium-outline"></ion-icon>
-                                        </span>
-                                        <span>Trình độ học vấn</span>
-                                    </div>
-                                    <span className={cx('type-detail')}>
-                                        {getNameByValueEducation(
-                                            jobDetailData?.jobEducation,
-                                        )}
-                                    </span>
-                                </Col> */}
-                                        {/* <Col md={6} className={'mb-5'}>
-                                    <div className={cx('type-work')}>
-                                        <span
-                                            className={cx(
-                                                'type-work-icon',
-                                            )}
-                                        >
-                                            <ion-icon name="keypad-outline"></ion-icon>
-                                        </span>
-                                        <span>Thể loại ngành nghề</span>
-                                    </div>
-                                    <span className={cx('type-detail')}>
-                                        {carrerDetailName}
-                                    </span>
-                                </Col> */}
-                                        {/* <Col md={6} className={'mb-5'}>
-                                    <div className={cx('type-work')}>
-                                        <span
-                                            className={cx(
-                                                'type-work-icon',
-                                            )}
-                                        >
-                                            <ion-icon name="accessibility-outline"></ion-icon>
-                                        </span>
-                                        <span>Kinh nghiệm</span>
-                                    </div>
-                                    <span className={cx('type-detail')}>
-                                        {getNameByValueExp(
-                                            jobDetailData?.jobExperience,
-                                        )}
-                                    </span>
-                                </Col> */}
+                                        <Col md={6} className={'mb-5'}>
+                                            <div className={cx('type-work')}>
+                                                <span
+                                                    className={cx(
+                                                        'type-work-icon',
+                                                    )}
+                                                >
+                                                    <ion-icon name="podium-outline"></ion-icon>
+                                                </span>
+                                                <span>Trình độ học vấn</span>
+                                            </div>
+                                            <span className={cx('type-detail')}>
+                                                {jobDetailData?.education}
+                                            </span>
+                                        </Col>
+                                        <Col md={6} className={'mb-5'}>
+                                            <div className={cx('type-work')}>
+                                                <span
+                                                    className={cx(
+                                                        'type-work-icon',
+                                                    )}
+                                                >
+                                                    <ion-icon name="keypad-outline"></ion-icon>
+                                                </span>
+                                                <span>Thể loại ngành nghề</span>
+                                            </div>
+                                            <span className={cx('type-detail')}>
+                                                {jobDetailData?.career}
+                                            </span>
+                                        </Col>
+                                        <Col md={6} className={'mb-5'}>
+                                            <div className={cx('type-work')}>
+                                                <span
+                                                    className={cx(
+                                                        'type-work-icon',
+                                                    )}
+                                                >
+                                                    <ion-icon name="accessibility-outline"></ion-icon>
+                                                </span>
+                                                <span>Kinh nghiệm</span>
+                                            </div>
+                                            <span className={cx('type-detail')}>
+                                                {jobDetailData?.experience}
+                                            </span>
+                                        </Col>
                                     </Row>
                                 </div>
                             </div>
@@ -238,7 +234,7 @@ export default function CawlDetail() {
                                     Địa điểm làm việc
                                 </h2>
                                 <span className={cx('address-detail')}>
-                                    -{jobDetailData?.contactAddress}
+                                    -{jobDetailData?.contractAddress}
                                 </span>
                                 <h2 className={cx('adress')}>
                                     Địa điểm chi tiết
@@ -250,13 +246,13 @@ export default function CawlDetail() {
                                     Người đăng bài tuyển dụng
                                 </h2>
                                 <span className={cx('address-detail')}>
-                                    - {jobDetailData?.contactName}
+                                    - {jobDetailData?.contractName}
                                 </span>
                                 <h2 className={cx('adress')}>
                                     Số điện thoại liên lạc
                                 </h2>
                                 <span className={cx('address-detail')}>
-                                    - {jobDetailData?.contactPhone}
+                                    - {jobDetailData?.contractPhone}
                                 </span>
                             </div>
                             <div className={cx('content-post')}>
@@ -265,7 +261,8 @@ export default function CawlDetail() {
                                     <div className={cx('content-tab')}>
                                         <span
                                             dangerouslySetInnerHTML={{
-                                                __html: jobDetailData?.jobDescription,
+                                                __html: jobDetailData?.description
+                                                ,
                                             }}
                                         ></span>
                                     </div>
@@ -275,12 +272,12 @@ export default function CawlDetail() {
                                     <div className={cx('content-tab')}>
                                         <span
                                             dangerouslySetInnerHTML={{
-                                                __html: jobDetailData?.skillDescription,
+                                                __html: jobDetailData?.skill,
                                             }}
                                         ></span>
                                     </div>
                                 </div>
-                                <div className={cx('descript-benefit')}>
+                                {/* <div className={cx('descript-benefit')}>
                                     <h1>Quyền lợi</h1>
                                     <div className={cx('content-tab')}>
                                         <span
@@ -289,9 +286,16 @@ export default function CawlDetail() {
                                             }}
                                         ></span>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className={cx('mothod-title')}>
-                                    <h2>Cách thức ứng tuyển</h2>
+                                    <h1>Cách thức ứng tuyển</h1>
+                                    <div className={cx('content-tab')}>
+                                        <span
+                                            dangerouslySetInnerHTML={{
+                                                __html: jobDetailData?.contractNote,
+                                            }}
+                                        ></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

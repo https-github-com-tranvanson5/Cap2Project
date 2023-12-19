@@ -258,7 +258,7 @@ function BoxEditorItem({
             <div className={cx('editor-block')}>
                 {titleValue && (
                     <div className={cx('title')}>
-                        <span className={cx('title-content')}>
+                        <span className={cx('title-content')} >
                             <InputEditor
                                 defaultValue={titleValue}
                                 setContent={(content) =>

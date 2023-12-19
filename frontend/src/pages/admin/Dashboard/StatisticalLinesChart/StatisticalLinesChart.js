@@ -33,24 +33,32 @@ export const options = {
     },
 };
 
-function StatisticalLinesChart({ data }) {
-    const dataChart = {
-        labels: ['January', 'Februar', 'March', 'April', 'May', 'June', 'July', 'August'],
+// ... (imports and styling)
+
+function StatisticalLinesChart({ dataChart = {} }) {
+    const defaultData = {
+        labels: [],
         datasets: [
             {
-                label: 'Thống kê tuyển dụng',
-                // data: data?.jobCount.map((item) => item.count),
-                data:[10,15,35,41,50,58,70,80],
+                label: 'Unknown',
+                data: [],
                 borderColor: '#4bc0c0',
                 backgroundColor: '#a4f5f5',
             },
         ],
     };
 
+    // Check if dataChart and datasets are defined
+    const hasData = dataChart && dataChart.datasets;
+
     return (
         <div className={cx('wrapper')}>
-            <h2 className={cx('title')}>Thống kê tổng quan hệ thống</h2>
-            <Line options={options} data={dataChart} />
+            {/* Check if dataChart is defined and has datasets before rendering Line component */}
+            {hasData ? (
+                <Line options={options} data={dataChart} />
+            ) : (
+                <Line options={options} data={defaultData} />
+            )}
         </div>
     );
 }

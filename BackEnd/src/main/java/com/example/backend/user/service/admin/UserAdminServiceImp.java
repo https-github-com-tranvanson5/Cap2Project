@@ -8,10 +8,13 @@ import com.example.backend.user.model.User;
 import com.example.backend.user.payload.request.UserFormCreate;
 import com.example.backend.user.payload.request.UserFormUpdate;
 import com.example.backend.user.payload.response.Count;
-import com.example.backend.user.payload.response.CountMoth;
+import com.example.backend.user.payload.response.CountMonth;
 import com.example.backend.user.payload.response.CountStatus;
 import com.example.backend.user.payload.response.CountYear;
 import com.example.backend.user.repository.UserRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,13 +26,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
-public class UserAdminServiceImp implements UserAdminService{
+public class UserAdminServiceImp implements UserAdminService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -40,7 +42,7 @@ public class UserAdminServiceImp implements UserAdminService{
     @Override
     public ResponseEntity<?> getUserById(String id) {
         Optional<User> user = userRepository.findById(id);
-        if(user.isEmpty()){
+        if (user.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(user.get());
@@ -84,10 +86,10 @@ public class UserAdminServiceImp implements UserAdminService{
     @Override
     public ResponseEntity<?> updateUser(UserFormUpdate userFormUpdate) {
         Optional<User> user = userRepository.findById(userFormUpdate.getId());
-        if (user.isEmpty()){
+        if (user.isEmpty()) {
             return new ResponseEntity<>("Use not exist", HttpStatus.BAD_REQUEST);
         }
-        BeanUtils.copyProperties(userFormUpdate,user.get());
+        BeanUtils.copyProperties(userFormUpdate, user.get());
         Set<Role> roles = new HashSet<>();
         userFormUpdate.getRoles().forEach(role -> {
             Role userRole;
@@ -119,7 +121,7 @@ public class UserAdminServiceImp implements UserAdminService{
     @Override
     public ResponseEntity<?> changeStatus(String id, UserStatus status) {
         Optional<User> user = userRepository.findById(id);
-        if (user.isEmpty()){
+        if (user.isEmpty()) {
             return new ResponseEntity<>("Use not exist", HttpStatus.BAD_REQUEST);
         }
         user.get().setStatus(status);
@@ -127,7 +129,11 @@ public class UserAdminServiceImp implements UserAdminService{
         return new ResponseEntity<>("Change status thành công", HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getDataUser(String search, Pageable pageable, String column, String sort) {
+    public ResponseEntity<?> getDataUser(String search, Pageable pageable, String column, String sort,
+                                         UserStatus status, RoleName role) {
+
+        String statusString = (status == null) ? null : status.toString();
+        String roleString = (role == null) ? null : role.toString();
         // Xác định thông tin sắp xếp
         Sort.Order order = null;
         if ("asc".equalsIgnoreCase(sort)) {
@@ -137,12 +143,13 @@ public class UserAdminServiceImp implements UserAdminService{
             order = Sort.Order.desc(column);
         }
 
-        Sort sorting = (order != null) ? Sort.by(order) : Sort.unsorted(); // Sử dụng Sort.unsorted() nếu không có yêu cầu sắp xếp.
+        Sort sorting = (order != null) ? Sort.by(order) : Sort.unsorted(); // Sử dụng Sort.unsorted() nếu không có yêu
+        // cầu sắp xếp.
 
         // Tạo Pageable kết hợp cả phân trang và sắp xếp
-        Pageable pageableWithSorting = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sorting);
+        Pageable pageableWithSorting = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
 
-        Page<User> users = userRepository.getDataUser(search, pageableWithSorting);
+        Page<User> users = userRepository.getDataUser(search, statusString, roleString, pageableWithSorting);
 
         if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -152,59 +159,109 @@ public class UserAdminServiceImp implements UserAdminService{
     }
 
     @Override
-    public ResponseEntity<?> countUsser() {
-        Count countUser = new Count();
-        countUser.setCount((int) userRepository.count());
-        return ResponseEntity.ok(countUser);
+    public ResponseEntity<Map<String, Long>> countUser(UserStatus status) {
+        long userCount;
+        if (status == null) {
+            userCount = userRepository.count();
+        } else {
+            userCount = userRepository.countByStatus(status);
+        }
+        Map<String, Long> response = new HashMap<>();
+        response.put("userCount", userCount);
+        return ResponseEntity.ok(response);
     }
 
-    public ResponseEntity<?> countUserMoth(int year){
-        List<Object[]> listCountMoth = userRepository.countUsersMonth(year);
-        List<CountMoth> countMoths= new ArrayList<>();
-        for (Object[] object: listCountMoth) {
+    public ResponseEntity<?> countUserMonth(int year, UserStatus status) {
+        String statusString = status == null ? null : status.toString();
+        List<Object[]> listCountMonth = userRepository.countUsersMonth(year, statusString);
+        System.out.println(listCountMonth);
+        List<CountMonth> countMonths = new ArrayList<>();
+
+        for (Object[] object : listCountMonth) {
             if (object.length >= 2 && object[0] != null && object[1] != null) {
-                CountMoth countMoth = new CountMoth();
-                int moth = ((Number) object[0]).intValue();
+                CountMonth countMonth = new CountMonth();
+                int month = ((Number) object[0]).intValue();
                 int count = ((Number) object[1]).intValue();
 
-                countMoth.setMoth(moth);
-                countMoth.setCount(count);
+                countMonth.setMonth(month);
+                countMonth.setCount(count);
 
-                countMoths.add(countMoth);
+                countMonths.add(countMonth);
             }
         }
-        return ResponseEntity.ok(countMoths);
+
+        return ResponseEntity.ok(countMonths);
     }
 
     public ResponseEntity<?> countUserStatus(String userStatus) {
         List<Object[]> objectList = userRepository.countUserByStatus(userStatus);
-        Object[] object= Arrays.asList(objectList.get(0)).toArray();
-        if(object[0]==null){
+        Object[] object = Arrays.asList(objectList.get(0)).toArray();
+        if (object[0] == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        CountStatus countStatus= new CountStatus();
+        CountStatus countStatus = new CountStatus();
         BigInteger countBigInteger = (BigInteger) object[1];
         int count = countBigInteger.intValue();
         countStatus.setCount(count);
         countStatus.setStatus((String) object[0]);
-        return new ResponseEntity<>(countStatus,HttpStatus.OK);
+        return new ResponseEntity<>(countStatus, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<?> countUserByYear() {
-        List<Object[]> listCountYear = userRepository.countUsersYear();
-        List<CountYear> countYears= new ArrayList<>();
-        for (Object[] objects: listCountYear) {
-            int year = (int) objects[0];
-            Long countLong = (Long) objects[1];
-            int count = countLong.intValue();
-            CountYear countYear= new CountYear();
+    public ResponseEntity<?> countUserByYear(UserStatus status) {
+        String statusString = (status == null) ? null : status.toString();
+        List<Object[]> listCountYear = userRepository.countUsersYear(statusString);
+        List<CountYear> countYears = new ArrayList<>();
+
+        for (Object[] objects : listCountYear) {
+            int year = ((Number) objects[0]).intValue();
+            BigInteger countBigInteger = (BigInteger) objects[1];
+            long count = (countBigInteger != null) ? countBigInteger.longValue() : 0;
+
+            CountYear countYear = new CountYear();
             countYear.setYear(year);
-            countYear.setCount(count);
+            countYear.setCount((int) count);
             countYears.add(countYear);
         }
-        return new ResponseEntity<>(countYears,HttpStatus.OK);
+
+        return new ResponseEntity<>(countYears, HttpStatus.OK);
     }
 
+
+    @Override
+    public ResponseEntity<?> getMinMaxYear() {
+        List<Object[]> result = userRepository.getMinMaxYear();
+
+        if (result != null && !result.isEmpty()) {
+            Object[] minMax = result.get(0);
+            BigInteger minYear = (BigInteger) minMax[0];
+            BigInteger maxYear = (BigInteger) minMax[1];
+
+            Map<String, Integer> response = new HashMap<>();
+            response.put("minYear", minYear.intValue());
+            response.put("maxYear", maxYear.intValue());
+
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> countUserRole(Integer year, UserStatus status) {
+        String statusString = (status == null) ? null : status.name();
+        List<Object[]> result = userRepository.countUserRole(year, statusString);
+
+        List<Map<String, Object>> resultList = new ArrayList<>();
+
+        for (Object[] row : result) {
+            Map<String, Object> rowMap = new HashMap<>();
+            rowMap.put("role", row[0]);
+            rowMap.put("count", row[1]);
+            resultList.add(rowMap);
+        }
+
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
 
 }

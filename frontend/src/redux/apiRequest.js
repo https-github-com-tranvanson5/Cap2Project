@@ -85,6 +85,12 @@ import {
     postCvSuccess,
 } from './cvDataSlice';
 import {
+    deleteBlogFailed,
+    deleteBlogStart,
+    deleteBlogSuccess,
+    editBlogFailed,
+    editBlogSuccess,
+    editBlogtart,
     getAllBlogFailed,
     getAllBlogRecruiterFailed,
     getAllBlogRecruiterStart,
@@ -546,5 +552,37 @@ export const getBlog = async (jwt, dispatch, id) => {
         dispatch(getBlogSuccess(res.data));
     } catch (err) {
         dispatch(getBlogFailed(err.response.data));
+    }
+};
+
+export const editBlog = async (job, jwt, dispatch , id) => {
+    dispatch(editBlogtart());
+    try {
+        await axios.put(`http://localhost:8080/api/blog/updateMyBlog?id=${id}`, job, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
+        dispatch(editBlogSuccess());
+    } catch (err) {
+        dispatch(editBlogFailed());
+    }
+};
+
+export const deleteBlog = async (jwt, dispatch, id) => {
+    dispatch(deleteBlogStart());
+    try {
+        const res = await axios.delete(
+            `http://localhost:8080/api/blog/deleteMyBlog?id=${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+        console.log(res);
+        dispatch(deleteBlogSuccess(res.data));
+    } catch (err) {
+        dispatch(deleteBlogFailed(err.response.data));
     }
 };

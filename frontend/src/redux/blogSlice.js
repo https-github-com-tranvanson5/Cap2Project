@@ -105,15 +105,15 @@ const allBlogSlice = createSlice({
             state.editBLog.error = true;
             state.editBLog.success = false;
         },
-        //Recruiter delete blog
-        deleteBlogRecruiterStart: (state) => {
+        //delete blog
+        deleteBlogStart: (state) => {
             state.blogRecruiter.isFetching = true;
         },
-        deleteBlogRecruiterSuccess: (state, action) => {
+        deleteBlogSuccess: (state, action) => {
             state.blogRecruiter.isFetching = false;
             state.msg = action.payload;
         },
-        deleteBlogRecruiterFailed: (state, action) => {
+        deleteBlogFailed: (state, action) => {
             state.blogRecruiter.isFetching = false;
             state.blogRecruiter.error = true;
             state.msg = action.payload;
@@ -147,9 +147,9 @@ export const {
     editBlogSuccess,
     editBlogFailed,
     //delete blog recruiter
-    deleteBlogRecruiterStart,
-    deleteBlogRecruiterSuccess,
-    deleteBlogRecruiterFailed,
+    deleteBlogStart,
+    deleteBlogSuccess,
+    deleteBlogFailed,
     //
     getCareerStart,
     getCareerSuccess,

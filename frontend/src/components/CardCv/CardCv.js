@@ -42,27 +42,19 @@ export default function CardCv({
             {/* /id */}
             <Link className={cx('link')} to={to}>
                 <div className={cx('image-block')}>
-                    {data?.imageUrl ? (
-                        <img
-                            className={cx('image')}
-                            src={data?.imageUrl}
-                            alt="anh nha tuyen dung"
-                        />
-                    ) : (
-                        <img
-                            className={cx('image')}
-                            src={images.recruitmentCard}
-                            alt="anh nha tuyen dung"
-                        />
-                    )}
+                    <img
+                        className={cx('image')}
+                        src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/dbc58474469783.5c30ea744002d.png"
+                        alt="anh nha tuyen dung"
+                    />
                 </div>
                 <div className={cx('information')}>
-                    <div className={cx('title')}>{data?.title}</div>
-                    {data?.description && (
+                    {/* <div className={cx('title')}>{data?.title}</div> */}
+                    {/* {data?.description && (
                         <div className={cx('description')}>
                             {data?.description || data?.jobDescription}
                         </div>
-                    )}
+                    )} */}
                     {/* {data.recruiter_jobs?.fullname && (
                         <div className={cx('description')}>
                             {data.recruiter_jobs.fullname}
@@ -73,9 +65,7 @@ export default function CardCv({
                             <div className={cx('subdesc-item subdesc-right')}>
                                 <div className={cx('subdesc-text')}>
                                     <ion-icon name="timer-outline"></ion-icon>
-                                    <span>
-                                        {data?.createAt}
-                                    </span>
+                                    <span>{data?.createAt}</span>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +73,7 @@ export default function CardCv({
                 </div>
             </Link>
 
-            <div className={cx('subdesc-control')}>
+            {/* <div className={cx('subdesc-control')}>
                 <div
                     onClick={() => handleDelete(data.id)}
                     className={cx('subdesc-text')}
@@ -122,37 +112,7 @@ export default function CardCv({
                         <span>{titleRepair}</span>
                     </div>
                 </Link>
-                {['right'].map((placement) => (
-                    <OverlayTrigger
-                        trigger="click"
-                        key={placement}
-                        placement={placement}
-                        overlay={
-                            <Popover id={`popover-positioned-${placement}`}>
-                                <Popover.Header as="h3">
-                                    {'Đang trong trạng thái'}
-                                </Popover.Header>
-                                <Popover.Body>
-                                    Đang trong trạng thái{' '}
-                                    <strong>{status}</strong>
-                                </Popover.Body>
-                            </Popover>
-                        }
-                    >
-                        <div
-                            className={cx('subdesc-text-save')}
-                            onClick={handleClick}
-                        >
-                            {saved && (
-                                <span className={cx('subdesc-text')}>
-                                    {saved}
-                                </span>
-                            )}
-                            <span>{titleSaved}</span>
-                        </div>
-                    </OverlayTrigger>
-                ))}
-            </div>
+            </div> */}
         </div>
     );
 }

@@ -1,0 +1,72 @@
+.card-ranking {
+    display: flex;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(122, 122, 122, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 5px;
+    position: relative;
+}
+
+.ranking {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #3498db;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 2;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    /* padding: 5px; */
+}
+
+.image {
+    flex-shrink: 0;
+    /* Prevent image container from shrinking */
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    overflow: hidden;
+    /* Hide overflowing content */
+    margin-right: 20px;
+}
+
+.image img {
+    width: 100%;
+    /* Make the image fill the container */
+    height: 100%;
+    object-fit: cover;
+    /* Maintain aspect ratio and cover the container */
+}
+
+.card-info {
+    flex: 1;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    /* margin-bottom: 5px; */
+}
+
+.rank-label {
+    font-size: 14px;
+    color: #666;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}

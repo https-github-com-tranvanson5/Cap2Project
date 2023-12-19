@@ -13,8 +13,6 @@ import config from '~/config';
 const cx = classNames.bind(styles);
 function ContentBlog({ data, to }) {
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(true);
-    const [blogs, setBlogs] = useState([]);
     const isAuth = useSelector((state) => state.auth.login?.currentUser);
     const blog = useSelector((state) => state.allBlog.blogs?.allBlogs);
 
@@ -22,6 +20,9 @@ function ContentBlog({ data, to }) {
         getAllBlog(isAuth?.jwt, dispatch);
     }, []);
     console.log(blog);
+    const filtered = blog?.content.filter((obj1) => {
+        return obj1.status === 'ACTIVE';
+    });
 
     return  (
         <div className={cx('wrapper')}>
@@ -57,7 +58,8 @@ function ContentBlog({ data, to }) {
                         <div className={cx('content-topic')}>
                             <div className={cx('content-blog')}>
                                 <Row>
-                                    {blog?.content.slice(0, 8).map((blog, index) => {
+                                    {filtered &&
+                                        filtered.slice(0, 8).map((blog, index) => {
                                         return (
                                             <Col>
                                                 <CardBlog

@@ -30,8 +30,6 @@ import BlogContentRecruiter from '~/pages/Blogs/BlogContentRecruiter';
 import MyBlog from '~/pages/Blogs/BlogController/MyBlog/MyBlog';
 import CawlDetail from '~/pages/Calw/CawlDetail/CawlDetail';
 
-
-
 export const publicRoutes = [
     { path: config.routes.home, component: Home },
     { path: config.routes.accounts, component: Accounts, layout: null },
@@ -66,7 +64,7 @@ export const privateRoutes = [
     { path: config.routes.blogcontent, component: ContentBlog },
     { path: config.routes.blogdetail, component: BlogDetail },
     { path: config.routes.blogdetail2, component: BlogDetail },
-    { path: config.routes.myblog, component: MyBlog },
+    { path: config.routes.myblog, component: MyBlog, layout: SidebarLayout },
 ];
 
 export const userPrivateRoutes = [];

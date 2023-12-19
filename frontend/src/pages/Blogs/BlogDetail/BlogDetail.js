@@ -19,18 +19,14 @@ function BlogDetail() {
     const dispatch = useDispatch();
     const blogDetailData = useSelector((state) => state.allBlog.blogs?.blog);
     const isAuth = useSelector((state) => state.auth.login?.currentUser);
-    const [blog, setBlog] = useState(null);
-    const [relatedBlogs, setRelatedBlogs] = useState([]);
     const [comments, setComments] = useState([]);
     const [userComment, setUserComment] = useState('');
-    const [loading, setLoading] = useState(true);
-    const userData = '';
 
     useEffect(() => {
         getBlog(isAuth?.jwt , dispatch, id);
     }, []);
 
-    console.log(blogDetailData)
+    // console.log(blogDetailData)
 
 
     // console.log('relatedQuizs', relatedBlogs);
@@ -41,7 +37,7 @@ function BlogDetail() {
                     <div className={cx('user')}>
                         <div className={cx('user-infor')}>
                             <div className={cx('username')}>
-                                {userData.fullname}
+                                {blogDetailData?.author}
                             </div>
                             <div className={cx('icon')}>
                                 <div className={cx('icon-heart')}>

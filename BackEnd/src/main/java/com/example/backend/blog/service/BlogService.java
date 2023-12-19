@@ -1,29 +1,45 @@
 package com.example.backend.blog.service;
 
+import com.example.backend.authen.constain.RoleName;
 import com.example.backend.blog.constain.BlogStatus;
-import com.example.backend.blog.payload.request.BlogFormCreate;
-import com.example.backend.blog.payload.request.BlogFormUpdate;
+import com.example.backend.blog.payload.request.BlogCreate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public interface BlogService {
-    ResponseEntity<?> createUserBlog(BlogFormCreate blogFormCreate);
+    ResponseEntity<?> create(BlogCreate blogCreate);
 
-    ResponseEntity<?> updateUserBlog(BlogFormUpdate blogFormUpdate);
+    ResponseEntity<?> updateMyBlog(BlogCreate blogCreate, String id);
 
-    ResponseEntity<?> getUserByIdBlog(String id, BlogStatus status);
+    ResponseEntity<?> getAll(String search, Pageable pageable);
 
-    ResponseEntity<?> changeStatusBlog(String id, BlogStatus status);
+    ResponseEntity<?> getById(String id);
 
-    ResponseEntity<?> getAllBlog(String search, BlogStatus status, Pageable pageable);
+    ResponseEntity<?> deleteMyBlog(String id);
 
-    ResponseEntity<?> getAllBlogAdmin(String search, BlogStatus status, Pageable pageable);
+    ResponseEntity<?> getByIdMyBlog(String id);
 
-    ResponseEntity<?> updateUserBlogAdmin(BlogFormUpdate blogFormUpdate);
+    ResponseEntity<?> getAllMyBlog(String search, Pageable pageable);
 
-    ResponseEntity<?> getUserByIdBlogAdmin(String id, BlogStatus status);
+    ResponseEntity<?> adminCreate(BlogCreate blogCreate);
 
-    ResponseEntity<?> changeStatusBlogAdmin(String id, BlogStatus status, String userId);
+    ResponseEntity<?> adminGetAll(String search, Pageable pageable);
 
-//    ResponseEntity<?> commentBlog(String id, String comment);
+    ResponseEntity<?> adminGetById(String id);
+
+    ResponseEntity<?> adminDelete(String id);
+
+    ResponseEntity<?> adminUpdate(String id, BlogCreate blogCreate);
+
+    ResponseEntity<?> countBlog(BlogStatus status);
+
+    ResponseEntity<?> countBlogMonth(BlogStatus status, Integer year);
+
+    ResponseEntity<?> yearMinMax();
+
+    ResponseEntity<?> countBlogYear(BlogStatus status, Integer year, RoleName role);
+
+    ResponseEntity<?> rankTopBlog(Integer limit, BlogStatus status);
+
+    ResponseEntity<?> minMaxYear();
 }

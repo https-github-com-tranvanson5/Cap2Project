@@ -19,6 +19,10 @@ public class UserController {
     public ResponseEntity<?> getProfileUser() {
         return userService.getProfileUser();
     }
+    @GetMapping("/getUserById")
+    public ResponseEntity<?> getUserById(@RequestParam String id) {
+        return userService.getUserById(id);
+    }
     @PutMapping("/changePassword")
     public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePasswordForm changePasswordForm) {
         return userService.changePassword(changePasswordForm);

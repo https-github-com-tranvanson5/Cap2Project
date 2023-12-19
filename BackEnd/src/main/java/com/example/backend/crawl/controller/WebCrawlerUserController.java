@@ -15,7 +15,11 @@ public class WebCrawlerUserController {
     @Autowired
     private WebCrawlerService webCrawlerService;
     @GetMapping("/getData")
-    public ResponseEntity<?> getData(@PageableDefault Pageable pageable){
-        return webCrawlerService.getData(pageable);
+    public ResponseEntity<?> getData(@RequestParam(required = false) String search,@PageableDefault Pageable pageable){
+        return webCrawlerService.getData(search,pageable);
+    }
+    @GetMapping("/getDataDetail")
+    public ResponseEntity<?> getDataDetail(@RequestParam String id){
+        return webCrawlerService.getDataDetail(id);
     }
 }

@@ -4,7 +4,6 @@ import com.example.backend.authen.service.userdetail.UserPrinciple;
 import com.example.backend.user.model.User;
 import com.example.backend.user.payload.request.ChangePasswordForm;
 import com.example.backend.user.payload.request.ProfileForm;
-import com.example.backend.user.payload.request.UserFormCreate;
 import com.example.backend.user.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +78,20 @@ public class UserServiceImp implements UserService{
         userRepository.save(user);
 
         return ResponseEntity.ok("Cập nhật thông tin thành công");
+    }
+
+    @Override
+    public ResponseEntity<?> getUserById(String id) {
+        try {
+            Optional<User> optionalUser = userRepository.findById(id);
+            if (optionalUser.isEmpty()){
+                return new ResponseEntity<>("Not found",HttpStatus.NOT_FOUND);
+            }
+            User user= optionalUser.get();
+            return ResponseEntity.ok(user);
+        }catch (Exception e){
+            return new ResponseEntity<>("INTERNAL SERVER ERROR",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
