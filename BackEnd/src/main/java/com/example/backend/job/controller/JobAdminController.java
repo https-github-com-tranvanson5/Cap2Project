@@ -1,5 +1,6 @@
 package com.example.backend.job.controller;
 
+import com.example.backend.blog.constain.BlogStatus;
 import com.example.backend.job.constain.*;
 import com.example.backend.job.model.Job;
 import com.example.backend.job.payload.request.JobForm;
@@ -22,25 +23,27 @@ public class JobAdminController {
     @Autowired
     private JobAdminService jobAdminService;
 
-//    @GetMapping("/getAllDataListJob")
-//    public ResponseEntity<?> getAllDataListJob() {
-//        return jobAdminService.getAllDataListJob();
-//    }
+    // @GetMapping("/getAllDataListJob")
+    // public ResponseEntity<?> getAllDataListJob() {
+    // return jobAdminService.getAllDataListJob();
+    // }
 
     @GetMapping("/getAllDataJob")
     public ResponseEntity<?> getAllDataListJobBySearch(@RequestParam(required = false) String search,
-                                                       @RequestParam(required = false) String searchAddress,
-                                                       @RequestParam(required = false) JobEducation jobEducation,
-                                                       @RequestParam(required = false) JobExperience jobExperience,
-                                                       @RequestParam(required = false) JobPosition jobPosition,
-                                                       @RequestParam(required = false) JobType jobType,
-                                                       @RequestParam(required = false) Integer salary,
-                                                       @RequestParam(required = false) Integer career,
-                                                       @RequestParam(required = false) JobStatus status,
-                                                       @RequestParam(required = false) String userId,
-                                                       @PageableDefault Pageable pageable) {
-        return jobAdminService.getDataJob(search, searchAddress, jobEducation, jobExperience, jobPosition, jobType, salary, career, status,userId, pageable);
+            @RequestParam(required = false) String searchAddress,
+            @RequestParam(required = false) JobEducation jobEducation,
+            @RequestParam(required = false) JobExperience jobExperience,
+            @RequestParam(required = false) JobPosition jobPosition,
+            @RequestParam(required = false) JobType jobType,
+            @RequestParam(required = false) Integer salary,
+            @RequestParam(required = false) Integer career,
+            @RequestParam(required = false) JobStatus status,
+            @RequestParam(required = false) String userId,
+            @PageableDefault Pageable pageable) {
+        return jobAdminService.getDataJob(search, searchAddress, jobEducation, jobExperience, jobPosition, jobType,
+                salary, career, status, userId, pageable);
     }
+
     @PostMapping("/createJob")
     public ResponseEntity<?> createJob(@Valid @RequestBody JobForm jobForm) {
         return jobAdminService.createJob(jobForm);
@@ -50,59 +53,85 @@ public class JobAdminController {
     public ResponseEntity<?> updateJob(@Valid @RequestBody JobForm jobForm) {
         return jobAdminService.updateJob(jobForm);
     }
+
     @GetMapping("/changeStatusJob")
     public ResponseEntity<?> changeStatusJob(@RequestParam String id, @RequestParam JobStatus jobStatus) {
-        return jobAdminService.changeStatusJob(id,jobStatus);
+        return jobAdminService.changeStatusJob(id, jobStatus);
     }
+
     @GetMapping("/jobGroupByUser")
     public ResponseEntity<?> jobGroupByUserBySort(@PageableDefault Pageable pageable,
-                                                  @RequestParam(name = "sort",required = false) String sort){
-        return jobAdminService.jobGroupByUserBySort(pageable,sort);
+            @RequestParam(name = "sort", required = false) String sort) {
+        return jobAdminService.jobGroupByUserBySort(pageable, sort);
     }
+
     @GetMapping("/getCareerJob")
-    public ResponseEntity<?> getCareerJob(){
+    public ResponseEntity<?> getCareerJob() {
         return jobAdminService.getCareerJob();
     }
+
     // thống kê
     @GetMapping("/jobGroupByUserMonth")
     public ResponseEntity<?> jobGroupByUserBySortMonth(@PageableDefault Pageable pageable,
-                                                       @RequestParam(name = "sort",required = false) String sort,
-                                                       @RequestParam(name = "year") int year){
-        return jobAdminService.jobGroupByUserBySortMonth(pageable,sort,year);
+            @RequestParam(name = "sort", required = false) String sort,
+            @RequestParam(name = "year") int year) {
+        return jobAdminService.jobGroupByUserBySortMonth(pageable, sort, year);
     }
+
     @GetMapping("/getqualityJob")
     public ResponseEntity<?> getqualityJob() {
         return jobAdminService.getqualityJob();
     }
+
     @GetMapping("/getqualityJobDontDelete")
     public ResponseEntity<?> getqualityJobNoDelete() {
         return jobAdminService.getqualityJobNoDelete();
     }
+
     @GetMapping("/getqualityJobByStatus")
     public ResponseEntity<?> getqualityJobByStatus(@RequestParam JobStatus status) {
         return jobAdminService.getqualityJobByStatus(status);
     }
+
     // thống kê theo tháng
     @GetMapping("/getqualityJobByMonth")
     public ResponseEntity<?> getqualityJobByMoth(@RequestParam int year) {
         return jobAdminService.getqualityJobByMoth(year);
     }
+
     @GetMapping("/getqualityJobMonthByStatus")
-    public ResponseEntity<?> getqualityJobMothByStatus(@RequestParam(required = false) JobStatus status, @RequestParam int year) {
-        return jobAdminService.getqualityJobMothByStatus(status,year);
+    public ResponseEntity<?> getqualityJobMothByStatus(@RequestParam(required = false) JobStatus status,
+            @RequestParam int year) {
+        return jobAdminService.getqualityJobMothByStatus(status, year);
     }
+
     // thống kê theo NĂM
     @GetMapping("/getqualityJobByYear")
     public ResponseEntity<?> getqualityJobByYear(@RequestParam(required = false) JobStatus status) {
         return jobAdminService.getqualityJobByYear(status);
     }
+
     @GetMapping("/getqualityJobYearByStatus")
     public ResponseEntity<?> getqualityJobYearByStatus(@RequestParam JobStatus status) {
         return jobAdminService.getqualityJobYearByStatus(status);
     }
+
     @GetMapping("/getMinMaxYear")
     public ResponseEntity<?> getMinMaxYear() {
         return jobAdminService.getMinMaxYear();
     }
 
+    @GetMapping("/rankTopJob")
+    public ResponseEntity<?> rankTopJob(
+            @RequestParam(required = false) Integer limit,
+            @RequestParam(required = false) JobStatus status) {
+        return jobAdminService.rankTopJob(limit, status);
+    }
+
+    @GetMapping("/rankTopCareer")
+    public ResponseEntity<?> rankTopCareer(
+            @RequestParam(required = false) Integer limit,
+            @RequestParam(required = false) JobStatus status) {
+        return jobAdminService.rankTopCareer(limit, status);
+    }
 }

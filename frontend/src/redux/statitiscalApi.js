@@ -22,10 +22,10 @@ import {
     getAllUsersFailed,
     getAllUsersStart,
     getAllUsersSuccess,
-   // UserStatitiscalYear
-   getUserStatitiscalYearStart,
-   getUserStatitiscalYearSuccess,
-   getUserStatitiscalYearFailed,
+    // UserStatitiscalYear
+    getUserStatitiscalYearStart,
+    getUserStatitiscalYearSuccess,
+    getUserStatitiscalYearFailed,
 
     //count blog
     getCountBlogStart,
@@ -67,12 +67,122 @@ import {
     getQualityJobByYearSuccess,
     getQualityJobByYearFailed,
 
+    // rankTopJob
+    getRankTopJobStart,
+    getRankTopJobSuccess,
+    getRankTopJobFailed,
 
+    // rankTopCareer
+    getRankTopCareerStart,
+    getRankTopCareerSuccess,
+    getRankTopCareerFailed,
+
+    // minMaxYearBlog
+    getMinMaxYearBlogStart,
+    getMinMaxYearBlogSuccess,
+    getMinMaxYearBlogFailed,
 
 } from './statitiscalSlice';
+export const minMaxYearBlog = async (jwt, dispatch, status) => {
+    // Dispatch action start
+    dispatch(getMinMaxYearBlogStart());
 
+    try {
+        // Sửa lỗi: chuyển thành fetch với async/await
+        const response = await fetch(
+            `http://localhost:8080/api/blog/admin/yearMinMax`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
 
-export const getQualityJobByYear = async (jwt, dispatch,status) => {
+        // Kiểm tra response
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        // Lấy dữ liệu và dispatch action success
+        const data = await response.json();
+        dispatch(getMinMaxYearBlogSuccess(data));
+        // Trả về dữ liệu
+        return data;
+    } catch (error) {
+        // Dispatch action failed
+        dispatch(getMinMaxYearBlogFailed(error.message));
+        return null; // Trả về null để báo lỗi
+    }
+};
+
+export const rankTopCareer = async (jwt, dispatch, status) => {
+    // Dispatch action start
+    dispatch(getRankTopCareerStart());
+
+    try {
+        // Sửa lỗi: chuyển thành fetch với async/await
+        const response = await fetch(
+            `http://localhost:8080/api/admin/job/rankTopCareer`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Kiểm tra response
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        // Lấy dữ liệu và dispatch action success
+        const data = await response.json();
+        dispatch(getRankTopCareerSuccess(data));
+        // Trả về dữ liệu
+        return data;
+    } catch (error) {
+        // Dispatch action failed
+        dispatch(getRankTopCareerFailed(error.message));
+        return null; // Trả về null để báo lỗi
+    }
+};
+
+export const getRankTopJob = async (jwt, dispatch, status) => {
+    // Dispatch action start
+    dispatch(getRankTopJobStart());
+
+    try {
+        // Sửa lỗi: chuyển thành fetch với async/await
+        const response = await fetch(
+            `http://localhost:8080/api/admin/job/rankTopJob`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+            },
+        );
+
+        // Kiểm tra response
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        // Lấy dữ liệu và dispatch action success
+        const data = await response.json();
+        dispatch(getRankTopJobSuccess(data));
+        // Trả về dữ liệu
+        return data;
+    } catch (error) {
+        // Dispatch action failed
+        dispatch(getRankTopJobFailed(error.message));
+        return null; // Trả về null để báo lỗi
+    }
+};
+
+export const getQualityJobByYear = async (jwt, dispatch, status) => {
     // Dispatch action start
     dispatch(getQualityJobByYearStart());
 
@@ -137,7 +247,7 @@ export const getJobMinMaxYear = async (jwt, dispatch) => {
         return null; // Trả về null để báo lỗi
     }
 };
-export const getQualityJobMoth = async (jwt, dispatch, year,status) => {
+export const getQualityJobMoth = async (jwt, dispatch, year, status) => {
     // Dispatch action start
     dispatch(getQualityJobMothStart());
 
@@ -237,14 +347,14 @@ export const getqualityJob = async (jwt, dispatch, status) => {
         return null; // Trả về null để báo lỗi
     }
 };
-export const getCountBlogYear = async (jwt, dispatch, status) => {
+export const getCountBlogYear = async (jwt, dispatch, status, year, role) => {
     // Dispatch action start
     dispatch(getCountBlogYearStart());
 
     try {
         // Sửa lỗi: chuyển thành fetch với async/await
         const response = await fetch(
-            `http://localhost:8080/api/blog/admin/countBlogYear?status=${status}`,
+            `http://localhost:8080/api/blog/admin/countBlogYear?status=${status}&year=${year}&role=${role}`,
             {
                 method: 'GET',
                 headers: {
@@ -304,7 +414,7 @@ export const getMinMaxYear = async (jwt, dispatch) => {
         return null; // Trả về null để báo lỗi
     }
 };
-export const getCountBlogMonth = async (jwt, dispatch, year,status) => {
+export const getCountBlogMonth = async (jwt, dispatch, year, status) => {
     // Dispatch action start
     dispatch(getCountBlogMonthStart());
 
@@ -404,7 +514,7 @@ export const getUserStatistiscalMonth = async (jwt, dispatch, year, status) => {
     }
 };
 
-export const getUserStatistiscalYear = async (jwt, dispatch,status) => {
+export const getUserStatistiscalYear = async (jwt, dispatch, status) => {
     // Dispatch action start
     dispatch(getUserStatitiscalYearStart());
 
@@ -549,7 +659,7 @@ export const getAllUsers = async (
     try {
         // Sửa lỗi: chuyển thành fetch với async/await
         const response = await fetch(
-            `http://localhost:8080/api/admin/getDataUser?search=${search}&column=create_at&sort=${sort}&role=${role}&status=${status}`,
+            `http://localhost:8080/api/admin/getDataUser?search=${search}&column=${column}create_at&sort=${sort}&role=${role}&status=${status}`,
             {
                 method: 'GET',
                 headers: {

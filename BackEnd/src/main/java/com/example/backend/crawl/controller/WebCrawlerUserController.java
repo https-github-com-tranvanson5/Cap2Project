@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 public class WebCrawlerUserController {
     @Autowired
     private WebCrawlerService webCrawlerService;
+
     @GetMapping("/getData")
-    public ResponseEntity<?> getData(@PageableDefault Pageable pageable){
+    public ResponseEntity<?> getData(@PageableDefault Pageable pageable) {
         return webCrawlerService.getData(pageable);
     }
 }

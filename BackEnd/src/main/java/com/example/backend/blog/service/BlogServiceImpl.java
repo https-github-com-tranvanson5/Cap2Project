@@ -1,5 +1,6 @@
 package com.example.backend.blog.service;
 
+import com.example.backend.authen.constain.RoleName;
 import com.example.backend.authen.service.userdetail.UserPrinciple;
 import com.example.backend.blog.constain.BlogStatus;
 import com.example.backend.blog.model.Blog;
@@ -20,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -90,7 +92,8 @@ public class BlogServiceImpl implements BlogService {
 
             // Delete images that are not present in the updated set
             if (blog.getImages() != null) {
-                blog.getImages().stream().filter(existingImage -> !newImages.contains(existingImage)).forEach(imageRepository::delete);
+                blog.getImages().stream().filter(existingImage -> !newImages.contains(existingImage))
+                        .forEach(imageRepository::delete);
             }
 
             // Save new images
@@ -155,7 +158,6 @@ public class BlogServiceImpl implements BlogService {
         }
     }
 
-
     @Override
     public ResponseEntity<?> getByIdMyBlog(String id) {
         try {
@@ -188,8 +190,8 @@ public class BlogServiceImpl implements BlogService {
 
             UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
             Optional<User> optionalUser = userRepository.findById(userPrincipal.getId());
-            System.out.println(optionalUser.get().getId());
-            Page<Blog> blogs = blogRepository.findAllBlog(search, BlogStatus.ACTIVE.toString(), optionalUser.get().getId(), pageable);
+            Page<Blog> blogs = blogRepository.findAllBlog(search, BlogStatus.ACTIVE.toString(),
+                    optionalUser.get().getId(), pageable);
             return new ResponseEntity<>(blogs, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -283,7 +285,8 @@ public class BlogServiceImpl implements BlogService {
 
             // Delete images that are not present in the updated set
             if (blog.getImages() != null) {
-                blog.getImages().stream().filter(existingImage -> !newImages.contains(existingImage)).forEach(imageRepository::delete);
+                blog.getImages().stream().filter(existingImage -> !newImages.contains(existingImage))
+                        .forEach(imageRepository::delete);
             }
 
             // Save new images
@@ -367,11 +370,12 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public ResponseEntity<String> countBlogYear(BlogStatus status) {
+    public ResponseEntity<String> countBlogYear(BlogStatus status, Integer year, RoleName role) {
         try {
             String statusString = (status == null) ? null : status.toString();
+            String roleString = (role == null) ? null : role.toString();
 
-            List<Object[]> result = blogRepository.countBlogYear(statusString);
+            List<Object[]> result = blogRepository.countBlogYear(statusString,year,roleString);
 
             if (!result.isEmpty()) {
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -393,5 +397,48 @@ public class BlogServiceImpl implements BlogService {
         }
     }
 
+    @Override
+    public ResponseEntity<?> rankTopBlog(Integer limit, BlogStatus status) {
+        try {
+            limit = limit==null?10:limit;
+            String statusString = (status == null) ? null : status.toString();
+
+            List<Object[]> result = blogRepository.rankTopBlog(limit, statusString);
+
+            // Transform the list of objects into a list of maps
+            List<Map<String, Object>> transformedResult = new ArrayList<>();
+            for (Object[] row : result) {
+                Map<String, Object> item = new LinkedHashMap<>();
+                item.put("id", row[0]);
+                item.put("username", row[1]);
+                item.put("name", row[2]);
+                item.put("count", row[3]);
+                transformedResult.add(item);
+            }
+
+            return new ResponseEntity<>(transformedResult, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> minMaxYear() {
+        List<Object[]> result = blogRepository.getMinMaxYear();
+
+        if (result != null && !result.isEmpty()) {
+            Object[] minMax = result.get(0);
+            BigInteger minYear = (BigInteger) minMax[0];
+            BigInteger maxYear = (BigInteger) minMax[1];
+
+            Map<String, Integer> response = new HashMap<>();
+            response.put("minYear", minYear.intValue());
+            response.put("maxYear", maxYear.intValue());
+
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
 
 }

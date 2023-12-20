@@ -174,7 +174,6 @@ public class UserAdminServiceImp implements UserAdminService {
     public ResponseEntity<?> countUserMonth(int year, UserStatus status) {
         String statusString = status == null ? null : status.toString();
         List<Object[]> listCountMonth = userRepository.countUsersMonth(year, statusString);
-        System.out.println(listCountMonth);
         List<CountMonth> countMonths = new ArrayList<>();
 
         for (Object[] object : listCountMonth) {

@@ -1,5 +1,6 @@
 package com.example.backend.blog.controller;
 
+import com.example.backend.authen.constain.RoleName;
 import com.example.backend.blog.constain.BlogStatus;
 import com.example.backend.blog.payload.request.BlogCreate;
 import com.example.backend.blog.service.BlogService;
@@ -31,7 +32,6 @@ public class BlogController {
         return blogService.getById(id);
     }
 
-
     @PutMapping("updateMyBlog")
     public ResponseEntity<?> update(@RequestBody BlogCreate blogCreate, @RequestParam String id) {
         return blogService.updateMyBlog(blogCreate, id);
@@ -43,7 +43,8 @@ public class BlogController {
     }
 
     @GetMapping("getAllMyBlog")
-    public ResponseEntity<?> getAllMyBlog(@RequestParam(required = false) String search, @PageableDefault Pageable pageable) {
+    public ResponseEntity<?> getAllMyBlog(@RequestParam(required = false) String search,
+            @PageableDefault Pageable pageable) {
         return blogService.getAllMyBlog(search, pageable);
     }
 
@@ -51,7 +52,6 @@ public class BlogController {
     public ResponseEntity<?> getByIdMyBlog(@RequestParam String id) {
         return blogService.getByIdMyBlog(id);
     }
-
 
     @PostMapping("admin/create")
     public ResponseEntity<?> adminCreate(@RequestBody BlogCreate blogCreate) {
@@ -64,7 +64,8 @@ public class BlogController {
     }
 
     @GetMapping("admin/getAll")
-    public ResponseEntity<?> adminGetAll(@RequestParam(required = false) String search, @PageableDefault Pageable pageable) {
+    public ResponseEntity<?> adminGetAll(@RequestParam(required = false) String search,
+            @PageableDefault Pageable pageable) {
         return blogService.adminGetAll(search, pageable);
     }
 
@@ -82,17 +83,32 @@ public class BlogController {
     public ResponseEntity<?> countBlog(@RequestParam(required = false) BlogStatus status) {
         return blogService.countBlog(status);
     }
+
     @GetMapping("admin/countBlogMonth")
     public ResponseEntity<?> countBlogMonth(@RequestParam(required = false) BlogStatus status,
-                                            @RequestParam(required = false) Integer year) {
+            @RequestParam(required = false) Integer year) {
         return blogService.countBlogMonth(status, year);
     }
+
     @GetMapping("admin/yearMinMax")
     public ResponseEntity<?> yearMinMax() {
         return blogService.yearMinMax();
     }
+
     @GetMapping("admin/countBlogYear")
-    public ResponseEntity<?> countBlogYear(@RequestParam(required = false) BlogStatus status) {
-        return blogService.countBlogYear(status);
+    public ResponseEntity<?> countBlogYear(
+            @RequestParam(required = false) BlogStatus status,
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) RoleName role) {
+        return blogService.countBlogYear(status,year, role);
+    }
+    @GetMapping("admin/rankTopBlog")
+    public ResponseEntity<?> rankTopBlog(@RequestParam(required = false) Integer limit,
+            @RequestParam(required = false) BlogStatus status) {
+        return blogService.rankTopBlog(limit, status);
+    }
+    @GetMapping("admin/minMaxYear")
+    public ResponseEntity<?> minMaxYear() {
+        return blogService.minMaxYear();
     }
 }

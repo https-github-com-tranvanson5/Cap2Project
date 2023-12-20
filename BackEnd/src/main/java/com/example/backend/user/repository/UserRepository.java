@@ -47,7 +47,7 @@ public interface UserRepository extends JpaRepository<User, String> {
                     "u.username LIKE CONCAT(:search, '%') OR " +
                     "u.phone LIKE CONCAT(:search, '%') OR " +
                     "u.id_card LIKE CONCAT(:search, '%') OR " +
-                    "u.address LIKE CONCAT('%', :search, '%'))" +
+                    "u.address LIKE CONCAT('%', :search, '%')) AND " +
                     "(:statusString IS NULL OR u.status = :statusString)",
             nativeQuery = true)
     Page<User> getDataUser(@Param("search") String search, @Param("statusString") String statusString,

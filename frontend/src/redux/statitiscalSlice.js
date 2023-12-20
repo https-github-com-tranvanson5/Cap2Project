@@ -73,12 +73,26 @@ const StatitiscalSlice = createSlice({
             isFetching: false,
             error: false,
         },
+        rankTopJob: {
+            rankTopJob: null,
+            isFetching: false,
+            error: false,
+        },
+        rankTopCareer: {
+            rankTopCareer: null,
+            isFetching: false,
+            error: false,
+        },
+        minMaxYearBlog: {
+            minMaxYearBlog: null,
+            isFetching: false,
+            error: false,
+        },
 
 
         msg: '',
     },
     reducers: {
-
 
 
         // UserStatitiscalMonth
@@ -258,9 +272,63 @@ const StatitiscalSlice = createSlice({
             state.qualityJobByYear.isFetching = false;
             state.qualityJobByYear.error = true;
         },
+
+        // rankTopJob
+        getRankTopJobStart: (state) => {
+            state.rankTopJob.isFetching = true;
+        },
+        getRankTopJobSuccess: (state, action) => {
+            state.rankTopJob.isFetching = false;
+            state.rankTopJob.rankTopJob = action.payload;
+        },
+        getRankTopJobFailed: (state) => {
+            state.rankTopJob.isFetching = false;
+            state.rankTopJob.error = true;
+        },
+        // rankTopCareer
+        getRankTopCareerStart: (state) => {
+            state.rankTopCareer.isFetching = true;
+        },
+        getRankTopCareerSuccess: (state, action) => {
+            state.rankTopCareer.isFetching = false;
+            state.rankTopCareer.rankTopJob = action.payload;
+        },
+        getRankTopCareerFailed: (state) => {
+            state.rankTopCareer.isFetching = true;
+            state.rankTopCareer.error = true;
+        },
+
+        // minMaxYearBlog
+        getMinMaxYearBlogStart: (state) => {
+            state.minMaxYearBlog.isFetching = true;
+        },
+        getMinMaxYearBlogSuccess: (state, action) => {
+            state.minMaxYearBlog.isFetching = false;
+            state.minMaxYearBlog.minMaxYearBlog = action.payload;
+        },
+        getMinMaxYearBlogFailed: (state) => {
+            state.minMaxYearBlog.isFetching = false;
+            state.minMaxYearBlog.error = true;
+        },
+
     },
 });
 export const {
+    // minMaxYearBlog
+    getMinMaxYearBlogStart,
+    getMinMaxYearBlogSuccess,
+    getMinMaxYearBlogFailed,
+
+    // rankTopCareer
+    getRankTopCareerStart,
+    getRankTopCareerSuccess,
+    getRankTopCareerFailed,
+
+    // rankTopJob
+    getRankTopJobStart,
+    getRankTopJobSuccess,
+    getRankTopJobFailed,
+
     // getqualityJobByYear
     getQualityJobByYearStart,
     getQualityJobByYearSuccess,

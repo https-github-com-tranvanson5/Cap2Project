@@ -40,7 +40,6 @@ public class JobAdminServiceImp implements JobAdminService {
     @Autowired
     private CareerRepository careerRepository;
 
-
     @Override
     public ResponseEntity<?> createJob(JobForm jobForm) {
         jobForm.setId(null);
@@ -127,7 +126,6 @@ public class JobAdminServiceImp implements JobAdminService {
         jobRepository.save(job);
         return new ResponseEntity<>("thay đổi trạng thái job thành công", HttpStatus.OK);
     }
-
 
     @Override
     public ResponseEntity<?> getqualityJob() {
@@ -267,7 +265,9 @@ public class JobAdminServiceImp implements JobAdminService {
     }
 
     @Override
-    public ResponseEntity<?> getDataJob(String search, String searchAddress, JobEducation jobEducation, JobExperience jobExperience, JobPosition jobPosition, JobType jobType, Integer salary, Integer career, JobStatus status, String userId, Pageable pageable) {
+    public ResponseEntity<?> getDataJob(String search, String searchAddress, JobEducation jobEducation,
+            JobExperience jobExperience, JobPosition jobPosition, JobType jobType, Integer salary, Integer career,
+            JobStatus status, String userId, Pageable pageable) {
 
         if (userId.equals("")) {
             userId = null;
@@ -304,7 +304,6 @@ public class JobAdminServiceImp implements JobAdminService {
             startSalary = null;
             endSalary = null;
         }
-
 
         String jobEducationString = (jobEducation == null) ? null : jobEducation.toString();
         String jobExperienceString = (jobExperience == null) ? null : jobExperience.toString();
@@ -355,9 +354,6 @@ public class JobAdminServiceImp implements JobAdminService {
         }
     }
 
-
-
-
     private JobGroupByUserMonth mapToJobGroupByUserMonth(Object[] row) {
         String userId = (String) row[0];
         Long countId = Long.valueOf(row[1].toString());
@@ -378,5 +374,54 @@ public class JobAdminServiceImp implements JobAdminService {
         return new JobGroupByUser(userId, countId);
     }
 
+    @Override
+    public ResponseEntity<?> rankTopJob(Integer limit, JobStatus status) {
+        try {
+            limit = limit==null?10:limit;
+
+            String statusString = (status == null) ? null : status.toString();
+
+            List<Object[]> result = jobRepository.rankTopJob(limit, statusString);
+
+            // Transform the list of objects into a list of maps
+            List<Map<String, Object>> transformedResult = new ArrayList<>();
+            for (Object[] row : result) {
+                Map<String, Object> item = new LinkedHashMap<>();
+                item.put("id", row[0]);
+                item.put("username", row[1]);
+                item.put("name", row[2]);
+                item.put("count", row[3]);
+                transformedResult.add(item);
+            }
+
+            return new ResponseEntity<>(transformedResult, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> rankTopCareer(Integer limit, JobStatus status) {
+        try {
+            limit = limit==null?10:limit;
+            String statusString = (status == null) ? null : status.toString();
+
+            List<Object[]> result = jobRepository.rankTopCareer(limit, statusString);
+
+//             Transform the list of objects into a list of maps
+             List<Map<String, Object>> transformedResult = new ArrayList<>();
+             for (Object[] row : result) {
+             Map<String, Object> item = new LinkedHashMap<>();
+             item.put("id", row[0]);
+             item.put("name", row[1]);
+             item.put("count", row[2]);
+             transformedResult.add(item);
+             }
+
+            return new ResponseEntity<>(transformedResult, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

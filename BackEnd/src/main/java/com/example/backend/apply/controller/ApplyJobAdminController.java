@@ -14,20 +14,23 @@ import org.springframework.web.bind.annotation.*;
 public class ApplyJobAdminController {
     @Autowired
     private ApplyJobAdminService applyJobAdminService;
+
     @GetMapping("/getDataJobApplyJob")
     public ResponseEntity<?> getDataJobApplyJob(@RequestParam(required = false) String search,
-                                                @RequestParam(required = false) ApplyStatus status,
-                                                @PageableDefault Pageable pageable){
-        return applyJobAdminService.getDataJobApplyJob(search,status,pageable);
+            @RequestParam(required = false) ApplyStatus status,
+            @PageableDefault Pageable pageable) {
+        return applyJobAdminService.getDataJobApplyJob(search, status, pageable);
     }
+
     @GetMapping("/getDataAllJobApplyJob")
     public ResponseEntity<?> getDataAllJobApplyJob(@RequestParam(required = false) String search,
-                                                @RequestParam(required = false) ApplyStatus status,
-                                                @PageableDefault Pageable pageable){
-        return applyJobAdminService.getDataAllJobApplyJob(search,status,pageable);
+            @RequestParam(required = false) ApplyStatus status,
+            @PageableDefault Pageable pageable) {
+        return applyJobAdminService.getDataAllJobApplyJob(search, status, pageable);
     }
+
     @PutMapping("/changeStatus")
-    public ResponseEntity<?> changeStatus(@RequestParam Long id, @RequestParam ApplyStatus status){
-        return applyJobAdminService.changeStatus(id,status);
+    public ResponseEntity<?> changeStatus(@RequestParam Long id, @RequestParam ApplyStatus status) {
+        return applyJobAdminService.changeStatus(id, status);
     }
 }

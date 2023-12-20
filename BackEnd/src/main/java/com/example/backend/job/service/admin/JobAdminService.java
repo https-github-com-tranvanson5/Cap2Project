@@ -5,41 +5,49 @@ import com.example.backend.job.payload.request.JobForm;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
-
 public interface JobAdminService {
-//    ResponseEntity<?> getAllDataListJob();
+        // ResponseEntity<?> getAllDataListJob();
 
-    ResponseEntity<?> createJob(JobForm jobForm);
+        ResponseEntity<?> createJob(JobForm jobForm);
 
-    ResponseEntity<?> updateJob(JobForm jobForm);
-    ResponseEntity<?> changeStatusJob(String id, JobStatus jobStatus);
+        ResponseEntity<?> updateJob(JobForm jobForm);
 
-//    ResponseEntity<?> getAllDataListJobBySearch(String search, Pageable pageable);
+        ResponseEntity<?> changeStatusJob(String id, JobStatus jobStatus);
 
-    ResponseEntity<?> getqualityJob();
+        // ResponseEntity<?> getAllDataListJobBySearch(String search, Pageable
+        // pageable);
 
-    ResponseEntity<?> getqualityJobNoDelete();
+        ResponseEntity<?> getqualityJob();
 
-    ResponseEntity<?> getqualityJobByStatus(JobStatus status);
+        ResponseEntity<?> getqualityJobNoDelete();
 
-    ResponseEntity<?> getqualityJobByMoth(int year);
+        ResponseEntity<?> getqualityJobByStatus(JobStatus status);
 
-    ResponseEntity<?> getqualityJobByYear(JobStatus status);
+        ResponseEntity<?> getqualityJobByMoth(int year);
 
-    ResponseEntity<?> getqualityJobMothByStatus(JobStatus status, int year);
+        ResponseEntity<?> getqualityJobByYear(JobStatus status);
 
-    ResponseEntity<?> getqualityJobYearByStatus(JobStatus status);
+        ResponseEntity<?> getqualityJobMothByStatus(JobStatus status, int year);
 
-    ResponseEntity<?> jobGroupByUserBySort(Pageable pageable, String sort);
+        ResponseEntity<?> getqualityJobYearByStatus(JobStatus status);
 
-    ResponseEntity<?> jobGroupByUserBySortMonth(Pageable pageable, String sort, int year);
+        ResponseEntity<?> jobGroupByUserBySort(Pageable pageable, String sort);
 
-    ResponseEntity<?> jobGroupByUserBySortYear(Pageable pageable, String sort);
+        ResponseEntity<?> jobGroupByUserBySortMonth(Pageable pageable, String sort, int year);
 
-    ResponseEntity<?> getDataJob(String search, String searchAddress, JobEducation jobEducation, JobExperience jobExperience, JobPosition jobPosition, JobType jobType, Integer salary, Integer career, JobStatus status, String userId,Pageable pageable);
+        ResponseEntity<?> jobGroupByUserBySortYear(Pageable pageable, String sort);
 
-    ResponseEntity<?> getCareerJob();
+        ResponseEntity<?> getDataJob(String search, String searchAddress, JobEducation jobEducation,
+                        JobExperience jobExperience, JobPosition jobPosition, JobType jobType, Integer salary,
+                        Integer career,
+                        JobStatus status, String userId, Pageable pageable);
 
-    ResponseEntity<?> getMinMaxYear();
+        ResponseEntity<?> getCareerJob();
+
+        ResponseEntity<?> getMinMaxYear();
+
+        ResponseEntity<?> rankTopJob(Integer limit, JobStatus status);
+
+        ResponseEntity<?> rankTopCareer(Integer limit, JobStatus status);
 
 }

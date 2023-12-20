@@ -46,7 +46,7 @@ export default function BlogLineChart() {
                 borderColor: '#32a852',
                 backgroundColor: '#32a852',
             }, {
-                label: 'Blog block',
+                label: 'Blog delete',
                 data: responseDelete.map((item) => item.count),
                 borderColor: '#a83232',
                 backgroundColor: '#a83232',
@@ -68,11 +68,11 @@ export default function BlogLineChart() {
             (min, option) => (option.value < min ? option.value : min),
             Infinity,
         );
-        const response = parseListDataYear(minYear, await getCountBlogYear(user?.jwt, dispatch, ''));
-        const responseActive = parseListDataYear(minYear, await getCountBlogYear(user?.jwt, dispatch, 'ACTIVE'));
-        const responseDelete = parseListDataYear(minYear, await getCountBlogYear(user?.jwt, dispatch, 'DELETE'));
+        const response = parseListDataYear(minYear, await getCountBlogYear(user?.jwt, dispatch, '', '', ''));
+        const responseActive = parseListDataYear(minYear, await getCountBlogYear(user?.jwt, dispatch, 'ACTIVE', '', ''));
+        const responseDelete = parseListDataYear(minYear, await getCountBlogYear(user?.jwt, dispatch, 'DELETE', '', ''));
         setUserStatitiscalYear({
-            labels:  yearOption.map(item => item.value).sort((a, b) => a-b), datasets: [{
+            labels: yearOption.map(item => item.value).sort((a, b) => a - b), datasets: [{
                 label: 'Blog all',
                 data: response.map((item) => item.count),
                 borderColor: '#4bc0c0',
@@ -83,7 +83,7 @@ export default function BlogLineChart() {
                 borderColor: '#32a852',
                 backgroundColor: '#32a852',
             }, {
-                label: 'Blog block',
+                label: 'Blog delete',
                 data: responseDelete.map((item) => item.count),
                 borderColor: '#a83232',
                 backgroundColor: '#a83232',

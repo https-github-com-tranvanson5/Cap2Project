@@ -1,5 +1,6 @@
 package com.example.backend.blog.service;
 
+import com.example.backend.authen.constain.RoleName;
 import com.example.backend.blog.constain.BlogStatus;
 import com.example.backend.blog.payload.request.BlogCreate;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +29,7 @@ public interface BlogService {
 
     ResponseEntity<?> adminDelete(String id);
 
-    ResponseEntity<?> adminUpdate(String id,BlogCreate blogCreate);
+    ResponseEntity<?> adminUpdate(String id, BlogCreate blogCreate);
 
     ResponseEntity<?> countBlog(BlogStatus status);
 
@@ -36,5 +37,9 @@ public interface BlogService {
 
     ResponseEntity<?> yearMinMax();
 
-    ResponseEntity<?> countBlogYear(BlogStatus status);
+    ResponseEntity<?> countBlogYear(BlogStatus status, Integer year, RoleName role);
+
+    ResponseEntity<?> rankTopBlog(Integer limit, BlogStatus status);
+
+    ResponseEntity<?> minMaxYear();
 }
