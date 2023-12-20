@@ -76,7 +76,7 @@ function CardBlog({
                         <span>
                             <ion-icon name="timer-outline"></ion-icon>
                         </span>
-                        <span>{data.createAt}</span>
+                        <span>{data.createdAt}</span>
                     </div>
                 </div>
             </Link>

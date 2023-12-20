@@ -42,13 +42,13 @@ public class ApplyJobAdminServiceImp implements ApplyJobAdminService{
         if (applyJobOptional.isEmpty()){
             return new ResponseEntity<>("Apply Job không tồn tại",HttpStatus.BAD_REQUEST);
         }
-        if (applyJob.getStatus()==ApplyStatus.CANCLE){
+        if (applyJob.getStatus()==ApplyStatus.CANCEL){
             return new ResponseEntity<>("Apply đã huỷ không được phép thay đổi",HttpStatus.BAD_REQUEST);
         }
         if(applyJob.getStatus()==ApplyStatus.SUCCESS){
             return new ResponseEntity<>("Apply đã xử lý thành công, không được phép thay đổi",HttpStatus.BAD_REQUEST);
         }
-        if(status==ApplyStatus.CANCLE){
+        if(status==ApplyStatus.CANCEL){
             return new ResponseEntity<>("Apply không được phép cancle",HttpStatus.BAD_REQUEST);
         }
         applyJob.setStatus(status);

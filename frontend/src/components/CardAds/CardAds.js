@@ -32,14 +32,15 @@ export default function CardAds({ to }) {
                         </Link>
                     </Col>
                     <Col md={6} className={'mb-5'}>
-                        <Link to={config.routes.testuser}>
+                        <Link to={config.routes.re}>
                             <div className={cx('box')}>
                                 <div className={cx('box-title')}>
-                                    <h2>Làm bài đánh giá năng lực bản thân</h2>
+                                    <h2>Thông tin tuyển dụng hiện nay</h2>
                                     <p>
-                                        Làm bài test để ôn tập kiến thức của bản
-                                        thân, tăng cơ hội thành công trong các
-                                        cuộc phỏng vấn.
+                                        Hỗ trợ tìm kiếm thông tin việc làm hiện
+                                        nay trên những nền tảng khác để mọi
+                                        người có thể cập nhật tin tức tuyển dụng
+                                        mới nhất
                                     </p>
                                     <Button primary>Làm ngay</Button>
                                 </div>

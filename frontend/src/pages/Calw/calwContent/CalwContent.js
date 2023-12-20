@@ -20,13 +20,20 @@ export default function CalwContent() {
     const [calwListData, setCalwListData] = useState(
         useSelector((state) => state.calw.jobs?.allJobs),
     );
+    const [query, setQuery] = useState('');
     const loading = useSelector((state) => state.calw.jobs?.isFetching);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(12);
 
     useEffect(() => {
-        getAllCalwData(dispatch, itemsPerPage, currentPage, setCalwListData);
-    }, [currentPage]);
+        getAllCalwData(
+            dispatch,
+            itemsPerPage,
+            currentPage,
+            query || '',
+            setCalwListData,
+        );
+    }, [currentPage , query]);
 
     const handlePageClick = (data) => {
         getAllCalwData(
@@ -41,7 +48,7 @@ export default function CalwContent() {
 
     return (
         <>
-            <Search />
+            <Search setQuery={setQuery} />
             <Carousel />
             <Container>
                 <div className={cx('wrapper')}>

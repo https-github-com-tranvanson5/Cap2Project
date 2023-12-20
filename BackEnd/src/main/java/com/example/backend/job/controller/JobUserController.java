@@ -4,6 +4,7 @@ import com.example.backend.job.constain.JobEducation;
 import com.example.backend.job.constain.JobExperience;
 import com.example.backend.job.constain.JobPosition;
 import com.example.backend.job.constain.JobType;
+import com.example.backend.job.service.pm.JobPmService;
 import com.example.backend.job.service.user.JobUserSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 public class JobUserController {
     @Autowired
     private JobUserSerivce jobUserSerivce;
+    @Autowired
+    private JobPmService jobPmService;
     @GetMapping("/getAllDataListJobBySearch")
     public ResponseEntity<?> getAllDataListJobBySearch(@RequestParam(required = false) String search,
                                                        @RequestParam(required = false) String searchAddress,
@@ -41,5 +44,9 @@ public class JobUserController {
     @GetMapping("/getJobById")
     public ResponseEntity<?> getJobById(@RequestParam String id){
         return jobUserSerivce.getJobById(id);
+    }
+    @GetMapping("/getCareerJob")
+    public ResponseEntity<?> getCareerJob(){
+        return jobPmService.getCareerJob();
     }
 }

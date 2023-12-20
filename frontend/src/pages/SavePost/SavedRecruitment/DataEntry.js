@@ -4,7 +4,7 @@ export const categoryStatus = [
         name: 'Apply Job không tồn tại',
     },
     {
-        value: 'CANCLE',
+        value: 'CANCEL',
         name: 'CV đã bị huỷ',
     },
     {

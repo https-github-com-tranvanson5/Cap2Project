@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames/bind';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ref } from 'firebase/storage';
@@ -45,17 +45,19 @@ function Modal({ setOpenModal, data }) {
             jobId: data.id,
             title: coverLetter,
             email: user?.email,
-            phone : user?.phone,
-            name : user?.name
+            phone: user?.phone,
+            name: user?.name,
             // coverLetter,
             // recruiterId: data.recruiter_jobs.id,
         };
-        console.log(dataApplyJobs);
+        // console.log(dataApplyJobs);
+
         applyJob(dataApplyJobs, isAuth?.jwt, dispatch);
-        toast.success('Nộp CV thành công');
+        toast('Đã xong thao tác');
+        setOpenModal(false);
     };
 
-    console.log(user)
+    // console.log(user)
 
     const handleCallback = (data) => {
         setFile(data);

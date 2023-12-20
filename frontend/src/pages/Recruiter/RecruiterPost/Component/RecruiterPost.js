@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
     editJob,
     getCareer,
@@ -30,6 +30,7 @@ import {
 } from '../Data/DataEntry';
 import CheckBox from '~/pages/Recruiter/RecruiterPost/CheckBox/CheckBox';
 import TextEditor from '~/pages/Calw/EditorContent';
+import { toast } from 'react-toastify';
 const cx = classNames.bind(styles);
 const initialState = {};
 function RecruiterPost() {
@@ -44,6 +45,7 @@ function RecruiterPost() {
     const [imageUpload, setImageUpload] = useState(null);
     const [formData, setFormData] = useState(initialState);
     const [listCareerId, setListCareerId] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getCareer(isAuth?.jwt, dispatch);
@@ -172,18 +174,26 @@ function RecruiterPost() {
                 newFormData.id = id;
                 console.log(newFormData);
                 editJob(newFormData, isAuth?.jwt, dispatch);
+                toast.success('Bài viết đã được chỉnh sửa thành công');
+                navigate(-1);
             } else {
                 console.log(newFormData);
                 postJob(newFormData, isAuth?.jwt, dispatch);
+                toast.success('Bài viết đã được tạo thành công');
+                navigate(-1);
             }
         } else {
             if (id) {
                 newFormData.id = id;
                 console.log(newFormData);
                 editJob(newFormData, isAuth?.jwt, dispatch);
+                toast.success('Bài viết đã được chỉnh sửa thành công');
+                navigate(-1);
             } else {
                 console.log(newFormData);
                 postJob(newFormData, isAuth?.jwt, dispatch);
+                toast.success('Bài viết đã được tạo thành công');
+                navigate(-1);
             }
         }
     };
@@ -853,7 +863,8 @@ function RecruiterPost() {
                                                             'detail-name',
                                                         )}
                                                     >
-                                                        Mô tả về Kỹ năng công việc
+                                                        Mô tả về Kỹ năng công
+                                                        việc
                                                     </div>
                                                     <div
                                                         className={cx(

@@ -5,5 +5,5 @@ public enum ApplyStatus {
     PROCESSING,
     FAILURE,
     SUCCESS,
-    CANCLE
+    CANCEL
 }

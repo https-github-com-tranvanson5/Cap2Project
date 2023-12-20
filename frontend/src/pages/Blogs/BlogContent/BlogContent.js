@@ -59,7 +59,7 @@ function ContentBlog({ data, to }) {
                             <div className={cx('content-blog')}>
                                 <Row>
                                     {filtered &&
-                                        filtered.slice(0, 8).map((blog, index) => {
+                                        filtered.slice(0, 6).map((blog, index) => {
                                         return (
                                             <Col>
                                                 <CardBlog

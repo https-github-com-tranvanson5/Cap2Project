@@ -328,7 +328,7 @@ export const getCareer = async (jwt, dispatch) => {
     dispatch(getCareerStart());
     try {
         const res = await axios.get(
-            'http://localhost:8080/api/pm/job/getCareerJob',
+            'http://localhost:8080/api/user/job/getCareerJob',
             {
                 headers: {
                     Authorization: `Bearer ${jwt}`,
@@ -351,7 +351,7 @@ export const applyJob = async (job, jwt, dispatch) => {
         });
         dispatch(applyJobSuccess());
     } catch (err) {
-        dispatch(applyJobFailed());
+        dispatch(applyJobFailed(err.response.data));
     }
 };
 
@@ -411,12 +411,13 @@ export const getAllCalwData = async (
     dispatch,
     itemsPerPage,
     currentPage,
+    query,
     setData,
 ) => {
     dispatch(getAllCawlJobsStart());
     try {
         const res = await axios.get(
-            `http://localhost:8080/api/user/job/WebCrawler/getData?size=${itemsPerPage}&page=${currentPage}`,
+            `http://localhost:8080/api/user/job/WebCrawler/getData?size=${itemsPerPage}&page=${currentPage}&search=${query}`,
         );
         dispatch(getAllCalwJobsSuccess(setData(res.data)));
     } catch (err) {
@@ -555,14 +556,18 @@ export const getBlog = async (jwt, dispatch, id) => {
     }
 };
 
-export const editBlog = async (job, jwt, dispatch , id) => {
+export const editBlog = async (job, jwt, dispatch, id) => {
     dispatch(editBlogtart());
     try {
-        await axios.put(`http://localhost:8080/api/blog/updateMyBlog?id=${id}`, job, {
-            headers: {
-                Authorization: `Bearer ${jwt}`,
+        await axios.put(
+            `http://localhost:8080/api/blog/updateMyBlog?id=${id}`,
+            job,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
             },
-        });
+        );
         dispatch(editBlogSuccess());
     } catch (err) {
         dispatch(editBlogFailed());

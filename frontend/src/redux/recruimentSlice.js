@@ -7,6 +7,7 @@ const recruimentSlice = createSlice({
             applyJob: null,
             isFetching: false,
             error: false,
+            msg: '',
         },
         applyJobsRecruiter: {
             allApllyJobsRecruiter: null,
@@ -35,10 +36,12 @@ const recruimentSlice = createSlice({
             state.applyJob.error = false;
             state.applyJob.success = true;
         },
-        applyJobFailed: (state) => {
+        applyJobFailed: (state , action) => {
             state.applyJob.isFetching = false;
             state.applyJob.error = true;
-            state.applyJob.success = false;
+            // state.applyJob.success = false;
+            state.applyJob.msg = action.payload
+            console.log('state.applyJob.msg' , state.applyJob.msg)
         },
         //recruiter get apply job
         getAllApplyJobsRecruiterStart: (state) => {

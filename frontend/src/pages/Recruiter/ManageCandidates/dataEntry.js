@@ -16,7 +16,7 @@ export const categoryStatus = [
         name: 'Hồ sợ bạn đã đậu',
     },
     {
-        value: 'CANCLE',
+        value: 'CANCEL',
         name: 'Hủy',
     },
 ];

@@ -5,7 +5,6 @@ import com.example.backend.apply.model.ApplyJob;
 import com.example.backend.apply.payload.request.ApplyJobForm;
 import com.example.backend.apply.repository.ApplyJobRepository;
 import com.example.backend.authen.service.userdetail.UserPrinciple;
-import com.example.backend.cv.constain.CvStatus;
 import com.example.backend.cv.model.Cv;
 import com.example.backend.cv.repository.CvRepository;
 import com.example.backend.job.constain.JobStatus;
@@ -50,20 +49,22 @@ public class ApplyJobServiceImp implements ApplyJobService {
         ApplyJob apply = new ApplyJob();
         String jobId = applyJobForm.getJobId();
         Optional<Job> jobOptional = jobRepository.findById(jobId);
-        List<ApplyJob> existingApplication = applyJobRepository.findByUserIdApplyAndJobId(idUser, applyJobForm.getJobId());
+        List<ApplyJob> existingApplications = applyJobRepository.findByUserIdApplyAndJobId(idUser, applyJobForm.getJobId());
         apply.setTitle(applyJobForm.getTitle());
         apply.setName(applyJobForm.getName());
         apply.setPhone(applyJobForm.getPhone());
         apply.setEmail(applyJobForm.getEmail());
-//        if (!existingApplication.isEmpty()) {
-//            return new ResponseEntity<>("Bạn đã apply job này",HttpStatus.BAD_REQUEST);
-//        }
+        for (ApplyJob existingApplication : existingApplications) {
+            if (existingApplication.getStatus() == ApplyStatus.PENDING) {
+                return new ResponseEntity<>("Bạn đã có đơn đăng ký job này đang chờ xử lý", HttpStatus.NOT_ACCEPTABLE);
+            };
+        };
         if (jobOptional.isEmpty()){
             return new ResponseEntity<>("Lỗi job không tồn tại",HttpStatus.BAD_REQUEST);
         }
         Job job = jobOptional.get();
         if (job.getJobStatus() == JobStatus.BLOCK || job.getJobStatus() == JobStatus.DELETE) {
-            return new ResponseEntity<>("Lỗi job không tồn tại",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Lỗi job không tồn tại",HttpStatus.NOT_ACCEPTABLE);
         }
 
         if (idUser.isEmpty()) {
@@ -106,10 +107,10 @@ public class ApplyJobServiceImp implements ApplyJobService {
         }
         Optional<ApplyJob> optionalApplyJob = applyJobRepository.findByIdAndUserIdApply(id,optionalUser.get().getId());
         ApplyJob applyJob= optionalApplyJob.get();
-        if (applyJob.getStatus()==ApplyStatus.CANCLE || applyJob.getStatus()==ApplyStatus.SUCCESS){
+        if (applyJob.getStatus()==ApplyStatus.CANCEL || applyJob.getStatus()==ApplyStatus.SUCCESS){
             return new ResponseEntity<>("Không thể thay đổi trạng thái", HttpStatus.BAD_REQUEST);
         }
-        applyJob.setStatus(ApplyStatus.CANCLE);
+        applyJob.setStatus(ApplyStatus.CANCEL);
         applyJobRepository.save(applyJob);
         return new ResponseEntity<>("Đã huỷ bỏ thành công", HttpStatus.OK);
     }

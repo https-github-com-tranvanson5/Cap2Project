@@ -32,18 +32,18 @@ public interface ApplyJobRepository extends JpaRepository<ApplyJob,Long> {
     Page<ApplyJob> findByUserIdAndSearch(@Param("idUser") String idUser, @Param("search") String search,@Param("status") String status, Pageable pageable);
 
     @Query(value = "SELECT * FROM apply_job " +
-            "JOIN job on apply_job.job_id = job.id " +
+            "JOIN job ON apply_job.job_id = job.id " +
             "WHERE job.user_id = :idUser " +  // Added space after :userId
             "AND (:search IS NULL OR apply_job.id LIKE CONCAT(:search, '%')) " +  // Added spaces after :search
             "AND (:status IS NULL OR apply_job.status = :status)",  // Added spaces after :status
-            countQuery = "SELECT COUNT(*) FROM "+
-                    "SELECT * FROM apply_job " +
-                    "JOIN job on apply_job.job_id = job.id " +
+            countQuery = "SELECT COUNT(*) FROM apply_job " +
+                    "JOIN job ON apply_job.job_id = job.id " +
                     "WHERE job.user_id = :idUser " +  // Added space after :userId
                     "AND (:search IS NULL OR apply_job.id LIKE CONCAT(:search, '%')) " +  // Added spaces after :search
                     "AND (:status IS NULL OR apply_job.status = :status)",  // Added spaces after :status
             nativeQuery = true)
     Page<ApplyJob> findByUserIdAndSearchByPm(@Param("idUser") String idUser, @Param("search") String search, @Param("status") String status, Pageable pageable);
+
     @Query(value = "SELECT * FROM apply_job " +
             "JOIN job on apply_job.job_id = job.id " +
             "WHERE job.user_id = :idUser " +  // Added space after :userId

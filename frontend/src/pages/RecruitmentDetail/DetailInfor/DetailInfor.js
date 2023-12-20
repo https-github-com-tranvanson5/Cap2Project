@@ -20,6 +20,8 @@ export default function DetailInfor({ data }) {
     const [modalOpen, setModalOpen] = useState(false);
     const jobDetailData = useSelector((state) => state.allJob.jobs?.job);
     const isAuth = useSelector((state) => state.auth.login?.currentUser);
+    const msg = useSelector((state) => state.recruitment.applyJob?.msg);
+    console.log('msg', msg);
 
     const categoryExperienceOption = [
         {
@@ -98,12 +100,7 @@ export default function DetailInfor({ data }) {
         return option ? option.name : '';
     }
 
-    const dataCountry = getAllProvinces();
-
-    function getNameByValueCity(value) {
-        const option = dataCountry.find((option) => option.value === value);
-        return option ? option.name : '';
-    }
+    // const dataCountry = getAllProvinces();
 
     useEffect(() => {
         getJob(dispatch, id);
@@ -116,7 +113,7 @@ export default function DetailInfor({ data }) {
         (career) => career?.name,
     );
 
-    console.log(jobDetailData);
+    // console.log(jobDetailData);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -170,16 +167,16 @@ export default function DetailInfor({ data }) {
                                 className={cx('link')}
                                 to={`${jobDetailData?.companyLink}`}
                             >
-                                <img src={jobDetailData?.imageUrl} alt="" />
+                                {/* <img src={jobDetailData?.imageUrl} alt="" /> */}
+                                <img
+                                    src={
+                                        jobDetailData?.imageUrl
+                                            ? jobDetailData?.imageUrl
+                                            : images.avatarDefault
+                                    }
+                                    alt={jobDetailData?.company}
+                                />
                             </Link>
-                            {/* <img
-                                src={
-                                    jobDetailData?.recruiter_jobs?.imageUrl
-                                        ? jobDetailData?.imageUrl
-                                        : images.avatarDefault
-                                }
-                                alt={jobDetailData?.company}
-                            /> */}
                             <div className={cx('time')}>
                                 <span className={cx('end-day')}>
                                     {jobDetailData?.contactEmail}
@@ -397,6 +394,9 @@ export default function DetailInfor({ data }) {
                                 </div>
                                 <div className={cx('mothod-title')}>
                                     <h2>Cách thức ứng tuyển</h2>
+                                </div>
+                                <div>
+                                <p style={{ color: 'red' }}>{msg}</p>
                                 </div>
                                 <div className={cx('btn-post')}>
                                     <Button

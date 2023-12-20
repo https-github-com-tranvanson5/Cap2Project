@@ -73,6 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/blog/admin/**").hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers("/api/blog/comment/admin/**").hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers("/api/blog/**").hasAnyAuthority("ROLE_ADMIN","ROLE_PM","ROLE_USER")
+                .antMatchers("/api/user/job/WebCrawler/**").hasAnyAuthority("ROLE_ADMIN","ROLE_PM","ROLE_USER")
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
