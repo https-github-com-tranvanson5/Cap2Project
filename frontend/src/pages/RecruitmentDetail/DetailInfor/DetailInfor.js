@@ -11,6 +11,7 @@ import Modal from '~/components/Modal/ModalCv/ModalCv';
 import config from '~/config';
 import { getCareer, getJob } from '~/redux/apiRequest';
 import { dataCountry, getAllProvinces } from '~/helper/geomap';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
@@ -21,7 +22,6 @@ export default function DetailInfor({ data }) {
     const jobDetailData = useSelector((state) => state.allJob.jobs?.job);
     const isAuth = useSelector((state) => state.auth.login?.currentUser);
     const msg = useSelector((state) => state.recruitment.applyJob?.msg);
-    console.log('msg', msg);
 
     const categoryExperienceOption = [
         {
@@ -112,6 +112,12 @@ export default function DetailInfor({ data }) {
     const carrerDetailName = jobDetailData?.careers?.map(
         (career) => career?.name,
     );
+
+    useEffect(() => {
+        if (msg) {
+            toast(msg);
+        }
+    }, [msg]);
 
     // console.log(jobDetailData);
 
@@ -396,7 +402,7 @@ export default function DetailInfor({ data }) {
                                     <h2>Cách thức ứng tuyển</h2>
                                 </div>
                                 <div>
-                                <p style={{ color: 'red' }}>{msg}</p>
+                                    <p style={{ color: 'red' }}>{msg}</p>
                                 </div>
                                 <div className={cx('btn-post')}>
                                     <Button
@@ -419,6 +425,7 @@ export default function DetailInfor({ data }) {
                                         <Modal
                                             data={jobDetailData}
                                             setOpenModal={setModalOpen}
+                                            title={jobDetailData?.title}
                                         />
                                     )}
                                 </div>

@@ -650,16 +650,16 @@ export const getAllUsers = async (
     jwt,
     dispatch,
     search,
-    column,
-    sort,
-    status,
     role,
+    status,
+    pageNumber,
+    size
 ) => {
     dispatch(getAllUsersStart());
     try {
         // Sửa lỗi: chuyển thành fetch với async/await
         const response = await fetch(
-            `http://localhost:8080/api/admin/getDataUser?search=${search}&column=create_at&sort=${sort}&role=${role}&status=${status}`,
+            `http://localhost:8080/api/admin/getDataUser?search=${search}&role=${role}&status=${status}&page=${pageNumber}&size=${size}`,
             {
                 method: 'GET',
                 headers: {

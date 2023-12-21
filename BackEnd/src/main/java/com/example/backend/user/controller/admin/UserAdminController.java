@@ -23,10 +23,10 @@ public class UserAdminController {
     public ResponseEntity<?> getDataUser(
             @RequestParam(required = false) String search,
             @PageableDefault(5) Pageable pageable,
-            @RequestParam(required = false) String column,
-            @RequestParam(required = false) String sort,
             @RequestParam(required = false) UserStatus status,
-            @RequestParam(required = false) RoleName role) {
+            @RequestParam(required = false) RoleName role,
+            @RequestParam(required = false) String column,
+            @RequestParam(required = false) String sort) {
         return userAdminService.getDataUser(search, pageable, column, sort, status, role);
     }
 

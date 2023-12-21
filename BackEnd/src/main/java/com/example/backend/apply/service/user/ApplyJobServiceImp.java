@@ -83,6 +83,7 @@ public class ApplyJobServiceImp implements ApplyJobService {
         apply.setCreateAt(LocalDateTime.now());
         apply.setStatus(ApplyStatus.PENDING);
         apply.setUserIdApply(idUser);
+        apply.setMessage(applyJobForm.getMessage());
 
         applyJobRepository.save(apply);
         return ResponseEntity.ok("apply thành công");

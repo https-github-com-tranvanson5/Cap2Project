@@ -4,6 +4,7 @@ import lombok.Data;
 public class ApplyJobForm {
     private Long id;
     private String title;
+    private String message;
     private String name;
     private String phone;
 

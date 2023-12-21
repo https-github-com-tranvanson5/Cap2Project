@@ -23,6 +23,8 @@ public class ApplyJob {
     private Long id;
 
     private String title;
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String message;
     private String name;
     private String phone;
     private String email;

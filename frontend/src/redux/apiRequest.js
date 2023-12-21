@@ -214,12 +214,14 @@ export const getAllJobs = async (
     jobExperience,
     jobPosition,
     jobType,
+    career,
     setData,
 ) => {
     dispatch(getAllJobsStart());
+    console.log('career' , career)
     try {
         const res = await axios.get(
-            `http://localhost:8080/api/user/job/getAllDataListJobBySearch?search=${query}&searchAddress=${searchAddress}&jobEducation=${jobEducation}&jobExperience=${jobExperience}&jobPosition=${jobPosition}&jobType=${jobType}&career=&salary=`,
+            `http://localhost:8080/api/user/job/getAllDataListJobBySearch?search=${query}&searchAddress=${searchAddress}&jobEducation=${jobEducation}&jobExperience=${jobExperience}&jobPosition=${jobPosition}&jobType=${jobType}&career=${career}&salary=`,
             {
                 headers: {
                     Authorization: `Bearer ${jwt}`,
@@ -403,7 +405,7 @@ export const changeStatus = async (jwt, dispatch, status, id, data) => {
         );
         dispatch(getchangeStatusSuccess());
     } catch (err) {
-        dispatch(getchangeStatusFailed());
+        dispatch(getchangeStatusFailed(err.response.data));
     }
 };
 

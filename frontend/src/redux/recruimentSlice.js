@@ -13,6 +13,7 @@ const recruimentSlice = createSlice({
             allApllyJobsRecruiter: null,
             isFetching: false,
             error: false,
+            msg: '',
         },
         applyJobsCandidate: {
             allApllyJobsCandidate: null,
@@ -23,6 +24,7 @@ const recruimentSlice = createSlice({
             changeStatus: null,
             isFetching: false,
             error: false,
+            msg: '',
         },
         msg: '',
     },
@@ -41,7 +43,6 @@ const recruimentSlice = createSlice({
             state.applyJob.error = true;
             // state.applyJob.success = false;
             state.applyJob.msg = action.payload
-            console.log('state.applyJob.msg' , state.applyJob.msg)
         },
         //recruiter get apply job
         getAllApplyJobsRecruiterStart: (state) => {
@@ -51,9 +52,10 @@ const recruimentSlice = createSlice({
             state.applyJobsRecruiter.isFetching = false;
             state.applyJobsRecruiter.allApllyJobsRecruiter = action.payload;
         },
-        getAllApplyJobsRecruiterFailed: (state) => {
+        getAllApplyJobsRecruiterFailed: (state , action) => {
             state.applyJobsRecruiter.isFetching = false;
             state.applyJobsRecruiter.error = true;
+            state.applyJobsRecruiter.msg = action.payload;
         },
         //change status apply job for recruiter
         getchangeStatusStart: (state)=>{
@@ -66,7 +68,8 @@ const recruimentSlice = createSlice({
         getchangeStatusFailed: (state,action) => {
             state.changeStatusApplyJob.isFetching = false;
             state.changeStatusApplyJob.error = true;
-            state.msg = action.payload;
+            state.changeStatusApplyJob.msg = action.payload;
+            // console.log('state.changeStatusApplyJob.msg', state.changeStatusApplyJob.msg)
         },
         //user geted apply job
         getAllApplyJobsCandidateStart: (state) => {

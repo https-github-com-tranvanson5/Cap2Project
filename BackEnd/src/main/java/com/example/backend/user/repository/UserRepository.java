@@ -28,26 +28,27 @@ public interface UserRepository extends JpaRepository<User, String> {
                 "(:search IS NULL OR " +
                 "u.id LIKE CONCAT(:search, '%') OR " +
                 "u.name LIKE CONCAT('%', :search, '%') OR " +
-                "u.gender LIKE CONCAT(:search) OR " +
+                "u.gender LIKE CONCAT(:search, '%') OR " +
                 "u.email LIKE CONCAT(:search, '%') OR " +
                 "u.username LIKE CONCAT(:search, '%') OR " +
                 "u.phone LIKE CONCAT(:search, '%') OR " +
                 "u.id_card LIKE CONCAT(:search, '%') OR " +
                 "u.address LIKE CONCAT('%', :search, '%')) AND " +
-                "(:statusString IS NULL OR u.status = :statusString)",
+                "(:statusString IS NULL OR u.status = :statusString) ",
                 countQuery = "SELECT count(DISTINCT u.id) FROM user u " +
                         "LEFT JOIN user_role ur ON u.id = ur.user_id " +
                         "LEFT JOIN role r ON ur.role_id = r.id " +
                         "WHERE " +
+                        "(:roleString IS NULL OR r.name = :roleString) AND " +
                         "(:search IS NULL OR " +
                         "u.id LIKE CONCAT(:search, '%') OR " +
                         "u.name LIKE CONCAT('%', :search, '%') OR " +
-                        "u.gender LIKE CONCAT(:search) OR " +
+                        "u.gender LIKE CONCAT(:search, '%') OR " +
                         "u.email LIKE CONCAT(:search, '%') OR " +
                         "u.username LIKE CONCAT(:search, '%') OR " +
                         "u.phone LIKE CONCAT(:search, '%') OR " +
                         "u.id_card LIKE CONCAT(:search, '%') OR " +
-                        "u.address LIKE CONCAT('%', :search, '%'))" +
+                        "u.address LIKE CONCAT('%', :search, '%')) AND " +
                         "(:statusString IS NULL OR u.status = :statusString)",
                 nativeQuery = true)
         Page<User> getDataUser(@Param("search") String search, @Param("statusString") String statusString,

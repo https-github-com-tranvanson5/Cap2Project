@@ -40,21 +40,18 @@ export default function FindJobs() {
     const user = useSelector((state) => state.auth.login?.currentUser);
     const [formData, setFormData] = useState('');
     const careers = useSelector((state) => state.allJob.career?.careerCurrent);
-    const [listCareerId, setListCareerId] = useState([]);
+    const [selectedId, setSelectedId] = useState('');
 
-    const handleCheckboxChange = (id) => {
-        if (listCareerId.includes(id)) {
-            // Nếu đã có, loại bỏ id khỏi listCareerId
-            setListCareerId(listCareerId.filter((item) => item !== id));
-        } else {
-            // Nếu chưa có, thêm id vào danh sách listCareerId
-            setListCareerId([...listCareerId, id]);
-        }
+    const handleDropdownChange = (event) => {
+        const selectedId = event.target.value;
+        setSelectedId(selectedId);
+        console.log('Selected ID:', selectedId);
+        // Perform any other logic based on the selected ID
     };
 
     const navigate = useNavigate();
 
-    console.log('categoryTypeOption', categoryTypeOption);
+    console.log('careers', careers);
 
     useEffect(() => {
         getCareer(user?.jwt, dispatch);
@@ -73,7 +70,7 @@ export default function FindJobs() {
 
     const handleClickFindJobsBtn = (e) => {
         e.preventDefault();
-        let newFormData = { ...formData, query: query, careers: listCareerId };
+        let newFormData = { ...formData, query: query, careers: selectedId };
 
         navigate('/recruitmentpage/user', { state: newFormData });
 
@@ -118,27 +115,51 @@ export default function FindJobs() {
                                             </h5>
                                             <Row>
                                                 <Col lg={6}>
-                                                    {careers?.map((career) => (
-                                                        <div key={career.id}>
-                                                            <div
-                                                                value={listCareerId.includes(
-                                                                    career.id,
-                                                                )}
-                                                                onChange={() =>
-                                                                    handleCheckboxChange(
-                                                                        career.id,
-                                                                    )
+                                                    <div
+                                                        className={cx(
+                                                            'dropdown',
+                                                        )}
+                                                    >
+                                                        <div
+                                                            className={cx(
+                                                                'content',
+                                                            )}
+                                                        >
+                                                            <select
+                                                                value={
+                                                                    selectedId
                                                                 }
+                                                                onChange={
+                                                                    handleDropdownChange
+                                                                }
+                                                                className={cx(
+                                                                    'category',
+                                                                )}
                                                             >
-                                                                <DropDown
-                                                                    title="Công việc"
-                                                                    data={
-                                                                        careers
-                                                                    }
-                                                                />
-                                                            </div>
+                                                                <option value="">
+                                                                    Công việc
+                                                                </option>
+                                                                {careers?.map(
+                                                                    (
+                                                                        option,
+                                                                    ) => (
+                                                                        <option
+                                                                            key={
+                                                                                option.id
+                                                                            }
+                                                                            value={
+                                                                                option.id
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                option.name
+                                                                            }
+                                                                        </option>
+                                                                    ),
+                                                                )}
+                                                            </select>
                                                         </div>
-                                                    ))}
+                                                    </div>
                                                 </Col>
                                                 <Col lg={6}>
                                                     <div

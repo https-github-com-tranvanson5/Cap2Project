@@ -19,7 +19,6 @@ public class BlogController {
 
     @PostMapping("create")
     public ResponseEntity<?> create(@RequestBody BlogCreate blogCreate) {
-        System.out.println(blogCreate);
         return blogService.create(blogCreate);
     }
 

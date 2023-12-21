@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     changeStatus,
     getAllApplyJobsRecruiter,
+    getJob,
 } from '~/redux/apiRequest';
 import { Link } from 'react-router-dom';
 import { categoryStatus } from './dataEntry';
@@ -21,8 +22,10 @@ function ManageCandidates() {
     const applyJobListData = useSelector(
         (state) => state.recruitment.applyJobsRecruiter?.allApllyJobsRecruiter,
     );
+    const msg = useSelector(
+        (state) => state.recruitment.changeStatusApplyJob?.msg,
+    );
     const [status, setStatus] = useState('');
-
     function getNameByValueStatus(value) {
         const option = categoryStatus.find((option) => option.value === value);
         return option ? option.name : '';
@@ -31,12 +34,16 @@ function ManageCandidates() {
     useEffect(() => {
         getAllApplyJobsRecruiter(auth?.jwt, dispatch);
     }, []);
-    console.log('applyJobListData', applyJobListData);
+    useEffect(() => {
+        if (msg) {
+            toast.error(msg);
+        }
+    }, [msg]);
 
-    const onChangeValue = (field, value , id) => {
-        setStatus({ ...status, [field]: value , id });
-        changeStatus(auth?.jwt , dispatch , value , id , applyJobListData) 
-        toast.success('Thay đổi trạng thái thành công') 
+    const onChangeValue = (field, value, id) => {
+        setStatus({ ...status, [field]: value, id });
+        changeStatus(auth?.jwt, dispatch, value, id, applyJobListData);
+        toast.success('Thay đổi trạng thái thành công');
     };
 
     return (
@@ -50,6 +57,7 @@ function ManageCandidates() {
                         <th>Email</th>
                         <th>CV</th>
                         <th>Công việc ứng tuyển</th>
+                        <th>Giới thiệu</th>
                         <th>Thời gian</th>
                         <th>Trạng thái</th>
                     </tr>
@@ -69,18 +77,26 @@ function ManageCandidates() {
                                         </Link>
                                     </td>
                                     <td> {candidate.title}</td>
-
+                                    <td>{candidate.message}</td>
                                     <td>{candidate.createAt}</td>
 
                                     <td>
                                         <div
                                             className={cx('dropdown')}
                                             value={candidate?.status}
-                                            onChange={(onChange) => onChangeValue("status", onChange.target.value , candidate?.id)}
+                                            onChange={(onChange) =>
+                                                onChangeValue(
+                                                    'status',
+                                                    onChange.target.value,
+                                                    candidate?.id,
+                                                )
+                                            }
                                         >
                                             <DropDown
                                                 data={categoryStatus}
-                                                defaultValueProps={getNameByValueStatus(candidate?.status)}
+                                                defaultValueProps={getNameByValueStatus(
+                                                    candidate?.status,
+                                                )}
                                             />
                                         </div>
                                     </td>

@@ -8,7 +8,9 @@ import CareerCardRanking from './CareerCardRanking';
 export default function JobStatitiscal() {
     return (
         <div>
+            <h1>Thống kê tuyển dụng</h1>
             <JobCard />
+            <h1>Thống kê tuyển dụng theo năm</h1>
             <JobLineChart />
             <JobCardRanking />
             <CareerCardRanking />

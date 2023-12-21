@@ -1,19 +1,13 @@
 import classNames from 'classnames/bind';
-import { useEffect } from 'react';
 import { useState } from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 
-import { getChartAdminApi } from '~/services/chartService';
-import StatisticalLinesChart from './StatisticalLinesChart/StatisticalLinesChart';
-import StatitiscalPieChart from './StatitiscalPieChart/StatitiscalPieChart';
 
-import styles from './Dashboard.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllUsers } from '~/redux/apiRequest';
-import UserStatiscal from './UserStatistical/UserStatiscal';
 import BlogStatistical from "~/pages/admin/Dashboard/BlogStatitiscal/BlogStatistical";
 import JobStatitiscal from '~/pages/admin/Dashboard/JobStatitiscal/JobStatitiscal';
-import CardRanking from './Card/CardRanking';
+import styles from './Dashboard.module.scss';
+import UserStatiscal from './UserStatistical/UserStatiscal';
 
 const cx = classNames.bind(styles);
 
@@ -41,9 +35,9 @@ function Dashboard() {
             <Row>
                 <UserStatiscal />
             </Row>
-            <Row>
+            {/* <Row>
                 <BlogStatistical />
-            </Row>
+            </Row> */}
             <Row>
                 <JobStatitiscal />
             </Row>

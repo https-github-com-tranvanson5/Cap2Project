@@ -192,7 +192,6 @@ public class BlogServiceImpl implements BlogService {
 
             UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
             Optional<User> optionalUser = userRepository.findById(userPrincipal.getId());
-            System.out.println(optionalUser.get().getId());
             Page<Blog> blogs = blogRepository.findAllBlog(search, BlogStatus.ACTIVE.toString(),
                     optionalUser.get().getId(), pageable);
             return new ResponseEntity<>(blogs, HttpStatus.OK);

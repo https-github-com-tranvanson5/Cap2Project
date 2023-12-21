@@ -25,7 +25,7 @@ const navigationMenu = [
         role: ['ROLE_USER'],
     },  
     {
-        title: 'Tuyển dụng tự động',
+        title: 'Thông tin tuyển dụng',
         to: config.routes.re,
         role: ['ROLE_USER', 'ROLE_PM', 'ROLE_ADMIN'],
     },

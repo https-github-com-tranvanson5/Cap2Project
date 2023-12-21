@@ -38,11 +38,18 @@ function MainJob() {
             searchItem?.jobExperience || '',
             searchItem?.jobPosition || '',
             searchItem?.jobType || '',
+            searchItem?.careers || '',
             setJobListData,
         );
     }, [query]);
 
-    console.log('query', searchItem?.career);
+    console.log('query', searchItem?.careers);
+
+    // const object = searchItem?.career.reduce((acc, curr) => {
+    //     acc[curr] = curr;
+    //     return acc;
+    //   }, {});
+    //   console.log('obj' , object);
 
     return (
         <>
