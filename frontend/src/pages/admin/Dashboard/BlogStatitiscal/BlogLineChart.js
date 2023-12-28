@@ -112,7 +112,9 @@ export default function BlogLineChart() {
                                 dataChart={userStatitiscalMonth}
                             />
                         )}
+                        <b>Thống kê user theo dạng đường</b>
                     </Col>
+
                 </Col>
             </Row>
         </div>

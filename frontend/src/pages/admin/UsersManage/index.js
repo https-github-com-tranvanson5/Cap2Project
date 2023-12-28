@@ -10,9 +10,11 @@ import AddAccountModal from './AddAccountModal';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 import { deleteUser } from '~/redux/apiRequest';
 import { getAllUsers } from '~/redux/statitiscalApi';
 import styles from './UsersManage.module.scss';
+import { changeUserStatus } from '~/redux/userManagerRequest';
 
 const cx = classNames.bind(styles);
 
@@ -26,7 +28,7 @@ function UsersManage() {
     const [showModalDelete, setShowModalDelete] = useState(false);
     const [idUserDelete, setIdUserDelete] = useState(null);
     const [input, setInput] = useState({
-        pageSize:10,
+        pageSize: 10,
     });
     const [pageNumber, setPageNumber] = useState(0);
     const handleClose = () => setShowModal(false);
@@ -37,16 +39,32 @@ function UsersManage() {
     };
 
     useEffect(() => {
-        Promise.all([getUsersMethod(), /* Other async operations */])
-            .catch(error => console.error('Error:', error));
-    }, [dispatch, user?.jwt, input.search, input.role, input.status, pageNumber, input.pageSize]);
-
+        Promise.all([getUsersMethod() /* Other async operations */]).catch(
+            (error) => console.error('Error:', error),
+        );
+    }, [
+        dispatch,
+        user?.jwt,
+        input.search,
+        input.role,
+        input.status,
+        pageNumber,
+        input.pageSize,
+    ]);
 
     const getUsersMethod = async () => {
         try {
-            const result = await getAllUsers(user?.jwt, dispatch, input.search || '', input.role || '', input.status || '', pageNumber, input.pageSize);
+            const result = await getAllUsers(
+                user?.jwt,
+                dispatch,
+                input.search || '',
+                input.role || '',
+                input.status || '',
+                pageNumber,
+                input.pageSize,
+            );
             setUserList(result); // Set the userList state with the result
-            setPageNumber(result.number)
+            setPageNumber(result.number);
         } catch (error) {
             console.error('Error fetching user list:', error);
         }
@@ -62,13 +80,17 @@ function UsersManage() {
         const { name, value } = e.target;
         setInput({
             ...input,
-            [name]: value
+            [name]: value,
         });
         setPageNumber(0);
     };
 
     const handlePageClick = (value) => {
-        setPageNumber(value)
+        setPageNumber(value);
+    };
+    const changeStatusMethod = (id, e) => {
+        const value = e.target.value;
+        changeUserStatus(user?.jwt, dispatch, value, id);
     };
     return (
         <>
@@ -116,15 +138,25 @@ function UsersManage() {
                         </Button>
                     </div>
                 </div>
-                <div >
+                <div>
                     <div>
-                        <input name='search' type='text' className={cx('input-text')} placeholder='Tìm kiếm' onChange={(e) => onChangeInput(e)} />
+                        <input
+                            name="search"
+                            type="text"
+                            className={cx('input-text')}
+                            placeholder="Tìm kiếm"
+                            onChange={(e) => onChangeInput(e)}
+                        />
                     </div>
                     <div className={cx('filter-container')}>
-
                         <div className={cx('filter-section')}>
                             <span className={cx('label')}>Filter by Role:</span>
-                            <select name="role" className={cx('select')} id="roleFilter" onChange={(e) => onChangeInput(e)}>
+                            <select
+                                name="role"
+                                className={cx('select')}
+                                id="roleFilter"
+                                onChange={(e) => onChangeInput(e)}
+                            >
                                 <option value="">Mặc định</option>
                                 <option value="ROLE_ADMIN">ROLE_ADMIN</option>
                                 <option value="ROLE_PM">ROLE_PM</option>
@@ -133,8 +165,15 @@ function UsersManage() {
                         </div>
 
                         <div className={cx('filter-section')}>
-                            <span className={cx('label')}>Filter by Status:</span>
-                            <select className={cx('select')} id="statusFilter" name='status' onChange={(e) => onChangeInput(e)}>
+                            <span className={cx('label')}>
+                                Filter by Status:
+                            </span>
+                            <select
+                                className={cx('select')}
+                                id="statusFilter"
+                                name="status"
+                                onChange={(e) => onChangeInput(e)}
+                            >
                                 <option value="">Mặc định</option>
                                 <option value="ACTIVE">ACTIVE</option>
                                 <option value="BLOCK">BLOCK</option>
@@ -158,38 +197,74 @@ function UsersManage() {
                         <tbody>
                             {userList?.content.map((user, index) => (
                                 <tr key={user.id}>
-                                    <td>{(index + 1) + (pageNumber) * userList.size}</td>
-                                    <td>{user.id}</td>
+                                    <td>
+                                        {index + 1 + pageNumber * userList.size}
+                                    </td>
+                                    <td>
+                                        {' '}
+                                        <Link to={`${user?.id}`}>
+                                            ${user?.id}
+                                        </Link>{' '}
+                                    </td>
                                     <td>{user.name}</td>
-                                    <td>{new Date(user.createAt).toLocaleString()}</td>
+                                    <td>
+                                        {new Date(
+                                            user.createAt,
+                                        ).toLocaleString()}
+                                    </td>
                                     <td>{user.username}</td>
                                     <td>{user.email}</td>
                                     <td className={cx('roleCell')}>
                                         {user.roles.map((item, index) => (
                                             <React.Fragment key={item.id}>
-                                                <div className={cx('roleName', { _ADMIN: item.name === 'ROLE_ADMIN', _USER: item.name === 'ROLE_USER', _PM: item.name === 'ROLE_PM', lastItem: index === user.roles.length - 1 })}>
+                                                <div
+                                                    className={cx('roleName', {
+                                                        _ADMIN:
+                                                            item.name ===
+                                                            'ROLE_ADMIN',
+                                                        _USER:
+                                                            item.name ===
+                                                            'ROLE_USER',
+                                                        _PM:
+                                                            item.name ===
+                                                            'ROLE_PM',
+                                                        lastItem:
+                                                            index ===
+                                                            user.roles.length -
+                                                                1,
+                                                    })}
+                                                >
                                                     {item.name}
                                                 </div>
                                             </React.Fragment>
                                         ))}
                                     </td>
                                     <td className={cx('statusCell')}>
-                                        <div className={cx('statusBadge', { activeStatus: user.status === 'ACTIVE', blockStatus: user.status === 'BLOCK' })}>
+                                        <div
+                                            className={cx('statusBadge', {
+                                                activeStatus:
+                                                    user.status === 'ACTIVE',
+                                                blockStatus:
+                                                    user.status === 'BLOCK',
+                                            })}
+                                        >
                                             {user.status}
                                         </div>
                                     </td>
-                                    <td className={styles['action-column']}>
-                                        <span className={styles['content-icon']}>
-                                            <FontAwesomeIcon
-                                                icon={faEllipsisH}
-                                                style={{
-                                                    fontSize: '1em',
-                                                    color: 'black',
-                                                }}
-                                            />
-                                        </span>
+                                    <td className={cx('dropdown')}>
+                                        <div className={cx('content')} >
+                                        <select
+                                            className={cx('category')}
+                                            onChange={(e) =>
+                                                changeStatusMethod(user?.id, e)
+                                            }
+                                            value={user?.status}
+                                        >
+                                            <option>ACTIVE</option>
+                                            <option>BLOCK</option>
+                                        </select>
+                                        </div>
                                     </td>
-
                                 </tr>
                             ))}
                         </tbody>
@@ -197,7 +272,12 @@ function UsersManage() {
                     <div>
                         <div className={cx('pageSizeSelector')}>
                             <span>Show: </span>
-                            <select name="pageSize" onChange={(e) => onChangeInput(e)} className={cx('pageSizeSelect')} value={input.pageSize}>
+                            <select
+                                name="pageSize"
+                                onChange={(e) => onChangeInput(e)}
+                                className={cx('pageSizeSelect')}
+                                value={input.pageSize}
+                            >
                                 <option>5</option>
                                 <option>10</option>
                                 <option>20</option>
@@ -207,26 +287,41 @@ function UsersManage() {
                             <span className={cx('pageSizeText')}> entries</span>
                         </div>
 
-                        <div className={cx("pagination")}>
+                        <div className={cx('pagination')}>
                             <a
-                                className={cx("prev", { disabled: pageNumber <= 0 })}
-                                onClick={() => pageNumber > 0 && handlePageClick(pageNumber - 1)}
+                                className={cx('prev', {
+                                    disabled: pageNumber <= 0,
+                                })}
+                                onClick={() =>
+                                    pageNumber > 0 &&
+                                    handlePageClick(pageNumber - 1)
+                                }
                             >
                                 &laquo; Prev
                             </a>
                             <a>
-                                {userList && userList.totalPages ? `${pageNumber + 1}/${userList.totalPages}` : '0/0'}
+                                {userList && userList.totalPages
+                                    ? `${pageNumber + 1}/${userList.totalPages}`
+                                    : '0/0'}
                             </a>
                             <a
-                                className={cx("next", { disabled: !userList || pageNumber >= userList.totalPages - 1 })}
-                                onClick={() => !userList || pageNumber < userList.totalPages - 1 && handlePageClick(pageNumber + 1)}
+                                className={cx('next', {
+                                    disabled:
+                                        !userList ||
+                                        pageNumber >= userList.totalPages - 1,
+                                })}
+                                onClick={() =>
+                                    !userList ||
+                                    (pageNumber < userList.totalPages - 1 &&
+                                        handlePageClick(pageNumber + 1))
+                                }
                             >
                                 Next &raquo;
                             </a>
                         </div>
                     </div>
                 </div>
-            </div >
+            </div>
         </>
     );
 }

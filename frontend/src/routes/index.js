@@ -29,6 +29,7 @@ import BlogDetail from '~/pages/Blogs/BlogDetail/BlogDetail';
 import BlogContentRecruiter from '~/pages/Blogs/BlogContentRecruiter';
 import MyBlog from '~/pages/Blogs/BlogController/MyBlog/MyBlog';
 import CawlDetail from '~/pages/Calw/CawlDetail/CawlDetail';
+import UserDetail from '~/pages/admin/UsersManage/UserDetail/UserDetail';
 
 export const publicRoutes = [
     { path: config.routes.home, component: Home },
@@ -122,6 +123,11 @@ export const adminPrivateRoutes = [
     {
         path: config.routes.usersManagement,
         component: UsersManage,
+        layout: SidebarLayout,
+    },
+    {
+        path: config.routes.usersManagenentDetail,
+        component: UserDetail,
         layout: SidebarLayout,
     },
 ];

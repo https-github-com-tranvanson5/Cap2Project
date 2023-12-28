@@ -1,19 +1,20 @@
-import React from 'react';
+import { Col, Row } from 'react-bootstrap';
 import JobCard from '~/pages/admin/Dashboard/JobStatitiscal/JobCard';
 import JobLineChart from '~/pages/admin/Dashboard/JobStatitiscal/JobLineChart';
-import CardInfo from '../Card/CardInfo';
-import JobCardRanking from './JobCardRanking';
 import CareerCardRanking from './CareerCardRanking';
+import JobCardRanking from './JobCardRanking';
 
 export default function JobStatitiscal() {
     return (
         <div>
-            <h1>Thống kê tuyển dụng</h1>
             <JobCard />
-            <h1>Thống kê tuyển dụng theo năm</h1>
+            <br></br>
             <JobLineChart />
-            <JobCardRanking />
-            <CareerCardRanking />
+            <br></br>
+            <Row>
+                <Col md={6}><JobCardRanking /></Col>
+                <Col md={6}><CareerCardRanking /></Col>
+            </Row>
         </div>
     );
 }

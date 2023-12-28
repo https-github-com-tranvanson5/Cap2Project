@@ -20,3 +20,13 @@ export const categoryStatus = [
         name: 'Hủy',
     },
 ];
+export const categoryUserStatus = [
+    {
+        value: 'ACTIVE',
+        name: 'Đang hoạt động',
+    },
+    {
+        value: 'BLOCK',
+        name: 'Chặn',
+    },
+];

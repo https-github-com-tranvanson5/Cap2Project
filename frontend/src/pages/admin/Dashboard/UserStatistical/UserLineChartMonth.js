@@ -182,7 +182,7 @@ function UserLineChartMonth() {
                                 dataChart={userStatitiscalMonth}
                             />
                         )}
-                        <b>Thống kê user theo dạng đường</b>
+                        <b>Thống kê blog theo dạng đường</b>
                     </Col>
                 </Col>
             </Row>

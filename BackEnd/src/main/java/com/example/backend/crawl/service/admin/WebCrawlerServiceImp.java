@@ -23,7 +23,7 @@ import java.util.Optional;
 public class WebCrawlerServiceImp implements WebCrawlerService{
     @Autowired
     private CrawlJobRepository crawlJobRepository;
-    @Scheduled(fixedRate = 60000*60*24)
+    @Scheduled(fixedRate = 5000)
     public void crawlWebsitePeriodicallyCareerlink() throws IOException {
         int page = 1;
         String baseUrl = "https://www.careerlink.vn/vieclam/list?page=";

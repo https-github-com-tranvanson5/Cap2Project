@@ -531,7 +531,7 @@ export const getMyBlog = async (jwt, dispatch) => {
 export const getAllBlog = async (jwt, dispatch) => {
     dispatch(getAllBlogStart());
     try {
-        const res = await axios.get('http://localhost:8080/api/blog/getAll', {
+        const res = await axios.get('http://localhost:8080/api/blog/getAll?size=15&page=', {
             headers: {
                 Authorization: `Bearer ${jwt}`,
             },

@@ -108,11 +108,13 @@ function BlogPieChart() {
                 </Col>
             </Row>
             <Row>
-                <Col md={6}>
+                <Col md={6} style={{ textAlign: 'center' }} >
                     <StatitiscalPieChart dataChart={countYear.active}/>
+                    <b>Thống kê BLOG ACTIVE theo dạng Pie Chart</b>
                 </Col>
-                <Col md={6}>
+                <Col md={6} style={{ textAlign: 'center' }} >
                     <StatitiscalPieChart dataChart={countYear.delete}/>
+                    <b>Thống kê BLOG DELETE theo dạng Pie Chart</b>
                 </Col>
             </Row>
         </div>

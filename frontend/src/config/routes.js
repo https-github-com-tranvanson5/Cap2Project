@@ -17,6 +17,7 @@ const routes = {
     recruitment: '/recruitmentpage',
     managecv : '/manager-cv',
     usersManagement: '/admin/usermanagement',
+    usersManagenentDetail : '/admin/usermanagement/:id',
     recruiterpost: '/recruiter/recruiterpostjob',
     recruitmentdetail: 'recruitmentpage/recruitmentdetail/:id',
     recruitmentpage: '/recruitmentpage/user',

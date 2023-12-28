@@ -131,6 +131,7 @@ function JobStatitiscal() {
                                 dataChart={qualityJobYear}
                             />
                         )}
+                        <b>Thống kê công việc đăng tuyển theo dạng đường</b>
                     </Col>
                 </Col>
             </Row>

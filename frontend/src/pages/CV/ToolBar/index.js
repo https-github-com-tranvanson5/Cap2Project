@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -12,6 +12,7 @@ import styles from './ToolBar.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { contentCvSelector, overviewSelector } from '~/redux/Selectors/cvSelector';
 import { postCv, postJob } from '~/redux/apiRequest';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
@@ -20,6 +21,7 @@ function ToolBar({ cvRef }) {
     const contentData = useSelector(contentCvSelector);
     const overviewData = useSelector(overviewSelector);
     const isAuth = useSelector((state) => state.auth.login?.currentUser);
+    const navigate = useNavigate();
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle form submission logic here, e.g. make an API call
@@ -30,6 +32,8 @@ function ToolBar({ cvRef }) {
         };
         console.log('Form submitted with data:', data);
         postCv(content, isAuth?.jwt, dispatch);
+        toast.success('Đã lưu thành công')
+        navigate('/manager-cv')
     };
     const generatePDF = () => {
         const pageWidth = 210;

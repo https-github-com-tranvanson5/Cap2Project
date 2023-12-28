@@ -19,10 +19,11 @@ function ContentBlog({ data, to }) {
     useEffect(() => {
         getAllBlog(isAuth?.jwt, dispatch);
     }, []);
-    console.log(blog);
+    // console.log(blog);
     const filtered = blog?.content.filter((obj1) => {
         return obj1.status === 'ACTIVE';
     });
+    console.log('filtered' , filtered)
 
     return  (
         <div className={cx('wrapper')}>

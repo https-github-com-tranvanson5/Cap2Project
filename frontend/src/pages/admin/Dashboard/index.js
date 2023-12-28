@@ -1,12 +1,12 @@
 import classNames from 'classnames/bind';
 import { useState } from 'react';
-import { Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 
 
 import { useDispatch, useSelector } from 'react-redux';
-import BlogStatistical from "~/pages/admin/Dashboard/BlogStatitiscal/BlogStatistical";
-import JobStatitiscal from '~/pages/admin/Dashboard/JobStatitiscal/JobStatitiscal';
+import BlogStatistical from './BlogStatitiscal/BlogStatistical';
 import styles from './Dashboard.module.scss';
+import JobStatitiscal from './JobStatitiscal/JobStatitiscal';
 import UserStatiscal from './UserStatistical/UserStatiscal';
 
 const cx = classNames.bind(styles);
@@ -31,15 +31,36 @@ function Dashboard() {
     // }, []);
 
     return (
-        <div className={cx('wrapper')}>
-            <Row>
-                <UserStatiscal />
+        <div>
+            <Row className={cx('card')} style={{margin: "20px", padding:"20px"}}>
+                <Row>
+                    <Col><h2>Thống kê User</h2></Col>
+                </Row>
+                <Row>
+                    <Col >
+                        <UserStatiscal />
+                    </Col>
+                </Row>
             </Row>
-            {/* <Row>
-                <BlogStatistical />
-            </Row> */}
+            <Row className={cx('card')} style={{margin: "20px", padding:"20px"}}>
+                <Row>
+                    <Col><h2>Thống kê Blog</h2></Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <BlogStatistical />
+                    </Col>
+                </Row>
+            </Row>
+            <Row className={cx('card')} style={{margin: "20px", padding:"20px"}}>
             <Row>
-                <JobStatitiscal />
+                    <Col><h2>Thống kê công việc đăng tuyển</h2></Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <JobStatitiscal/>
+                    </Col>
+                </Row>
             </Row>
         </div>
     );
