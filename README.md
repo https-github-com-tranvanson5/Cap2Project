@@ -72,3 +72,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 #Backend
+1. Cài tool chạy backend:
+   - intellij
+   - jdk 17
+2. Cài tool chạy database:
+   - mysql
